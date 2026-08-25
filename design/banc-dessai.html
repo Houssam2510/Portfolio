@@ -1,0 +1,649 @@
+<title>Trois directions, un contenu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;700;800&family=Space+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   CHÂSSIS — neutre par obligation : il ne doit pas teinter
+   le jugement porté sur les trois panneaux qu'il contient.
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --h-bg:#F2F2F4; --h-surface:#FFFFFF; --h-ink:#1B1D24; --h-dim:#585C68;
+  --h-line:#D6D7DD; --h-mark:#3D4250;
+}
+:root:not([data-theme="light"]){ }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --h-bg:#121318; --h-surface:#191B21; --h-ink:#ECEDF1; --h-dim:#9A9EAC;
+    --h-line:#2A2D36; --h-mark:#C3C7D4;
+  }
+}
+:root[data-theme="dark"]{
+  --h-bg:#121318; --h-surface:#191B21; --h-ink:#ECEDF1; --h-dim:#9A9EAC;
+  --h-line:#2A2D36; --h-mark:#C3C7D4;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--h-bg); color:var(--h-ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+
+/* ── en-tête du banc ── */
+.bench-head{padding:56px 0 40px}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--h-dim)}
+.bench-head h1{font-family:"IBM Plex Sans",sans-serif;font-weight:600;
+  font-size:clamp(28px,4.4vw,44px);line-height:1.1;letter-spacing:-.02em;
+  margin:14px 0 16px;text-wrap:balance;max-width:20ch}
+.bench-head p{max-width:66ch;color:var(--h-dim);margin:0 0 12px}
+.bench-head strong{color:var(--h-ink);font-weight:600}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.jump a{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.06em;
+  text-decoration:none;color:var(--h-ink);border:1px solid var(--h-line);
+  background:var(--h-surface);padding:9px 14px;border-radius:2px;transition:border-color .18s}
+.jump a:hover,.jump a:focus-visible{border-color:var(--h-mark)}
+:where(a,button,[tabindex]):focus-visible{outline:2px solid var(--h-mark);outline-offset:3px}
+
+/* ── fiche technique au-dessus de chaque panneau ── */
+.spec{background:var(--h-surface);border:1px solid var(--h-line);border-radius:3px;
+  padding:22px;display:grid;gap:20px;grid-template-columns:1.1fr 1fr 1fr;margin:0 0 0}
+@media(max-width:860px){.spec{grid-template-columns:1fr}}
+.spec h2{margin:0;font-size:19px;font-weight:600;letter-spacing:-.01em}
+.spec .lab{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--h-dim);display:block;margin-bottom:9px}
+.spec p{margin:0;font-size:13.5px;line-height:1.55;color:var(--h-dim)}
+.sw{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.sw i{display:flex;align-items:flex-end;width:74px;height:44px;border-radius:2px;
+  border:1px solid rgba(128,128,140,.35);font-family:"IBM Plex Mono",monospace;
+  font-size:9px;font-style:normal;padding:4px;color:#fff;mix-blend-mode:normal}
+.sw i.dk{color:#12121a}
+.spec-sec{padding:44px 0 0}
+
+/* ═══════════════════════════════════════════════════════════
+   PANNEAU — coquille commune. Chaque direction ne redéfinit
+   que ses variables : la comparaison porte sur les tokens,
+   pas sur des structures différentes.
+   ═══════════════════════════════════════════════════════════ */
+.panel{margin:18px 0 0;border-radius:3px;overflow:hidden;border:1px solid var(--h-line);
+  background:var(--bg);color:var(--ink);position:relative}
+.panel .inner{padding:clamp(26px,4vw,58px)}
+
+.p-hero{display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center}
+@media(max-width:960px){.p-hero{grid-template-columns:1fr;gap:26px}}
+.p-name{font-family:var(--display);font-weight:var(--display-w);
+  font-size:clamp(38px,6.2vw,74px);line-height:.94;letter-spacing:var(--display-ls);
+  margin:0;color:var(--ink);text-wrap:balance}
+.p-thesis{font-family:var(--body);font-size:clamp(17px,2vw,23px);line-height:1.42;
+  margin:20px 0 0;max-width:24ch;color:var(--ink)}
+.p-meta{font-family:var(--util);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--rule);margin-top:26px;display:flex;flex-wrap:wrap;gap:6px 18px}
+
+/* graphe */
+.graph{width:100%;height:auto;display:block;touch-action:manipulation}
+.graph .edge{stroke:var(--edge);stroke-width:1.1;transition:stroke .22s,opacity .22s;opacity:.55}
+.graph .node-hit{cursor:pointer}
+.graph .node-shape{transition:opacity .22s,fill .22s}
+.graph .lbl{font-family:var(--util);font-size:7.4px;fill:var(--rule);letter-spacing:.04em;
+  transition:opacity .22s;opacity:0;pointer-events:none}
+.graph .lbl.on{opacity:1;fill:var(--ink)}
+.graph .dim{opacity:.18}
+.graph .hot{stroke:var(--signal);stroke-width:1.9;opacity:1}
+.graph .gauge{stroke:var(--amber);stroke-width:1.3;fill:none}
+.graph-cap{font-family:var(--util);font-size:10px;letter-spacing:.08em;color:var(--rule);
+  margin-top:10px;text-transform:uppercase}
+
+/* bande produit */
+.p-band{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;
+  padding:clamp(26px,3.6vw,50px) 0;border-top:1px solid var(--hair)}
+.p-band.rev>.shot{order:-1}
+@media(max-width:860px){.p-band{grid-template-columns:1fr;gap:22px}.p-band.rev>.shot{order:0}}
+.p-band h3{font-family:var(--display);font-weight:var(--display-w);
+  font-size:clamp(28px,3.6vw,44px);line-height:1;letter-spacing:var(--display-ls);margin:14px 0 0;color:var(--ink)}
+.p-band .prob{font-family:var(--body);font-size:16.5px;line-height:1.5;margin:14px 0 0;
+  max-width:42ch;color:var(--ink);opacity:.86}
+.p-stack{font-family:var(--util);font-size:11px;letter-spacing:.07em;color:var(--rule);
+  margin-top:18px;text-transform:uppercase}
+.p-figs{display:flex;flex-wrap:wrap;gap:28px;margin-top:22px}
+.p-figs .f{font-family:var(--body)}
+.p-figs .k{font-family:var(--util);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--rule);display:block;margin-bottom:5px}
+.p-figs .v{font-size:22px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* faux screenshot : les produits sont sombres, c'est le sujet du §2.1 */
+.shot{border-radius:2px;overflow:hidden;box-shadow:var(--shot-shadow);border:var(--shot-border)}
+.shot .bar{height:26px;display:flex;align-items:center;gap:5px;padding:0 10px;background:#0A0D13}
+.shot .bar i{width:7px;height:7px;border-radius:50%;background:#2C333F;display:block}
+.shot .body{padding:18px;font-family:var(--util);font-size:10.5px;line-height:1.9;color:#7C8798}
+.shot .body b{color:#E6ECF5;font-weight:500}
+.shot .body .accent{color:var(--shot-accent)}
+.shot .meter{height:5px;border-radius:3px;background:#1B2230;margin:9px 0 4px;overflow:hidden}
+.shot .meter span{display:block;height:100%;background:var(--shot-accent)}
+
+/* compétences : la typo EST la donnée */
+.p-skills{border-top:1px solid var(--hair);padding-top:clamp(24px,3vw,42px);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+@media(max-width:860px){.p-skills{grid-template-columns:1fr;gap:22px}}
+.p-skills .col h4{font-family:var(--util);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rule);margin:0 0 12px;font-weight:400}
+.p-skills .col p{font-family:var(--body);margin:0;line-height:1.35;color:var(--ink)}
+.p-skills .s1{font-size:26px;font-weight:700;letter-spacing:-.015em}
+.p-skills .s2{font-size:18px;font-weight:500}
+.p-skills .s3{font-size:13.5px;opacity:.62}
+
+/* ── règles de couleur, différenciées par direction ── */
+.badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--util);font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase}
+.val{font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* ─────────── DIRECTION A · CALIBRAGE ─────────── */
+.p-a{
+  --bg:#E8E6DF; --ink:#14171C; --signal:#FF4A0F; --amber:#C98A00; --rule:#7E7C73;
+  --hair:#C9C7BE; --edge:#3A3D43;
+  --display:"Space Grotesk",sans-serif; --display-w:700; --display-ls:-.03em;
+  --body:"Manrope",sans-serif; --util:"Space Mono",monospace;
+  --shot-shadow:0 24px 48px -24px rgba(20,23,28,.5); --shot-border:1px solid #C9C7BE;
+  --shot-accent:#FF6A33;
+}
+.p-a .badge{color:var(--ink);border:1px solid var(--ink);padding:6px 11px;border-radius:1px}
+.p-a .badge::before{content:"";width:6px;height:6px;background:var(--signal);display:block}
+.p-a .val{border-bottom:2px solid var(--amber);padding-bottom:1px}
+/* graduations de règle : la texture signature */
+.p-a .inner{position:relative}
+.p-a .inner::before,.p-a .inner::after{content:"";position:absolute;left:0;right:0;height:9px;
+  background:repeating-linear-gradient(90deg,var(--rule) 0 1px,transparent 1px 8px);opacity:.5}
+.p-a .inner::before{top:0}.p-a .inner::after{bottom:0}
+.p-a .p-name{text-transform:uppercase}
+.p-a .grid-tex{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--edge) 1px,transparent 1px),linear-gradient(90deg,var(--edge) 1px,transparent 1px);
+  background-size:40px 40px;opacity:.03}
+
+/* ─────────── DIRECTION B · RISO ─────────── */
+.p-b{
+  --bg:#EFEFEA; --ink:#12100E; --signal:#4B21D9; --amber:#FF2E88; --rule:#8B8B82;
+  --hair:#CFCFC6; --edge:#4B21D9;
+  --display:"Instrument Serif",serif; --display-w:400; --display-ls:-.01em;
+  --body:"Outfit",sans-serif; --util:"DM Mono",monospace;
+  --shot-shadow:none; --shot-border:2px solid #12100E;
+  --shot-accent:#FF2E88;
+}
+.p-b .badge{background:var(--signal);color:#EFEFEA;padding:7px 12px;position:relative}
+.p-b .badge::after{content:"";position:absolute;inset:0;background:#FF2E88;
+  mix-blend-mode:multiply;transform:translate(3px,3px);z-index:-1}
+.p-b .val{background:linear-gradient(transparent 62%,#FF2E88 62%);
+  mix-blend-mode:multiply;padding:0 3px}
+.p-b .p-name{position:relative;font-style:italic}
+.p-b .p-name::after{content:attr(data-echo);position:absolute;inset:0;color:#FF2E88;
+  mix-blend-mode:multiply;transform:translate(3px,2px);animation:reg 1.1s cubic-bezier(.16,1,.3,1) .25s both}
+@keyframes reg{from{transform:translate(9px,7px)}to{transform:translate(3px,2px)}}
+@media(prefers-reduced-motion:reduce){.p-b .p-name::after{animation:none}}
+.p-b .graph .edge{opacity:.7}
+.p-b .shot{transform:rotate(-.5deg)}
+
+/* ─────────── DIRECTION C · ZELLIGE ─────────── */
+.p-c{
+  --bg:#FAF7F2; --ink:#1A1714; --signal:#4B39C4; --amber:#C1440E; --rule:#8A8177;
+  --hair:#DDD5C9; --edge:#0F7B6C;
+  --display:"Newsreader",serif; --display-w:600; --display-ls:-.02em;
+  --body:"Public Sans",sans-serif; --util:"JetBrains Mono",monospace;
+  --shot-shadow:0 18px 40px -22px rgba(26,23,20,.55); --shot-border:1px solid #DDD5C9;
+  --shot-accent:#4B39C4;
+}
+.p-c .badge{color:var(--signal);border:1px solid var(--signal);padding:6px 11px}
+.p-c .badge::before{content:"";width:7px;height:7px;background:var(--signal);
+  display:block;transform:rotate(45deg)}
+.p-c .val{border-bottom:2px solid var(--amber);padding-bottom:1px}
+.p-c .p-band,.p-c .p-skills{border-top:0;position:relative}
+.p-c .p-band::before,.p-c .p-skills::before{content:"";position:absolute;top:0;left:0;right:0;height:10px;
+  background:repeating-conic-gradient(from 45deg,var(--signal) 0% 12.5%,transparent 0% 50%);
+  background-size:10px 10px;opacity:.42}
+
+/* ── verdict ── */
+.verdict{background:var(--h-surface);border:1px solid var(--h-line);border-radius:3px;
+  padding:clamp(24px,3.4vw,40px);margin:44px 0 70px}
+.verdict h2{margin:0 0 6px;font-size:23px;font-weight:600;letter-spacing:-.015em}
+.verdict h3{margin:26px 0 6px;font-size:15px;font-weight:600}
+.verdict p{color:var(--h-dim);max-width:70ch;margin:0 0 10px}
+.verdict li{color:var(--h-dim);max-width:70ch;margin-bottom:7px}
+.verdict strong{color:var(--h-ink)}
+.rec{border-left:3px solid var(--h-mark);padding-left:16px;margin:18px 0 0}
+</style>
+
+<div class="wrap">
+  <header class="bench-head">
+    <span class="kicker">Banc d'essai · portfolio Houssam Nadir · 25 août 2026</span>
+    <h1>Trois directions, un seul contenu</h1>
+    <p>Comparer trois palettes hors contexte ne dit rien. Les trois panneaux ci-dessous rendent <strong>exactement le même contenu réel</strong> — le nom, la thèse, le graphe du §3, la bande Carriv, la bande StudyLumina, la grille de compétences — avec la même structure. Seuls changent les tokens, la typographie et la règle de marquage des valeurs. Ce qui diffère à l'écran est donc uniquement ce qui différencie les directions.</p>
+    <p>Deux détails à surveiller pendant que tu regardes : <strong>comment chaque direction traite un chiffre</strong> (6 $, 0–100, 14 $) et <strong>comment les captures sombres des produits se détachent du fond clair</strong>. Ce sont les deux endroits où le système de couleur doit travailler tout seul.</p>
+    <p class="mono" style="font-size:12.5px">Substitutions de polices : Fontshare est bloqué ici, les faces sont approximées par leurs plus proches équivalents Google. Clash Display → Space&nbsp;Grotesk · Satoshi → Manrope · Boska → Instrument&nbsp;Serif · Switzer → Outfit · Zodiak → Newsreader · General&nbsp;Sans → Public&nbsp;Sans. Le site final auto-héberge les vraies.</p>
+    <nav class="jump" aria-label="Aller à une direction">
+      <a href="#dir-a">A · CALIBRAGE</a>
+      <a href="#dir-b">B · RISO</a>
+      <a href="#dir-c">C · ZELLIGE</a>
+      <a href="#verdict">Verdict</a>
+    </nav>
+  </header>
+</div>
+
+<main>
+<!-- ══════════════ A ══════════════ -->
+<section class="wrap spec-sec" id="dir-a" aria-labelledby="h-a">
+  <div class="spec">
+    <div>
+      <span class="lab">Direction A</span>
+      <h2 id="h-a">CALIBRAGE</h2>
+      <p style="margin-top:8px">Papier de calibration, bancs d'essai, marquages d'atelier. Si les produits transforment des sensations en chiffres, le site ressemble à un instrument de mesure.</p>
+      <div class="sw">
+        <i style="background:#E8E6DF" class="dk">#E8E6DF</i>
+        <i style="background:#14171C">#14171C</i>
+        <i style="background:#FF4A0F">#FF4A0F</i>
+        <i style="background:#C98A00">#C98A00</i>
+        <i style="background:#9C9A90" class="dk">#9C9A90</i>
+      </div>
+    </div>
+    <div>
+      <span class="lab">Règle propre à la direction</span>
+      <p><strong style="color:var(--h-ink)">L'ambre ne remplit jamais du texte, il marque.</strong> Chaque nombre réel du site est composé en encre et souligné d'un filet ambre de 2&nbsp;px. Sur tout le site, le trait ambre finit par vouloir dire « valeur mesurée, pas argument marketing ». Le signal orange reste sous 5&nbsp;% de la surface.</p>
+      <span class="lab" style="margin-top:16px">Typographie</span>
+      <p>Clash Display 700 · Satoshi · Space Mono</p>
+    </div>
+    <div>
+      <span class="lab">Le risque</span>
+      <p>Le registre technique peut virer au froid : c'est un portfolio de personne, pas une fiche d'étalonnage. Il tient si la copie reste à la première personne et si le gris-os garde sa nuance verte — un gris pur le ferait basculer dans le générique.</p>
+      <span class="lab" style="margin-top:16px">Ce qu'elle prouve</span>
+      <p>C'est la seule des trois où le système de couleur porte lui-même la thèse.</p>
+    </div>
+  </div>
+
+  <div class="panel p-a">
+    <div class="grid-tex" aria-hidden="true"></div>
+    <div class="inner">
+      <div class="p-hero">
+        <div>
+          <h2 class="p-name">Houssam<br>Nadir</h2>
+          <p class="p-thesis">Je construis des systèmes qui refusent d'inventer.</p>
+          <div class="p-meta"><span>Génie informatique</span><span>Polytechnique Montréal</span><span>Décembre 2027</span></div>
+        </div>
+        <div>
+          <div class="gholder" data-shape="ring"></div>
+          <p class="graph-cap">Projection 2D du graphe — 3D navigable sur le site</p>
+        </div>
+      </div>
+
+      <div class="p-band">
+        <div>
+          <span class="badge">En production</span>
+          <h3>Carriv</h3>
+          <p class="prob">Un CV générique se fait filtrer par les ATS. L'adapter à la main pour chaque candidature est intenable. Carriv reformule les vraies expériences pour l'offre collée — et ne peut rien ajouter que le profil ne contienne déjà.</p>
+          <p class="p-stack">SvelteKit · MongoDB · Stripe · Extension Chrome</p>
+          <div class="p-figs">
+            <div class="f"><span class="k">Pack 10 candidatures</span><span class="v val">6 $ USD</span></div>
+            <div class="f"><span class="k">Essai sans carte</span><span class="v val">3</span></div>
+            <div class="f"><span class="k">Langues</span><span class="v val">2</span></div>
+          </div>
+        </div>
+        <div class="shot">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="body">
+            <b>Score ATS</b> — analyste données, Montréal<div class="meter"><span style="width:78%"></span></div>
+            <span class="accent">couverts</span> python · sql · etl · dbt<br>
+            <span class="accent">manquants</span> airflow · snowflake<br><br>
+            <b>Reçu de personnalisation</b><br>
+            3 formulations réécrites · 0 ajoutée
+          </div>
+        </div>
+      </div>
+
+      <div class="p-band rev">
+        <div>
+          <span class="badge">En production</span>
+          <h3>StudyLumina</h3>
+          <p class="prob">« Est-ce que je suis prêt ? » n'a jamais de réponse la veille d'un examen. L'Exam Readiness Score la donne : calculé en code à partir des tentatives réelles, jamais généré par un modèle.</p>
+          <p class="p-stack">Next.js · Postgres · pgvector · BullMQ · RAG</p>
+          <div class="p-figs">
+            <div class="f"><span class="k">Exam Readiness Score</span><span class="v val">0–100</span></div>
+            <div class="f"><span class="k">Premium</span><span class="v val">14 $/mois</span></div>
+            <div class="f"><span class="k">Version</span><span class="v val">2.1</span></div>
+          </div>
+        </div>
+        <div class="shot">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="body">
+            <b>Exam Readiness Score</b><div class="meter"><span style="width:64%"></span></div>
+            <span class="accent">64</span> · prêt le 12 déc<br><br>
+            <b>Chapitres faibles, par impact</b><br>
+            04 Transformée de Laplace<br>
+            07 Régime transitoire<br>
+            02 Nombres complexes
+          </div>
+        </div>
+      </div>
+
+      <div class="p-skills">
+        <div class="col"><h4>Solide</h4><p class="s1">TypeScript · SvelteKit · Next.js · Postgres · MongoDB</p></div>
+        <div class="col"><h4>Fonctionnel</h4><p class="s2">pgvector · Stripe · BullMQ · Docker · extensions Chrome</p></div>
+        <div class="col"><h4>J'apprends en ce moment</h4><p class="s3">Modélisation de menaces · durcissement infonuagique · évaluation de pipelines RAG</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ B ══════════════ -->
+<section class="wrap spec-sec" id="dir-b" aria-labelledby="h-b">
+  <div class="spec">
+    <div>
+      <span class="lab">Direction B</span>
+      <h2 id="h-b">RISO</h2>
+      <p style="margin-top:8px">Sérigraphie, impression risographe, affiche d'école d'ingénieur. Deux encres et rien d'autre.</p>
+      <div class="sw">
+        <i style="background:#EFEFEA" class="dk">#EFEFEA</i>
+        <i style="background:#4B21D9">#4B21D9</i>
+        <i style="background:#FF2E88">#FF2E88</i>
+        <i style="background:#12100E">#12100E</i>
+        <i style="background:#B9B9B0" class="dk">#B9B9B0</i>
+      </div>
+    </div>
+    <div>
+      <span class="lab">Règle propre à la direction</span>
+      <p><strong style="color:var(--h-ink)">Les deux encres se superposent en multiply</strong> et produisent une troisième couleur jamais déclarée. Le titre entre avec un décalage de repérage de 3&nbsp;px qui se recale au chargement — l'accident d'impression est la seule animation d'ouverture.</p>
+      <span class="lab" style="margin-top:16px">Typographie</span>
+      <p>Boska italique · Switzer · Departure Mono</p>
+    </div>
+    <div>
+      <span class="lab">Le risque</span>
+      <p>Le violet-rose fluo est le registre visuel des agences créatives et des conférences tech. Il est chaleureux et mémorable, mais il ne dit rien sur la mesure, l'honnêteté ou la sécurité — il faudrait que la copie porte seule toute la thèse.</p>
+      <span class="lab" style="margin-top:16px">Attention</span>
+      <p>Le rose fluo échoue en contraste dès qu'il touche du texte : il ne peut servir qu'en surimpression.</p>
+    </div>
+  </div>
+
+  <div class="panel p-b">
+    <div class="inner">
+      <div class="p-hero">
+        <div>
+          <h2 class="p-name" data-echo="Houssam Nadir">Houssam Nadir</h2>
+          <p class="p-thesis">Je construis des systèmes qui refusent d'inventer.</p>
+          <div class="p-meta"><span>Génie informatique</span><span>Polytechnique Montréal</span><span>Décembre 2027</span></div>
+        </div>
+        <div>
+          <div class="gholder" data-shape="over"></div>
+          <p class="graph-cap">Projection 2D du graphe — 3D navigable sur le site</p>
+        </div>
+      </div>
+
+      <div class="p-band">
+        <div>
+          <span class="badge">En production</span>
+          <h3>Carriv</h3>
+          <p class="prob">Un CV générique se fait filtrer par les ATS. L'adapter à la main pour chaque candidature est intenable. Carriv reformule les vraies expériences pour l'offre collée — et ne peut rien ajouter que le profil ne contienne déjà.</p>
+          <p class="p-stack">SvelteKit · MongoDB · Stripe · Extension Chrome</p>
+          <div class="p-figs">
+            <div class="f"><span class="k">Pack 10 candidatures</span><span class="v val">6 $ USD</span></div>
+            <div class="f"><span class="k">Essai sans carte</span><span class="v val">3</span></div>
+            <div class="f"><span class="k">Langues</span><span class="v val">2</span></div>
+          </div>
+        </div>
+        <div class="shot">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="body">
+            <b>Score ATS</b> — analyste données, Montréal<div class="meter"><span style="width:78%"></span></div>
+            <span class="accent">couverts</span> python · sql · etl · dbt<br>
+            <span class="accent">manquants</span> airflow · snowflake<br><br>
+            <b>Reçu de personnalisation</b><br>
+            3 formulations réécrites · 0 ajoutée
+          </div>
+        </div>
+      </div>
+
+      <div class="p-band rev">
+        <div>
+          <span class="badge">En production</span>
+          <h3>StudyLumina</h3>
+          <p class="prob">« Est-ce que je suis prêt ? » n'a jamais de réponse la veille d'un examen. L'Exam Readiness Score la donne : calculé en code à partir des tentatives réelles, jamais généré par un modèle.</p>
+          <p class="p-stack">Next.js · Postgres · pgvector · BullMQ · RAG</p>
+          <div class="p-figs">
+            <div class="f"><span class="k">Exam Readiness Score</span><span class="v val">0–100</span></div>
+            <div class="f"><span class="k">Premium</span><span class="v val">14 $/mois</span></div>
+            <div class="f"><span class="k">Version</span><span class="v val">2.1</span></div>
+          </div>
+        </div>
+        <div class="shot">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="body">
+            <b>Exam Readiness Score</b><div class="meter"><span style="width:64%"></span></div>
+            <span class="accent">64</span> · prêt le 12 déc<br><br>
+            <b>Chapitres faibles, par impact</b><br>
+            04 Transformée de Laplace<br>
+            07 Régime transitoire<br>
+            02 Nombres complexes
+          </div>
+        </div>
+      </div>
+
+      <div class="p-skills">
+        <div class="col"><h4>Solide</h4><p class="s1">TypeScript · SvelteKit · Next.js · Postgres · MongoDB</p></div>
+        <div class="col"><h4>Fonctionnel</h4><p class="s2">pgvector · Stripe · BullMQ · Docker · extensions Chrome</p></div>
+        <div class="col"><h4>J'apprends en ce moment</h4><p class="s3">Modélisation de menaces · durcissement infonuagique · évaluation de pipelines RAG</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ C ══════════════ -->
+<section class="wrap spec-sec" id="dir-c" aria-labelledby="h-c">
+  <div class="spec">
+    <div>
+      <span class="lab">Direction C</span>
+      <h2 id="h-c">ZELLIGE</h2>
+      <p style="margin-top:8px">Géométrie islamique, azulejos, bleu Majorelle. La trame sert de grille et de séparateur — jamais de fond décoratif.</p>
+      <div class="sw">
+        <i style="background:#FAF7F2" class="dk">#FAF7F2</i>
+        <i style="background:#4B39C4">#4B39C4</i>
+        <i style="background:#C1440E">#C1440E</i>
+        <i style="background:#0F7B6C">#0F7B6C</i>
+        <i style="background:#1A1714">#1A1714</i>
+      </div>
+    </div>
+    <div>
+      <span class="lab">Règle propre à la direction</span>
+      <p><strong style="color:var(--h-ink)">Le motif est structurel ou absent.</strong> Il sert de séparateur de sections et donne leur forme aux nœuds du graphe — losanges, pas cercles. Trois couleurs actives au lieu de deux : plus riche, plus difficile à tenir.</p>
+      <span class="lab" style="margin-top:16px">Typographie</span>
+      <p>Zodiak · General Sans · JetBrains Mono</p>
+    </div>
+    <div>
+      <span class="lab">La condition</span>
+      <p><strong style="color:var(--h-ink)">À ne retenir que si ça te parle personnellement.</strong> Si l'ancrage est réel, c'est la direction la plus impossible à copier des trois. S'il ne l'est pas, c'est de la décoration posée sur un portfolio d'ingénieur — et un recruteur le sentira.</p>
+      <span class="lab" style="margin-top:16px">Le risque</span>
+      <p>Trois accents et un motif : la discipline doit venir d'ailleurs, la palette ne l'impose pas.</p>
+    </div>
+  </div>
+
+  <div class="panel p-c">
+    <div class="inner">
+      <div class="p-hero">
+        <div>
+          <h2 class="p-name">Houssam Nadir</h2>
+          <p class="p-thesis">Je construis des systèmes qui refusent d'inventer.</p>
+          <div class="p-meta"><span>Génie informatique</span><span>Polytechnique Montréal</span><span>Décembre 2027</span></div>
+        </div>
+        <div>
+          <div class="gholder" data-shape="diamond"></div>
+          <p class="graph-cap">Projection 2D du graphe — 3D navigable sur le site</p>
+        </div>
+      </div>
+
+      <div class="p-band">
+        <div>
+          <span class="badge">En production</span>
+          <h3>Carriv</h3>
+          <p class="prob">Un CV générique se fait filtrer par les ATS. L'adapter à la main pour chaque candidature est intenable. Carriv reformule les vraies expériences pour l'offre collée — et ne peut rien ajouter que le profil ne contienne déjà.</p>
+          <p class="p-stack">SvelteKit · MongoDB · Stripe · Extension Chrome</p>
+          <div class="p-figs">
+            <div class="f"><span class="k">Pack 10 candidatures</span><span class="v val">6 $ USD</span></div>
+            <div class="f"><span class="k">Essai sans carte</span><span class="v val">3</span></div>
+            <div class="f"><span class="k">Langues</span><span class="v val">2</span></div>
+          </div>
+        </div>
+        <div class="shot">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="body">
+            <b>Score ATS</b> — analyste données, Montréal<div class="meter"><span style="width:78%"></span></div>
+            <span class="accent">couverts</span> python · sql · etl · dbt<br>
+            <span class="accent">manquants</span> airflow · snowflake<br><br>
+            <b>Reçu de personnalisation</b><br>
+            3 formulations réécrites · 0 ajoutée
+          </div>
+        </div>
+      </div>
+
+      <div class="p-band rev">
+        <div>
+          <span class="badge">En production</span>
+          <h3>StudyLumina</h3>
+          <p class="prob">« Est-ce que je suis prêt ? » n'a jamais de réponse la veille d'un examen. L'Exam Readiness Score la donne : calculé en code à partir des tentatives réelles, jamais généré par un modèle.</p>
+          <p class="p-stack">Next.js · Postgres · pgvector · BullMQ · RAG</p>
+          <div class="p-figs">
+            <div class="f"><span class="k">Exam Readiness Score</span><span class="v val">0–100</span></div>
+            <div class="f"><span class="k">Premium</span><span class="v val">14 $/mois</span></div>
+            <div class="f"><span class="k">Version</span><span class="v val">2.1</span></div>
+          </div>
+        </div>
+        <div class="shot">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <div class="body">
+            <b>Exam Readiness Score</b><div class="meter"><span style="width:64%"></span></div>
+            <span class="accent">64</span> · prêt le 12 déc<br><br>
+            <b>Chapitres faibles, par impact</b><br>
+            04 Transformée de Laplace<br>
+            07 Régime transitoire<br>
+            02 Nombres complexes
+          </div>
+        </div>
+      </div>
+
+      <div class="p-skills">
+        <div class="col"><h4>Solide</h4><p class="s1">TypeScript · SvelteKit · Next.js · Postgres · MongoDB</p></div>
+        <div class="col"><h4>Fonctionnel</h4><p class="s2">pgvector · Stripe · BullMQ · Docker · extensions Chrome</p></div>
+        <div class="col"><h4>J'apprends en ce moment</h4><p class="s3">Modélisation de menaces · durcissement infonuagique · évaluation de pipelines RAG</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ VERDICT ══════════════ -->
+<section class="wrap" id="verdict">
+  <div class="verdict">
+    <span class="kicker">Ce que je recommande</span>
+    <h2>A — CALIBRAGE</h2>
+    <div class="rec">
+      <p><strong>Une seule des trois directions argumente à ta place.</strong> En A, tout nombre du site porte un filet ambre parce qu'il a été mesuré. Au bout de deux sections, le lecteur a appris la convention sans qu'on la lui explique — et cette convention dit exactement ce que disent Carriv et StudyLumina : un chiffre honnête plutôt qu'une affirmation. B et C sont de belles surfaces, mais ce sont des surfaces : la thèse y repose entièrement sur les mots.</p>
+    </div>
+    <h3>Ce que je concède aux deux autres</h3>
+    <ul>
+      <li><strong>B est plus chaleureuse.</strong> Le décalage de repérage est un vrai moment, et il coûte trois lignes de CSS au lieu d'un canvas. Si tu trouves A trop austère pour toi, c'est B qu'il faut regarder — pas une version adoucie de A.</li>
+      <li><strong>C est la plus impossible à copier</strong> — à une condition, non négociable : que la géométrie te tienne à cœur pour une vraie raison. Si tu la choisis, dis-moi laquelle, et elle devient une phrase du manifeste. Si tu ne peux pas répondre à cette question, la direction se coupe d'elle-même.</li>
+    </ul>
+    <h3>Le risque assumé, quelle que soit ta réponse</h3>
+    <p>Le portfolio est <strong>clair</strong> alors que la quasi-totalité des portfolios de développeurs sont sombres — et alors que tes deux produits le sont aussi. C'est délibéré : c'est la seule façon pour que les captures de Carriv et StudyLumina, denses et sombres, frappent la page. Le site est le cadre ; les produits sont le sujet. Fais défiler les trois panneaux : les captures se détachent partout, mais c'est sur le gris-os de A qu'elles cognent le plus fort.</p>
+    <h3>Après ton choix</h3>
+    <p>J'écris <code class="mono">DESIGN.md</code> avec les tokens définitifs et la note d'auto-critique, puis le plan de construction. Il me manque encore les réponses aux questions ouvertes du brief — parcours, calcul du score ATS, sécurité concrète chez Carriv, décisions techniques, échecs, liens — sans lesquelles je ne peux pas écrire une ligne de contenu sans inventer. Elles sont dans le fil de la conversation.</p>
+  </div>
+</section>
+</main>
+
+<script>
+/* Le graphe encode du contenu vrai : produits, stacks, principes, parcours.
+   Positions précalculées — aucune simulation physique, comme le veut le §3. */
+const NODES = [
+  {id:"poly",  l:"Polytechnique",     x: 50, y: 26, r:7,  t:"parcours"},
+  {id:"carriv",l:"Carriv",            x: 26, y: 52, r:13, t:"prod"},
+  {id:"study", l:"StudyLumina",       x: 74, y: 52, r:13, t:"prod"},
+  {id:"svelte",l:"SvelteKit",         x:  9, y: 36, r:6,  t:"tech"},
+  {id:"mongo", l:"MongoDB",           x:  8, y: 66, r:6,  t:"tech"},
+  {id:"next",  l:"Next.js",           x: 92, y: 36, r:6,  t:"tech"},
+  {id:"pg",    l:"Postgres+pgvector", x: 93, y: 66, r:6,  t:"tech"},
+  {id:"bull",  l:"BullMQ",            x: 84, y: 79, r:5,  t:"tech"},
+  {id:"rag",   l:"RAG",               x: 70, y: 78, r:6,  t:"tech"},
+  {id:"chrome",l:"Extension Chrome",  x: 18, y: 79, r:6,  t:"tech"},
+  {id:"stripe",l:"Stripe",            x: 33, y: 82, r:5,  t:"tech"},
+  {id:"ats",   l:"Score ATS",         x: 39, y: 39, r:8,  t:"principe"},
+  {id:"ers",   l:"Exam Readiness",    x: 61, y: 39, r:8,  t:"principe"},
+  {id:"conf",  l:"Confidentialité",   x: 50, y: 65, r:7,  t:"principe"},
+  {id:"bil",   l:"Bilingue FR/EN",    x: 50, y: 89, r:5,  t:"principe"}
+];
+const EDGES = [
+  ["poly","carriv"],["poly","study"],
+  ["carriv","svelte"],["carriv","mongo"],["carriv","ats"],["carriv","chrome"],["carriv","stripe"],["carriv","conf"],
+  ["study","next"],["study","pg"],["study","bull"],["study","rag"],["study","ers"],["study","conf"],
+  ["pg","rag"],["ats","ers"],["carriv","bil"],["study","bil"],["chrome","study"]
+];
+const NS="http://www.w3.org/2000/svg";
+const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+
+document.querySelectorAll(".gholder").forEach(host=>{
+  const shape=host.dataset.shape;
+  const svg=el("svg",{viewBox:"0 0 100 100",class:"graph",role:"img",
+    "aria-label":"Graphe du parcours : Polytechnique relie Carriv et StudyLumina, eux-mêmes reliés à leurs stacks et aux principes partagés — confidentialité, bilinguisme, score honnête."});
+  const gE=el("g",{}), gN=el("g",{}), gL=el("g",{});
+  const byId=Object.fromEntries(NODES.map(n=>[n.id,n]));
+  const edgeEls=EDGES.map(([a,b])=>{
+    const A=byId[a],B=byId[b];
+    const p=el("line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,class:"edge"});
+    p.dataset.a=a;p.dataset.b=b;gE.appendChild(p);return p;
+  });
+  const nodeEls=NODES.map(n=>{
+    const g=el("g",{class:"node-hit",tabindex:"0",role:"button",
+      "aria-label":n.l+(n.t==="prod"?" — en production":"")});
+    let s;
+    const fill = n.t==="prod"?"var(--ink)": n.t==="principe"?"var(--signal)":"var(--edge)";
+    const op   = n.t==="tech"?"0.75":"1";
+    if(shape==="diamond"){
+      s=el("rect",{x:n.x-n.r*0.72,y:n.y-n.r*0.72,width:n.r*1.44,height:n.r*1.44,
+        transform:`rotate(45 ${n.x} ${n.y})`,fill:fill,"fill-opacity":op,class:"node-shape"});
+    }else{
+      s=el("circle",{cx:n.x,cy:n.y,r:n.r*0.62,fill:fill,"fill-opacity":op,class:"node-shape"});
+    }
+    g.appendChild(s);
+    if(n.t==="prod"){
+      if(shape==="over"){
+        g.appendChild(el("circle",{cx:n.x+1.4,cy:n.y+1,r:n.r*0.62,fill:"var(--amber)",
+          "fill-opacity":".85",style:"mix-blend-mode:multiply","class":"node-shape"}));
+      }else{
+        /* graduation d'instrument : « ceci existe, des gens le paient » */
+        for(let i=0;i<24;i++){
+          const a=i/24*Math.PI*2, r1=n.r*0.82, r2=(i%6===0)?n.r*1.06:n.r*0.95;
+          g.appendChild(el("line",{x1:n.x+Math.cos(a)*r1,y1:n.y+Math.sin(a)*r1,
+            x2:n.x+Math.cos(a)*r2,y2:n.y+Math.sin(a)*r2,class:"gauge"}));
+        }
+      }
+    }
+    const lbl=el("text",{x:n.x,y:n.y-n.r*1.25,class:"lbl","text-anchor":"middle"});
+    lbl.textContent=n.l.toUpperCase();
+    gL.appendChild(lbl);
+    const on=()=>{
+      edgeEls.forEach(e=>{
+        const hit=e.dataset.a===n.id||e.dataset.b===n.id;
+        e.classList.toggle("hot",hit); e.classList.toggle("dim",!hit);
+      });
+      nodeEls.forEach((o,i)=>{
+        const linked = NODES[i].id===n.id || EDGES.some(([a,b])=>
+          (a===n.id&&b===NODES[i].id)||(b===n.id&&a===NODES[i].id));
+        o.querySelectorAll(".node-shape").forEach(sh=>sh.classList.toggle("dim",!linked));
+      });
+      gL.querySelectorAll(".lbl").forEach((t,i)=>t.classList.toggle("on",NODES[i].id===n.id));
+    };
+    const off=()=>{
+      edgeEls.forEach(e=>e.classList.remove("hot","dim"));
+      svg.querySelectorAll(".node-shape").forEach(sh=>sh.classList.remove("dim"));
+      gL.querySelectorAll(".lbl").forEach(t=>t.classList.remove("on"));
+    };
+    g.addEventListener("pointerenter",on); g.addEventListener("pointerleave",off);
+    g.addEventListener("focus",on); g.addEventListener("blur",off);
+    gN.appendChild(g); return g;
+  });
+  svg.append(gE,gN,gL); host.appendChild(svg);
+});
+</script>
