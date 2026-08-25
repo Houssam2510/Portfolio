@@ -1,0 +1,442 @@
+<title>Calibrage, second passage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   CHÂSSIS — volontairement neutre. Il encadre, il ne juge pas.
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --h-bg:#F2F2F4; --h-surface:#FFFFFF; --h-ink:#1B1D24; --h-dim:#585C68;
+  --h-line:#D6D7DD; --h-mark:#3D4250;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --h-bg:#121318; --h-surface:#191B21; --h-ink:#ECEDF1; --h-dim:#9A9EAC;
+    --h-line:#2A2D36; --h-mark:#C3C7D4;
+  }
+}
+:root[data-theme="dark"]{
+  --h-bg:#121318; --h-surface:#191B21; --h-ink:#ECEDF1; --h-dim:#9A9EAC;
+  --h-line:#2A2D36; --h-mark:#C3C7D4;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--h-bg);color:var(--h-ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+:where(a,button,[tabindex]):focus-visible{outline:2px solid var(--h-mark);outline-offset:3px}
+
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--h-dim)}
+.bench-head{padding:56px 0 8px}
+.bench-head h1{font-weight:600;font-size:clamp(28px,4.4vw,44px);line-height:1.1;
+  letter-spacing:-.02em;margin:14px 0 16px;text-wrap:balance;max-width:22ch}
+.bench-head p{max-width:68ch;color:var(--h-dim);margin:0 0 12px}
+.bench-head strong{color:var(--h-ink);font-weight:600}
+
+.finding{background:var(--h-surface);border:1px solid var(--h-line);border-left:3px solid var(--h-mark);
+  border-radius:3px;padding:20px 22px;margin:26px 0 0;max-width:80ch}
+.finding h2{margin:0 0 8px;font-size:16px;font-weight:600}
+.finding p{margin:0 0 8px;color:var(--h-dim);font-size:14.5px}
+.finding table{border-collapse:collapse;font-family:"IBM Plex Mono",monospace;font-size:12.5px;margin-top:12px}
+.finding td{padding:4px 16px 4px 0;color:var(--h-dim);font-variant-numeric:tabular-nums}
+.finding td:first-child{color:var(--h-ink)}
+.pass{color:#2E7D48;font-weight:500}
+.fail{color:#C0392B;font-weight:500}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pass{color:#63C68C}
+  :root:not([data-theme="light"]) .fail{color:#F08A7C}}
+:root[data-theme="dark"] .pass{color:#63C68C} :root[data-theme="dark"] .fail{color:#F08A7C}
+
+.sec-head{padding:64px 0 0}
+.sec-head h2{font-size:23px;font-weight:600;letter-spacing:-.015em;margin:10px 0 8px}
+.sec-head p{max-width:70ch;color:var(--h-dim);margin:0}
+
+/* ═══════════════════════════════════════════════════════════════
+   CALIBRAGE — socle commun aux six variantes ci-dessous.
+   Le fond, l'encre, la typo et la règle de marquage ne bougent pas.
+   ═══════════════════════════════════════════════════════════════ */
+.cal{
+  --bone:#E8E6DF; --ink:#14171C; --amber:#C98A00;
+  --rule:#66645C;          /* corrigé : #9C9A90 échouait AA en texte */
+  --hair:#C9C7BE; --edge:#3A3D43;
+  --display:"Space Grotesk",sans-serif; --body:"Manrope",sans-serif; --util:"Space Mono",monospace;
+  background:var(--bone);color:var(--ink);position:relative;border-radius:3px;overflow:hidden;
+  border:1px solid var(--h-line);
+}
+.cal .grad{position:absolute;left:0;right:0;height:9px;
+  background:repeating-linear-gradient(90deg,#9C9A90 0 1px,transparent 1px 8px);opacity:.55}
+.cal .grad.t{top:0}.cal .grad.b{bottom:0}
+.cal .pad{padding:clamp(22px,3.2vw,44px)}
+.cal .badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--util);font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);border:1px solid var(--ink);
+  padding:6px 11px;border-radius:1px}
+.cal .badge::before{content:"";width:6px;height:6px;background:var(--signal);display:block}
+.cal .val{font-variant-numeric:tabular-nums;border-bottom:2px solid var(--amber);padding-bottom:1px}
+.cal h3{font-family:var(--display);font-weight:700;letter-spacing:-.03em;margin:12px 0 0;
+  font-size:clamp(26px,3.4vw,40px);line-height:1}
+.cal .k{font-family:var(--util);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--rule);display:block;margin-bottom:5px}
+.cal .v{font-family:var(--body);font-size:21px;font-weight:600}
+.cal .lnk{font-family:var(--util);font-size:12px;color:var(--signal);text-decoration:none;
+  border-bottom:1px solid var(--signal);padding-bottom:2px}
+.cal .lnk:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+
+/* graphe partagé */
+.graph{width:100%;height:auto;display:block}
+.graph .edge{stroke:var(--edge);stroke-width:1.1;opacity:.5;transition:stroke .22s,opacity .22s}
+.graph .node-hit{cursor:pointer}
+.graph .node-shape{transition:opacity .22s}
+.graph .dim{opacity:.16}
+.graph .hot{stroke:var(--signal);stroke-width:1.9;opacity:1}
+.graph .gauge{stroke:var(--amber);stroke-width:1.3;fill:none}
+.graph .lbl{font-family:var(--util);font-size:7.2px;fill:var(--ink);opacity:0;transition:opacity .2s;
+  pointer-events:none;letter-spacing:.04em}
+.graph .lbl.on{opacity:1}
+
+/* ── cartes d'essai d'accent ── */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:22px}
+@media(max-width:900px){.cards{grid-template-columns:1fr}}
+.card-spec{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:14px 18px;background:var(--h-surface);border:1px solid var(--h-line);border-bottom:0;
+  border-radius:3px 3px 0 0}
+.card-spec .nm{font-weight:600;font-size:15px}
+.card-spec .hx{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--h-dim)}
+.card-spec .rt{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--h-dim);
+  font-variant-numeric:tabular-nums}
+.card-note{font-size:13.5px;color:var(--h-dim);padding:0 18px 14px;background:var(--h-surface);
+  border:1px solid var(--h-line);border-top:0;border-radius:0 0 3px 3px;margin-top:-1px}
+.cal.mini{border-radius:0}
+.mini-row{display:grid;grid-template-columns:1fr 190px;gap:20px;align-items:center}
+@media(max-width:520px){.mini-row{grid-template-columns:1fr}}
+.mini-figs{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap}
+
+/* accents candidats */
+.acc-blue   {--signal:#0B3FD1}
+.acc-magenta{--signal:#C2007A}
+.acc-violet {--signal:#6E00E0}
+.acc-teal   {--signal:#00706A}
+.acc-orange {--signal:#FF4A0F}
+
+/* ═══════════════════════════════════════════════════════════════
+   ÉVOLUTION 1 — PHOSPHORE
+   La page reste monochrome. La couleur n'existe que dans les
+   fenêtres d'instrument, là où le fond est sombre — donc là où
+   vivent aussi les captures de Carriv et StudyLumina.
+   ═══════════════════════════════════════════════════════════════ */
+.phos{--signal:#14171C}
+.phos .badge::before{background:var(--ink)}
+.phos .lnk{color:var(--ink);border-bottom-color:var(--ink)}
+.win{
+  --w-bg:#0D1117; --w-phos:#FFB020; --w-dim:#5E6B7E; --w-grid:#1B2431;
+  background:var(--w-bg);border:1px solid #0D1117;border-radius:2px;overflow:hidden;
+  box-shadow:0 26px 52px -26px rgba(20,23,28,.55);position:relative;
+}
+.win::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--w-grid) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--w-grid) 1px,transparent 1px);
+  background-size:22px 22px;opacity:.75}
+.win-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;
+  font-family:var(--util);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--w-dim);border-bottom:1px solid var(--w-grid);position:relative;z-index:1}
+.win-bar .live{color:var(--w-phos);display:flex;align-items:center;gap:6px}
+.win-bar .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--w-phos);
+  box-shadow:0 0 8px var(--w-phos)}
+.win-body{padding:14px;position:relative;z-index:1}
+.win .graph{--edge:#3E4C60;--ink:#E6ECF5;--signal:var(--w-phos);--amber:var(--w-phos)}
+.win .graph .lbl{fill:var(--w-phos)}
+.win-read{font-family:var(--util);font-size:10.5px;line-height:1.9;color:var(--w-dim);
+  position:relative;z-index:1;padding:0 14px 14px}
+.win-read b{color:#E6ECF5;font-weight:400}
+.win-read .ph{color:var(--w-phos)}
+.win-meter{height:5px;background:#1B2230;margin:8px 0 4px;overflow:hidden}
+.win-meter span{display:block;height:100%;background:var(--w-phos)}
+
+/* ═══════════════════════════════════════════════════════════════
+   ÉVOLUTION 2 — FICHE TECHNIQUE
+   Le portfolio comme datasheet de composant : références de pièce,
+   cotes, tableaux de caractéristiques. Le mono domine.
+   ═══════════════════════════════════════════════════════════════ */
+.dsheet{--signal:#1B3AC7}
+.dsheet .pad{padding:0}
+.ds-head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline;
+  padding:16px clamp(20px,3vw,34px);border-bottom:1px solid var(--ink);
+  font-family:var(--util);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+.ds-body{padding:clamp(22px,3vw,38px)}
+.ds-title{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;
+  border-bottom:2px solid var(--ink);padding-bottom:14px}
+.ds-title h3{font-size:clamp(30px,5vw,56px);margin:0}
+.ds-title .rev{font-family:var(--util);font-size:11px;color:var(--rule);text-align:right;line-height:1.9}
+.ds-cols{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(20px,3vw,40px);margin-top:26px}
+@media(max-width:860px){.ds-cols{grid-template-columns:1fr}}
+.ds-table{width:100%;border-collapse:collapse;font-family:var(--util);font-size:11.5px}
+.ds-table th{text-align:left;font-weight:400;color:var(--rule);letter-spacing:.12em;
+  text-transform:uppercase;font-size:9.5px;padding:0 0 8px;border-bottom:1px solid var(--ink)}
+.ds-table td{padding:9px 12px 9px 0;border-bottom:1px solid var(--hair);vertical-align:top;
+  font-variant-numeric:tabular-nums}
+.ds-table td:last-child{color:var(--rule)}
+.ds-abs{font-family:var(--body);font-size:15.5px;line-height:1.5;margin:0 0 18px;max-width:44ch}
+.ds-note{font-family:var(--util);font-size:10.5px;color:var(--rule);line-height:1.8;
+  border-left:2px solid var(--signal);padding-left:12px;margin-top:20px}
+/* cote : la mesure comme motif graphique */
+.ds-dim{position:relative;margin:26px 0 0;padding-top:20px}
+.ds-dim::before{content:"";position:absolute;top:8px;left:0;right:0;height:1px;background:var(--signal)}
+.ds-dim::after{content:"";position:absolute;top:3px;left:0;width:1px;height:11px;background:var(--signal)}
+.ds-dim .cap{position:absolute;top:0;right:0;width:1px;height:11px;background:var(--signal)}
+.ds-dim .txt{font-family:var(--util);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--signal);background:var(--bone);padding:0 8px;position:absolute;top:2px;left:50%;
+  transform:translateX(-50%)}
+
+/* ── verdict ── */
+.verdict{background:var(--h-surface);border:1px solid var(--h-line);border-radius:3px;
+  padding:clamp(24px,3.4vw,40px);margin:52px 0 70px}
+.verdict h2{margin:6px 0 6px;font-size:23px;font-weight:600;letter-spacing:-.015em}
+.verdict h3{margin:26px 0 6px;font-size:15px;font-weight:600}
+.verdict p,.verdict li{color:var(--h-dim);max-width:72ch}
+.verdict p{margin:0 0 10px}
+.verdict strong{color:var(--h-ink)}
+.rec{border-left:3px solid var(--h-mark);padding-left:16px;margin:16px 0 0}
+</style>
+
+<div class="wrap">
+  <header class="bench-head">
+    <span class="kicker">Banc d'essai 02 · direction retenue : CALIBRAGE · 25 août 2026</span>
+    <h1>Le même instrument, six réglages</h1>
+    <p>La direction est arrêtée : fond os, encre noire, filet ambre sur toute valeur mesurée, graduations de règle. <strong>Rien de tout ça ne bouge ici.</strong> Ce qui bouge, c'est l'accent — et, dans les deux derniers panneaux, la manière dont l'idée d'instrument est poussée plus loin.</p>
+
+    <div class="finding">
+      <h2>D'abord, une mesure qui tranche le débat</h2>
+      <p>L'orange <code class="mono">#FF4A0F</code> ne tenait le contraste AA sur le fond os à aucun moment. Il pouvait servir en aplat, jamais en texte ni en lien. Les quatre candidats ci-dessous passent tous.</p>
+      <table>
+        <tr><td>#FF4A0F orange origine</td><td>2,70:1</td><td class="fail">échec AA</td></tr>
+        <tr><td>#0B3FD1 bleu oscilloscope</td><td>6,36:1</td><td class="pass">AA · AAA large</td></tr>
+        <tr><td>#6E00E0 violet ultraviolet</td><td>6,14:1</td><td class="pass">AA · AAA large</td></tr>
+        <tr><td>#00706A vert instrument</td><td>4,77:1</td><td class="pass">AA</td></tr>
+        <tr><td>#C2007A magenta signal</td><td>4,70:1</td><td class="pass">AA</td></tr>
+      </table>
+      <p style="margin-top:12px">Corrigé au passage : le gris de filets <code class="mono">#9C9A90</code> du brief tombait à 3,35:1 en texte. Il devient <code class="mono">#66645C</code> (4,77:1) pour le texte tertiaire, et ne reste clair que sur les graduations, qui ne sont pas du texte.</p>
+    </div>
+  </header>
+
+  <section class="sec-head" aria-labelledby="h-acc">
+    <span class="kicker">Essai 01</span>
+    <h2 id="h-acc">Quatre accents, sur du contenu réel</h2>
+    <p>Chaque carte montre le même fragment : badge d'état, titre produit, deux valeurs marquées à l'ambre, un lien, et le graphe. Regarde surtout comment l'accent cohabite avec le filet ambre — c'est là que trois des quatre se départagent.</p>
+  </section>
+
+  <div class="cards" id="cards"></div>
+</div>
+
+<div class="wrap">
+  <section class="sec-head" aria-labelledby="h-phos">
+    <span class="kicker">Évolution 01 · plus dure</span>
+    <h2 id="h-phos">PHOSPHORE — la couleur n'existe que dans les instruments</h2>
+    <p>Ici l'accent n'est plus une couleur de page : la page devient strictement monochrome, encre sur os, et toute la couleur est enfermée dans des fenêtres d'instrument sombres. C'est exactement le statut qu'ont déjà tes captures d'écran — Carriv et StudyLumina sont sombres. Le site cesse de rivaliser avec eux : il devient le banc sur lequel ils sont posés.</p>
+  </section>
+
+  <div class="cal phos" style="margin-top:22px">
+    <div class="grad t" aria-hidden="true"></div>
+    <div class="pad">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,44px);align-items:center">
+        <div>
+          <span class="badge">En production</span>
+          <h3 style="text-transform:uppercase">Carriv</h3>
+          <p style="font-family:var(--body);font-size:16.5px;line-height:1.5;max-width:40ch;margin:14px 0 0">
+            Un CV générique se fait filtrer par les ATS. Carriv reformule les vraies expériences pour l'offre collée — et ne peut rien ajouter que le profil ne contienne déjà.</p>
+          <div class="mini-figs">
+            <div><span class="k">Pack 10 candidatures</span><span class="v val">6 $ USD</span></div>
+            <div><span class="k">Essai sans carte</span><span class="v val">3</span></div>
+          </div>
+          <p style="margin-top:22px"><a class="lnk" href="#h-phos">carriv.com →</a></p>
+        </div>
+        <div class="win">
+          <div class="win-bar"><span>Graphe · parcours</span><span class="live">Actif</span></div>
+          <div class="win-body"><div class="gholder"></div></div>
+          <div class="win-read">
+            <b>Score ATS</b> — analyste données, Montréal
+            <div class="win-meter"><span style="width:78%"></span></div>
+            <span class="ph">couverts</span> python · sql · etl · dbt<br>
+            <span class="ph">manquants</span> airflow · snowflake
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grad b" aria-hidden="true"></div>
+  </div>
+  <p class="kicker" style="margin-top:10px">Phosphore ambre #FFB020 sur #0D1117 — 10,35:1. La seule couleur du site, et elle ne vit que sur fond sombre.</p>
+</div>
+
+<div class="wrap">
+  <section class="sec-head" aria-labelledby="h-ds">
+    <span class="kicker">Évolution 02 · plus dure</span>
+    <h2 id="h-ds">FICHE TECHNIQUE — le portfolio comme datasheet</h2>
+    <p>Le registre pousse CALIBRAGE jusqu'au bout : référence de pièce, révision, tableau de caractéristiques, cotes. Un recruteur technique lit ce format tous les jours ; personne n'a jamais vu un portfolio le faire. L'accent devient un bleu d'encre technique, réservé aux cotes et aux renvois.</p>
+  </section>
+
+  <div class="cal dsheet" style="margin-top:22px">
+    <div class="pad">
+      <div class="ds-head">
+        <span>Nadir, Houssam — Génie informatique</span>
+        <span>Polytechnique Montréal · Déc. 2027</span>
+        <span>Fiche 02 / 02</span>
+      </div>
+      <div class="ds-body">
+        <div class="ds-title">
+          <h3 style="text-transform:uppercase">StudyLumina</h3>
+          <div class="rev">Rév. 2.1<br>En production<br>studylumina.com</div>
+        </div>
+        <div class="ds-cols">
+          <div>
+            <p class="ds-abs">« Est-ce que je suis prêt ? » n'a jamais de réponse la veille d'un examen. L'Exam Readiness Score la donne : calculé en code à partir des tentatives de quiz réelles, jamais généré par un modèle, explicable chapitre par chapitre.</p>
+            <table class="ds-table">
+              <tr><th>Caractéristique</th><th>Valeur</th><th>Note</th></tr>
+              <tr><td>Exam Readiness Score</td><td><span class="val">0–100</span></td><td>déterministe, calculé en code</td></tr>
+              <tr><td>Source du score</td><td>tentatives persistées</td><td>jamais le LLM</td></tr>
+              <tr><td>Tuteur</td><td>cité et sourcé</td><td>documents de l'utilisateur seulement</td></tr>
+              <tr><td>Premium</td><td><span class="val">14 $/mois</span></td><td>gratuit : <span class="val">3</span> cours</td></tr>
+              <tr><td>Langues</td><td>fr_CA · en_CA</td><td>dès le premier commit</td></tr>
+            </table>
+            <p class="ds-note">Ancrage : Roediger &amp; Karpicke (2006) — la pratique de récupération améliore la rétention à long terme. Le produit applique le résultat, il ne le cite pas comme argument.</p>
+          </div>
+          <div>
+            <div class="win" style="--w-phos:#1B3AC7">
+              <div class="win-bar"><span>Graphe · dépendances</span><span>15 nœuds</span></div>
+              <div class="win-body"><div class="gholder"></div></div>
+            </div>
+            <div class="ds-dim"><span class="cap"></span><span class="txt">Next.js · Postgres · pgvector · BullMQ</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="verdict" id="verdict">
+    <span class="kicker">Ce que je recommande</span>
+    <h2>CALIBRAGE · accent bleu oscilloscope #0B3FD1 · avec les fenêtres PHOSPHORE</h2>
+    <div class="rec">
+      <p><strong>Un seul accent survit à la cohabitation avec l'ambre.</strong> Le magenta et le violet entrent en concurrence avec le filet ambre — deux couleurs qui réclament l'attention, et la convention « ambre = valeur mesurée » se dissout. Le vert instrument est propre mais s'efface. Le bleu est le seul qui recule d'un pas quand l'ambre parle : il est franchement plus foncé que le fond (6,36:1), franchement plus froid que l'ambre, et il ne ressemble à aucun bleu de dashboard SaaS parce qu'il n'est jamais utilisé en aplat de bouton.</p>
+      <p><strong>Et PHOSPHORE n'est pas une troisième direction, c'est la manière de traiter les zones sombres.</strong> Les deux se combinent sans se contredire : page monochrome encre-sur-os, bleu réservé aux liens, cotes et arêtes actives du graphe, ambre réservé aux valeurs mesurées, et phosphore ambre à l'intérieur des fenêtres d'instrument. Quatre couleurs, quatre rôles, aucun chevauchement. C'est un système, pas une palette.</p>
+    </div>
+    <h3>Ce que je fais de FICHE TECHNIQUE</h3>
+    <p>J'en garde le <strong>tableau de caractéristiques</strong> pour les case studies — c'est le meilleur format pour poser côte à côte le score ATS et l'ERS — et la <strong>cote bleue</strong> comme séparateur de sections. Je n'en garde pas la page entière : un portfolio intégralement en mono se lit mal au-delà de deux écrans, et il rendrait le manifeste du §02 illisible, alors que c'est la section qui doit sonner humaine.</p>
+    <h3>Le risque assumé</h3>
+    <p>Une page presque sans couleur, sur un fond gris-os, quand tout le monde livre du sombre saturé. Le pari : sur une page qui ne crie jamais, <strong>un filet ambre de 2&nbsp;px sous un chiffre devient un événement</strong>. C'est le contraire du portfolio qui s'agite pour se faire remarquer — et c'est le seul registre qui ne contredit pas deux produits dont l'argument est de ne rien exagérer.</p>
+    <h3>Si tu veux quand même de la couleur</h3>
+    <p>Alors <strong>violet ultraviolet #6E00E0</strong>, et on remplace le marquage ambre par un filet violet plus clair du même ton. Le système reste cohérent, il devient juste plus démonstratif. Ce que je ne recommande pas, c'est de garder l'ambre et de prendre un accent chaud : deux chaudes qui se disputent le même rôle, et l'argument tombe.</p>
+  </div>
+</div>
+
+<script>
+const NODES = [
+  {id:"poly",  l:"Polytechnique",     x: 50, y: 26, r:7,  t:"parcours"},
+  {id:"carriv",l:"Carriv",            x: 26, y: 52, r:13, t:"prod"},
+  {id:"study", l:"StudyLumina",       x: 74, y: 52, r:13, t:"prod"},
+  {id:"svelte",l:"SvelteKit",         x:  9, y: 36, r:6,  t:"tech"},
+  {id:"mongo", l:"MongoDB",           x:  8, y: 66, r:6,  t:"tech"},
+  {id:"next",  l:"Next.js",           x: 92, y: 36, r:6,  t:"tech"},
+  {id:"pg",    l:"Postgres+pgvector", x: 93, y: 66, r:6,  t:"tech"},
+  {id:"bull",  l:"BullMQ",            x: 84, y: 79, r:5,  t:"tech"},
+  {id:"rag",   l:"RAG",               x: 70, y: 78, r:6,  t:"tech"},
+  {id:"chrome",l:"Extension Chrome",  x: 18, y: 79, r:6,  t:"tech"},
+  {id:"stripe",l:"Stripe",            x: 33, y: 82, r:5,  t:"tech"},
+  {id:"ats",   l:"Score ATS",         x: 39, y: 39, r:8,  t:"principe"},
+  {id:"ers",   l:"Exam Readiness",    x: 61, y: 39, r:8,  t:"principe"},
+  {id:"conf",  l:"Confidentialité",   x: 50, y: 65, r:7,  t:"principe"},
+  {id:"bil",   l:"Bilingue FR/EN",    x: 50, y: 89, r:5,  t:"principe"}
+];
+const EDGES = [
+  ["poly","carriv"],["poly","study"],
+  ["carriv","svelte"],["carriv","mongo"],["carriv","ats"],["carriv","chrome"],["carriv","stripe"],["carriv","conf"],
+  ["study","next"],["study","pg"],["study","bull"],["study","rag"],["study","ers"],["study","conf"],
+  ["pg","rag"],["ats","ers"],["carriv","bil"],["study","bil"],["chrome","study"]
+];
+const NS="http://www.w3.org/2000/svg";
+const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+
+function drawGraph(host){
+  const svg=el("svg",{viewBox:"0 0 100 100",class:"graph",role:"img",
+    "aria-label":"Graphe du parcours : Polytechnique relie Carriv et StudyLumina, eux-mêmes reliés à leurs stacks et aux principes partagés — confidentialité, bilinguisme, score honnête."});
+  const gE=el("g",{}),gN=el("g",{}),gL=el("g",{});
+  const byId=Object.fromEntries(NODES.map(n=>[n.id,n]));
+  const edgeEls=EDGES.map(([a,b])=>{
+    const A=byId[a],B=byId[b];
+    const ln=el("line",{x1:A.x,y1:A.y,x2:B.x,y2:B.y,class:"edge"});
+    ln.dataset.a=a;ln.dataset.b=b;gE.appendChild(ln);return ln;});
+  const nodeEls=NODES.map(n=>{
+    const g=el("g",{class:"node-hit",tabindex:"0",role:"button",
+      "aria-label":n.l+(n.t==="prod"?" — en production":"")});
+    const fill=n.t==="prod"?"var(--ink)":n.t==="principe"?"var(--signal)":"var(--edge)";
+    g.appendChild(el("circle",{cx:n.x,cy:n.y,r:n.r*0.62,fill:fill,
+      "fill-opacity":n.t==="tech"?"0.72":"1",class:"node-shape"}));
+    if(n.t==="prod"){
+      for(let i=0;i<24;i++){
+        const a=i/24*Math.PI*2,r1=n.r*0.82,r2=(i%6===0)?n.r*1.06:n.r*0.95;
+        g.appendChild(el("line",{x1:n.x+Math.cos(a)*r1,y1:n.y+Math.sin(a)*r1,
+          x2:n.x+Math.cos(a)*r2,y2:n.y+Math.sin(a)*r2,class:"gauge"}));
+      }
+    }
+    const lbl=el("text",{x:n.x,y:n.y-n.r*1.25,class:"lbl","text-anchor":"middle"});
+    lbl.textContent=n.l.toUpperCase(); gL.appendChild(lbl);
+    const on=()=>{
+      edgeEls.forEach(e=>{const hit=e.dataset.a===n.id||e.dataset.b===n.id;
+        e.classList.toggle("hot",hit);e.classList.toggle("dim",!hit);});
+      nodeEls.forEach((o,i)=>{
+        const linked=NODES[i].id===n.id||EDGES.some(([a,b])=>
+          (a===n.id&&b===NODES[i].id)||(b===n.id&&a===NODES[i].id));
+        o.querySelectorAll(".node-shape").forEach(s=>s.classList.toggle("dim",!linked));});
+      gL.querySelectorAll(".lbl").forEach((t,i)=>t.classList.toggle("on",NODES[i].id===n.id));
+    };
+    const off=()=>{edgeEls.forEach(e=>e.classList.remove("hot","dim"));
+      svg.querySelectorAll(".node-shape").forEach(s=>s.classList.remove("dim"));
+      gL.querySelectorAll(".lbl").forEach(t=>t.classList.remove("on"));};
+    g.addEventListener("pointerenter",on);g.addEventListener("pointerleave",off);
+    g.addEventListener("focus",on);g.addEventListener("blur",off);
+    gN.appendChild(g);return g;});
+  svg.append(gE,gN,gL);host.appendChild(svg);
+}
+
+/* Les quatre cartes d'accent : même fragment, une variable qui change. */
+const ACCENTS=[
+  {cls:"acc-blue",nm:"Bleu oscilloscope",hx:"#0B3FD1",rt:"6,36:1",
+   note:"Franchement plus froid que l'ambre : les deux rôles ne se disputent jamais l'attention. Le seul candidat qui recule quand une valeur mesurée parle."},
+  {cls:"acc-violet",nm:"Violet ultraviolet",hx:"#6E00E0",rt:"6,14:1",
+   note:"Le plus mémorable des quatre, et le plus bavard. Il tient si on abandonne le marquage ambre au profit d'un filet violet clair — sinon deux accents forts se neutralisent."},
+  {cls:"acc-teal",nm:"Vert instrument",hx:"#00706A",rt:"4,77:1",
+   note:"Complémentaire de l'ambre, donc très propre ensemble. Mais il est calme au point de disparaître : sur une page déjà sobre, l'accent finit par ne plus rien signaler."},
+  {cls:"acc-magenta",nm:"Magenta signal",hx:"#C2007A",rt:"4,70:1",
+   note:"Le plus punchy sur fond os. Chaud comme l'ambre, et à quelques centimètres du filet ambre la convention devient illisible. À garder seulement si le marquage disparaît."}
+];
+const frag=(a)=>`
+  <div class="card-spec">
+    <span class="nm">${a.nm}</span>
+    <span class="hx">${a.hx}</span>
+    <span class="rt">contraste ${a.rt}</span>
+  </div>
+  <div class="cal mini ${a.cls}">
+    <div class="grad t" aria-hidden="true"></div>
+    <div class="pad">
+      <div class="mini-row">
+        <div>
+          <span class="badge">En production</span>
+          <h3 style="text-transform:uppercase">Carriv</h3>
+          <div class="mini-figs">
+            <div><span class="k">Pack 10</span><span class="v val">6 $ USD</span></div>
+            <div><span class="k">Score ATS</span><span class="v val">0–100</span></div>
+          </div>
+          <p style="margin:18px 0 0"><a class="lnk" href="#cards">carriv.com →</a></p>
+        </div>
+        <div class="gholder"></div>
+      </div>
+    </div>
+    <div class="grad b" aria-hidden="true"></div>
+  </div>
+  <p class="card-note">${a.note}</p>`;
+
+const cards=document.getElementById("cards");
+ACCENTS.forEach(a=>{const d=document.createElement("div");d.innerHTML=frag(a);cards.appendChild(d);});
+document.querySelectorAll(".gholder").forEach(drawGraph);
+</script>
