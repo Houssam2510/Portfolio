@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "products": "Produits",
+    "path": "Parcours",
+    "contact": "Contact",
+    "cv": "CV",
+    "home": "Accueil",
+    "scan": "Scan",
+    "skipToContent": "Aller au contenu",
+    "switchLang": "EN"
+  },
+  "hero": {
+    "beam": "Le faisceau balaie la page en continu. Chaque section reforme le champ : coque, nappe, grappes, brin, constellation — et à la fin, c'est le vrai graphe de dépendances de mon travail."
+  },
+  "sections": {
+    "manifesto": "Manifeste",
+    "products": "Ce que j'ai construit",
+    "path": "Parcours",
+    "skills": "Constellation",
+    "contact": "Contact"
+  },
+  "status": {
+    "production": "En production",
+    "beta": "Bêta publique",
+    "prototype": "Prototype",
+    "coursework": "Projet de cours",
+    "tool": "Outil en ligne de commande"
+  },
+  "kind": {
+    "school": "Formation",
+    "work": "Emploi",
+    "ship": "Mise en production",
+    "cert": "Certification"
+  },
+  "graph": {
+    "listTitle": "La constellation, en texte",
+    "listNote": "Chaque nœud du champ est une chose réelle et chaque lien une dépendance réelle. La liste dit exactement ce que dessine la 3D.",
+    "connectedTo": "Relié à",
+    "posterAlt": "Constellation : Polytechnique relie Carriv, StudyLumina et CSPM-Lite, chacun relié à sa pile technique et au même verdict vérifiable."
+  },
+  "products": {
+    "open": "Ouvrir l'étude de cas",
+    "scans": "Ce qu'il regarde",
+    "returns": "Ce qu'il rend",
+    "stack": "Pile",
+    "role": "Rôle",
+    "reconstruction": "Reconstitution",
+    "reconstructionNote": "rendu de la sortie réelle de l'outil, pas une capture d'écran"
+  },
+  "case": {
+    "back": "Retour",
+    "problem": "Problème",
+    "built": "Ce que j'ai construit",
+    "decisions": "Décisions techniques",
+    "chosen": "Retenu",
+    "rejected": "Écarté",
+    "why": "Pourquoi",
+    "measures": "Ce qui est public et vérifiable",
+    "retro": "Ce que je referais autrement",
+    "retroPending": "Cette section n'est pas encore écrite. Elle le sera avant que le site soit rendu public — un portfolio qui repose sur trois outils qui refusent d'embellir ne peut pas s'en passer."
+  },
+  "contact": {
+    "lead": "Le plus simple, c'est le courriel.",
+    "copy": "Copier",
+    "copied": "Copié",
+    "elsewhere": "Ailleurs"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Rien à cette adresse.",
+    "body": "Le scan n'a rien trouvé ici — et je n'invente pas de page pour combler le vide. Voici les trois destinations qui existent.",
+    "home": "Accueil",
+    "carriv": "Étude de cas Carriv",
+    "lumina": "Étude de cas StudyLumina"
+  },
+  "cv": {
+    "title": "CV",
+    "print": "Imprimer",
+    "note": "Version sans 3D ni animation, conçue pour l'impression A4.",
+    "education": "Formation",
+    "experience": "Expérience",
+    "products": "Projets",
+    "skills": "Compétences",
+    "languages": "Langues",
+    "contact": "Contact"
+  },
+  "meta": {
+    "homeTitle": "Houssam Nadir — je construis des scanners",
+    "homeDescription": "Génie informatique à Polytechnique Montréal. Carriv scanne un CV contre une offre, StudyLumina scanne ta préparation à un examen, CSPM-Lite scanne un compte AWS. Trois outils, un verdict vérifiable.",
+    "cvTitle": "CV — Houssam Nadir",
+    "cvDescription": "Formation, expérience, projets et compétences. Version imprimable."
+  }
+}

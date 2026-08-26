@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "products": "Products",
+    "path": "Path",
+    "contact": "Contact",
+    "cv": "Résumé",
+    "home": "Home",
+    "scan": "Scan",
+    "skipToContent": "Skip to content",
+    "switchLang": "FR"
+  },
+  "hero": {
+    "beam": "The beam sweeps the page continuously. Each section reshapes the field: shell, sheet, clusters, strand, constellation — and at the end, it's the real dependency graph of my work."
+  },
+  "sections": {
+    "manifesto": "Manifesto",
+    "products": "What I built",
+    "path": "Path",
+    "skills": "Constellation",
+    "contact": "Contact"
+  },
+  "status": {
+    "production": "In production",
+    "beta": "Public beta",
+    "prototype": "Prototype",
+    "coursework": "Coursework",
+    "tool": "Command-line tool"
+  },
+  "kind": {
+    "school": "Education",
+    "work": "Work",
+    "ship": "Shipped",
+    "cert": "Certification"
+  },
+  "graph": {
+    "listTitle": "The constellation, in text",
+    "listNote": "Every node in the field is a real thing and every link a real dependency. This list says exactly what the 3D draws.",
+    "connectedTo": "Connected to",
+    "posterAlt": "Constellation: Polytechnique links Carriv, StudyLumina and CSPM-Lite, each tied to its stack and to the same checkable verdict."
+  },
+  "products": {
+    "open": "Open the case study",
+    "scans": "What it looks at",
+    "returns": "What it returns",
+    "stack": "Stack",
+    "role": "Role",
+    "reconstruction": "Rebuilt",
+    "reconstructionNote": "a rendering of the tool's real output, not a screenshot"
+  },
+  "case": {
+    "back": "Back",
+    "problem": "Problem",
+    "built": "What I built",
+    "decisions": "Engineering decisions",
+    "chosen": "Chosen",
+    "rejected": "Rejected",
+    "why": "Why",
+    "measures": "What's public and checkable",
+    "retro": "What I'd do differently",
+    "retroPending": "This section isn't written yet. It will be before the site goes public — a portfolio resting on three tools that refuse to embellish can't skip it."
+  },
+  "contact": {
+    "lead": "Email is the simplest way.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "elsewhere": "Elsewhere"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Nothing at this address.",
+    "body": "The scan found nothing here — and I don't invent a page to fill the gap. Here are the three destinations that exist.",
+    "home": "Home",
+    "carriv": "Carriv case study",
+    "lumina": "StudyLumina case study"
+  },
+  "cv": {
+    "title": "Résumé",
+    "print": "Print",
+    "note": "No 3D, no animation — built for A4 print.",
+    "education": "Education",
+    "experience": "Experience",
+    "products": "Projects",
+    "skills": "Skills",
+    "languages": "Languages",
+    "contact": "Contact"
+  },
+  "meta": {
+    "homeTitle": "Houssam Nadir — I build scanners",
+    "homeDescription": "Computer engineering at Polytechnique Montréal. Carriv scans a résumé against a posting, StudyLumina scans your exam readiness, CSPM-Lite scans an AWS account. Three tools, one checkable verdict.",
+    "cvTitle": "Résumé — Houssam Nadir",
+    "cvDescription": "Education, experience, projects and skills. Printable version."
+  }
+}
