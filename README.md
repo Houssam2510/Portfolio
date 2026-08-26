@@ -21,17 +21,17 @@ npx eslint .         # lint
 ```
 app/
   [locale]/            pages : accueil, /projets/[slug], /cv, 404
-  fonts.ts             Nippo + Supreme auto-hébergées, JetBrains Mono
+  fonts.ts             Sentient + Switzer auto-hébergées, JetBrains Mono
   globals.css          TOUS les tokens (@theme). Aucun hex ailleurs.
 components/
   sections/            Hero, Manifesto, Products, Path, Constellation, Contact
-  three/               ScanField (la scène), FieldLayer (montage + repli)
+  three/               ReliefField (la carte de fond), FieldLayer (montage + repli)
   ui/                  primitives, consoles produit, relevé de scan
 content/               le contenu, en TypeScript typé — voir ci-dessous
 i18n/                  routing, navigation et chargement des messages
 lib/
-  field.ts             les cinq états du champ de points, précalculés
-  scan.ts              l'état du scan, hors de React
+  scan.ts              l'état du défilement, hors de React
+  tokens.ts            lecture des variables CSS pour le WebGL
 messages/              fr.json · en.json — libellés d'interface uniquement
 ```
 
@@ -49,10 +49,9 @@ messages/              fr.json · en.json — libellés d'interface uniquement
    Ou dépose une vraie capture dans `public/shots/` et mets son chemin dans
    `shot` : elle remplace alors la reconstitution.
 
-3. **Le champ** — ajoute le nœud et ses arêtes dans
-   [`content/graph.ts`](content/graph.ts) (`pos` = constellation, `rail` = colonne
-   chronologique). Le champ de points, la liste texte accessible et le JSON-LD se
-   mettent à jour tout seuls.
+3. **La carte** — ajoute le nœud et ses arêtes dans
+   [`content/graph.ts`](content/graph.ts) (`pos` sert à le poser sur le relief).
+   Le fond, la liste texte accessible et le JSON-LD se mettent à jour tout seuls.
 
 Rien d'autre à toucher : aucune donnée de contenu n'est écrite en dur dans un
 composant.

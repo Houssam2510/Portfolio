@@ -16,7 +16,7 @@
     "manifesto": "Manifeste",
     "products": "Ce que j'ai construit",
     "path": "Parcours",
-    "skills": "Constellation",
+    "skills": "Compétences",
     "contact": "Contact"
   },
   "status": {
@@ -33,8 +33,8 @@
     "cert": "Certification"
   },
   "graph": {
-    "listTitle": "La constellation, en texte",
-    "listNote": "Chaque nœud du champ est une chose réelle et chaque lien une dépendance réelle. La liste dit exactement ce que dessine la 3D.",
+    "listTitle": "La carte, en texte",
+    "listNote": "Chaque point posé sur la carte est une chose réelle et chaque lien une dépendance réelle. Cette liste dit exactement ce que dessine le fond.",
     "connectedTo": "Relié à",
     "posterAlt": "Constellation : Polytechnique relie Carriv, StudyLumina et CSPM-Lite, chacun relié à sa pile technique et au même verdict vérifiable."
   },

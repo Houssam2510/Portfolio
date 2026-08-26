@@ -16,7 +16,7 @@
     "manifesto": "Manifesto",
     "products": "What I built",
     "path": "Path",
-    "skills": "Constellation",
+    "skills": "Skills",
     "contact": "Contact"
   },
   "status": {
@@ -33,8 +33,8 @@
     "cert": "Certification"
   },
   "graph": {
-    "listTitle": "The constellation, in text",
-    "listNote": "Every node in the field is a real thing and every link a real dependency. This list says exactly what the 3D draws.",
+    "listTitle": "The map, in text",
+    "listNote": "Every point on the map is a real thing and every link a real dependency. This list says exactly what the background draws.",
     "connectedTo": "Connected to",
     "posterAlt": "Constellation: Polytechnique links Carriv, StudyLumina and CSPM-Lite, each tied to its stack and to the same checkable verdict."
   },

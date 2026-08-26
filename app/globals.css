@@ -1,60 +1,57 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════
-   SCANNER — Houssam Nadir
-   Trois produits, un seul geste : regarder dans un système qu'on ne
-   voit pas, et rendre un verdict vérifiable. Le site est l'appareil.
-     void/carbon  le noir de l'appareil éteint
-     ice          ce que l'appareil affiche
-     flux         ce que le scan trouve (vert phosphore)
-     alert        ce qui est critique (rare, jamais décoratif)
+   Portfolio — Houssam Nadir
+   Un fond qui respire, et par-dessus : du texte, de l'air, et presque
+   rien d'autre. L'accent sert trois fois par écran, pas trente.
    ═══════════════════════════════════════════════════════════════════ */
 @theme {
-  --color-void: #05070a;
-  --color-carbon: #0a0f14;
-  --color-panel: #0e151b;
-  --color-grid: #17232c;
-  --color-edge: #223140;
+  --color-ground: #0b0c0e;
+  --color-raise: #131417;
+  --color-line: #23252b;
+  --color-line-soft: #191b20;
 
-  --color-ice: #e6f0f2;
-  --color-dim: #8397a0;
-  --color-mute: #55666f;
+  --color-paper: #edece9;
+  --color-muted: #9d9d98;
+  --color-faint: #6b6b68;
 
-  --color-flux: #00e5a0;
-  --color-flux-deep: #00a876;
-  --color-alert: #ff7a1a;
+  --color-accent: #00e5a0;
+  --color-warn: #ff8a3d;
 
-  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), Georgia, ui-serif, serif;
   --font-body: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
 
-  --ease-scan: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    background: var(--color-void);
-    scroll-behavior: auto;
+    background: var(--color-ground);
   }
   body {
-    /* Le fond noir est peint sur <html> : le body reste transparent pour
-       laisser passer la couche WebGL, qui est fixée derrière le contenu. */
+    /* Le noir est peint sur <html> : le body laisse passer la couche animée. */
     background: transparent;
-    color: var(--color-ice);
+    color: var(--color-paper);
     font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
   ::selection {
-    background: var(--color-flux);
-    color: var(--color-void);
+    background: var(--color-accent);
+    color: var(--color-ground);
   }
   :focus-visible {
-    outline: 2px solid var(--color-flux);
-    outline-offset: 3px;
+    outline: 1px solid var(--color-accent);
+    outline-offset: 4px;
   }
   h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.015em;
     text-wrap: balance;
   }
   p {
@@ -63,89 +60,58 @@
 }
 
 @layer components {
-  /* ── étiquette machine ── */
-  .lab {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
+  /* Une seule étiquette dans tout le site : petite, discrète, jamais mono. */
+  .label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    color: var(--color-mute);
-  }
-  .lab-flux {
-    color: var(--color-flux);
+    color: var(--color-faint);
   }
 
-  /* ── LE VERDICT : tout chiffre rendu par un scan ──
-     Fond phosphore très dilué + filet plein dessous. Un relevé, pas un slogan. */
-  .verdict {
-    font-variant-numeric: tabular-nums;
-    color: var(--color-flux);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-flux) 55%, transparent);
-    padding-bottom: 0.08em;
+  .lede {
+    font-size: clamp(1.15rem, 1.9vw, 1.45rem);
+    line-height: 1.55;
+    color: var(--color-muted);
   }
 
-  /* ── cadre d'instrument : équerres aux angles, jamais de coin arrondi ── */
-  .bracket {
-    position: relative;
-  }
-  .bracket::before,
-  .bracket::after {
-    content: "";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border-color: var(--color-flux);
-    pointer-events: none;
-  }
-  .bracket::before {
-    top: 0;
-    left: 0;
-    border-top: 1px solid;
-    border-left: 1px solid;
-  }
-  .bracket::after {
-    right: 0;
-    bottom: 0;
-    border-right: 1px solid;
-    border-bottom: 1px solid;
+  .prose-col {
+    max-width: 64ch;
   }
 
-  .hairline {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--color-edge) 12%,
-      var(--color-edge) 88%,
-      transparent
-    );
+  .rule {
     height: 1px;
+    background: var(--color-line-soft);
   }
 
-  .link-scan {
-    color: var(--color-flux);
+  .link {
+    color: var(--color-paper);
     text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-flux) 35%, transparent);
-    transition: border-color 0.18s var(--ease-scan);
+    background-image: linear-gradient(var(--color-line), var(--color-line));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 2px;
+    transition:
+      background-size 0.35s var(--ease-soft),
+      color 0.25s var(--ease-soft);
   }
-  .link-scan:hover {
-    border-bottom-color: var(--color-flux);
+  .link:hover {
+    color: var(--color-accent);
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
   }
 
   .reveal {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(12px);
   }
   .reveal.is-in {
     opacity: 1;
     transform: none;
     transition:
-      opacity 620ms var(--ease-scan),
-      transform 620ms var(--ease-scan);
-  }
-
-  /* Nippo serre les espaces : sans ça les titres se lisent d'un bloc. */
-  .font-display {
-    word-spacing: 0.06em;
+      opacity 900ms var(--ease-soft),
+      transform 900ms var(--ease-soft);
   }
 }
 
@@ -154,7 +120,6 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
   .reveal {
@@ -163,14 +128,12 @@
   }
 }
 
-/* ── /cv : le seul écran clair du site, parce qu'on l'imprime ── */
 @media print {
   @page {
     size: A4;
-    margin: 13mm;
+    margin: 14mm;
   }
-  html,
-  body {
+  html, body {
     background: #fff;
     color: #000;
     font-size: 10pt;
@@ -181,9 +144,6 @@
   a {
     color: #000;
     text-decoration: none;
-  }
-  .verdict {
-    color: #000;
-    border-bottom: 1.2pt solid #000;
+    background-image: none;
   }
 }

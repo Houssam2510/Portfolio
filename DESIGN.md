@@ -1,107 +1,86 @@
-# SCANNER — système de design
+# Système de design
 
-Portfolio de Houssam Nadir. Une seule idée gouverne tout : **ses trois outils
-regardent dans un système qu'on ne voit pas et rendent un verdict vérifiable.**
-Carriv scanne un CV contre une offre. StudyLumina scanne une préparation à un
-examen. CSPM-Lite scanne un compte AWS. Le site est l'appareil.
+Portfolio de Houssam Nadir. Une seule idée gouverne le contenu : **ses trois
+outils regardent dans un système qu'on ne voit pas et rendent un verdict
+vérifiable.** Carriv scanne un CV contre une offre, StudyLumina scanne une
+préparation à un examen, CSPM-Lite scanne un compte AWS.
 
-## Couleur — quatre rôles, aucun chevauchement
+Le parti pris visuel est l'inverse du sujet : le site ne joue pas à
+l'instrument futuriste. **Une carte de relief qui respire en fond, et
+par-dessus, du texte, de l'air, et presque rien d'autre.**
 
-| Token | Hex | Rôle — et uniquement celui-là |
+## Couleur
+
+| Token | Hex | Rôle |
 |---|---|---|
-| `--color-void` | `#05070A` | le noir de l'appareil éteint |
-| `--color-carbon` / `--color-panel` | `#0A0F14` / `#0E151B` | surfaces, consoles |
-| `--color-grid` / `--color-edge` | `#17232C` / `#223140` | trames, filets, cadres |
-| `--color-ice` | `#E6F0F2` | le texte |
-| `--color-dim` / `--color-mute` | `#8397A0` / `#55666F` | texte secondaire, tertiaire |
-| `--color-flux` | `#00E5A0` | **ce que le scan trouve** — liens, verdicts, faisceau |
-| `--color-alert` | `#FF7A1A` | **ce qui est critique** — rare, jamais décoratif |
+| `--color-ground` | `#0B0C0E` | le fond, peint sur `<html>` |
+| `--color-raise` | `#131417` | consoles |
+| `--color-line` / `--color-line-soft` | `#23252B` / `#191B20` | filets |
+| `--color-paper` | `#EDECE9` | le texte — blanc chaud, pas un blanc bleuté |
+| `--color-muted` / `--color-faint` | `#9D9D98` / `#6B6B68` | secondaire, tertiaire |
+| `--color-accent` | `#00E5A0` | trois fois par écran, pas trente |
+| `--color-warn` | `#FF8A3D` | une criticité dans un rapport, jamais du décor |
 
-Le vert vient du choix fait au banc d'essai (`#00706A`, vert instrument, sur fond
-clair). Sur fond noir il devient phosphore : même famille, même rôle.
+L'accent sert exactement à quatre choses : le point d'état d'un produit en
+production, un lien au survol, l'anneau de focus clavier, et les crêtes du
+relief. Nulle part ailleurs.
 
-**La règle du verdict.** Tout chiffre rendu par un scan passe par le composant
-`Verdict` : phosphore, souligné d'un filet, chiffres tabulaires. Un chiffre en
-phosphore veut dire « relevé », jamais « argument ». Aucun autre texte n'a le
-droit d'être en phosphore sauf un lien, qui est une action.
+## Typographie
 
-## Typographie — trois rôles
+- **Sentient** 300/400, auto-hébergée (Fontshare). Serif contemporaine : titres,
+  chiffres, tout ce qui compte. Toujours en `font-weight: 300`, jamais en capitales.
+- **Switzer** 400/500, auto-hébergée. Corps de texte et la seule étiquette du
+  site (`.label` — 0,75 rem, 0,09 em, capitales).
+- **JetBrains Mono** 400. **Uniquement à l'intérieur des consoles produit**,
+  là où c'est une machine qui écrit. Nulle part ailleurs.
 
-- **Nippo** 400/500/700, auto-hébergée (Fontshare). Grotesque technique large.
-  Titres, verdicts. `word-spacing: 0.06em` — sans ça elle colle les mots.
-- **Supreme** 400/500, auto-hébergée. Corps de texte, lisible sur fond noir.
-- **JetBrains Mono** 400/500 (`next/font/google`). Étiquettes, relevés,
-  métadonnées : tout ce que la machine écrit.
+Pas de numérotation de sections, pas d'équerres, pas de trames, pas de cadres.
+Ces devices avaient été essayés puis retirés : ils ajoutaient du bruit sans rien
+dire de vrai.
 
-## Mise en page
+## Le fond — la carte de relief
 
-Colonne unique de 86rem. Filets à `edge/40`. Équerres aux angles des consoles
-(`.bracket`), **aucun coin arrondi nulle part** — un appareil n'a pas de coins
-arrondis. Les sections sont numérotées `00`–`05` parce que ce sont les étapes
-d'un scan : l'ordre porte de l'information. C'est le seul endroit du site où un
-numéro apparaît.
+`components/three/ReliefField.tsx`. Une nappe de 58 lignes de niveau, 190
+segments chacune, dont la hauteur est calculée dans le vertex shader à partir
+d'une somme de sinusoïdes non harmoniques. Une bande de lecture glisse dessus en
+continu et éclaire ce qu'elle traverse ; les crêtes prennent l'accent.
 
-## L'élément signature — le champ
-
-Une seule scène WebGL, fixée derrière toute la page, pilotée par le défilement.
-24 000 points (7 000 sous 900 px) qui passent par cinq états, définis dans
-`lib/field.ts` :
-
-```
-00 SURFACE        une coque sous le faisceau — l'objet qu'on va scanner
-01 NAPPE          la coque s'ouvre à plat : la surface d'analyse
-02 GRAPPES        trois amas — Carriv, StudyLumina, CSPM-Lite
-03 BRIN           les amas s'étirent en chronologie verticale
-04 CONSTELLATION  les points se posent sur le VRAI graphe de dépendances
-```
-
-Un faisceau balaie la scène en continu ; ce qu'il traverse s'allume en phosphore.
-Un point sur cent est ambre — les constats critiques d'un rapport.
+Au dernier écran, **les nœuds du vrai graphe de dépendances se posent sur la
+carte** — Carriv, StudyLumina, CSPM-Lite, leurs piles et les principes partagés
+— reliés par leurs vraies arêtes. Le fond finit par dire quelque chose de vrai
+au lieu de décorer.
 
 Contraintes tenues :
-- positions **précalculées** avec un xorshift32 graine fixe : deux chargements
-  donnent exactement la même image, aucune simulation physique au runtime ;
-- **un seul draw call** pour les points (`THREE.Points` + `ShaderMaterial`) ;
-- les tampons ne sont recopiés qu'au **franchissement d'un état**, jamais par frame ;
-- l'état du scan vit **hors de React** (`lib/scan.ts`) : le défilement ne
+- **un seul draw call** pour toute la nappe (une `LineSegments` unique) ;
+- rien n'est recalculé côté CPU : seule l'horloge avance ;
+- l'état du défilement vit **hors de React** (`lib/scan.ts`) — le scroll ne
   déclenche aucun rendu React ;
 - `frameloop="never"` quand l'onglet est masqué ;
 - Three.js est **différé** — jamais dans le bundle initial ;
-- `prefers-reduced-motion` → aucun canvas, champ statique en CSS.
+- `prefers-reduced-motion` → aucun canvas, dégradé statique.
 
-Le champ **recule** (opacité −52 %) à partir de l'état 02 : le spectacle
-appartient à l'ouverture, ensuite c'est le contenu qui doit se lire. Un masque
-en dégradé protège la colonne de texte.
+Un masque en dégradé fait reculer le fond là où le texte vit. Le relief
+s'aplanit à mesure qu'on descend : la page se calme en même temps qu'elle se lit.
 
-## Auto-critique
+## Ce qui a été essayé puis jeté
 
-Trois choses que j'aurais produites pour n'importe quel portfolio, et que j'ai
-remplacées :
-
-1. **Un nuage de particules décoratif.** Remplacé par un champ qui encode le
-   contenu réel : le dernier état est le graphe de dépendances de son travail,
-   avec ses vraies arêtes, et il existe en version texte navigable au clavier.
-2. **Une grille de « compétences » avec des pourcentages.** Supprimée. Venant de
-   quelqu'un dont les trois outils rendent des scores calculés, une note
-   auto-attribuée serait une contradiction ouverte. La taille du texte porte la
-   maîtrise, rien d'autre.
-3. **Des captures d'écran génériques dans des mockups.** Remplacées par des
-   consoles qui montrent la *sortie réelle* de chaque outil — score ATS avec
-   mots-clés manquants, ERS ventilé, constats CIS — explicitement étiquetées
-   « reconstitution » tant qu'aucune capture réelle n'est déposée.
+1. **Une direction claire, « instrument de mesure »** (fond gris-os, filet ambre
+   sous chaque chiffre). Cohérente, mais froide, et le client ne s'y reconnaissait pas.
+2. **Une direction sombre « HUD »** : étiquettes monospace partout, équerres,
+   trames, relevé de scan en direct, titres capitales en grotesque technique.
+   Trop de signaux : du décor ajouté à du décor. Retirée en bloc.
+3. **Un champ de 24 000 points** morphant en cinq états. Malgré l'éclairage
+   directionnel, un nuage de points minuscules ne lit jamais autre chose que de
+   la brume. Remplacé par les lignes de niveau, qui lisent immédiatement.
 
 ## Écarts assumés par rapport au brief initial
 
-- **GSAP + ScrollTrigger et Motion ne sont pas installés.** Le pilotage du scan
-  tient en une trentaine de lignes (`components/Scroller.tsx`) et les révélations
-  passent par un `IntersectionObserver`. Économie : ~90 Ko gzip pour un résultat
-  identique. Le budget JS du §7 était non négociable.
-- **`antialias: true`** plutôt que `antialias: false` + SMAA : sans passe de
-  post-processing, le MSAA du contexte coûte moins cher qu'un pipeline complet
-  pour une scène de points et de lignes.
+- **GSAP + ScrollTrigger et Motion ne sont pas installés.** Le pilotage tient en
+  une trentaine de lignes (`components/Scroller.tsx`) et les révélations passent
+  par un `IntersectionObserver`. Économie : ~90 Ko gzip.
 - **Next.js 16** (le brief disait 15) : c'est la version courante.
 
 ## Ce que le site ne fait pas
 
 Il n'invente rien. Toute section dont le contenu n'existe pas encore n'est pas
-rendue, ou affiche explicitement qu'elle est à écrire. Voir `content/TODO.md`.
+rendue, ou dit explicitement qu'elle reste à écrire. Voir `content/TODO.md`.

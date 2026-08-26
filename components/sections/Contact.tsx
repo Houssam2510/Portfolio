@@ -18,40 +18,40 @@ export function Contact() {
   };
 
   return (
-    <section className="relative py-28 lg:py-36" aria-labelledby="contact-label">
-      <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
-        <SectionHead index="05" label={s("contact")} id="contact-label" />
+    <section className="relative py-32 lg:py-44" aria-labelledby="contact-label">
+      <div className="mx-auto max-w-[80rem] px-6 sm:px-10">
+        <SectionHead label={s("contact")} id="contact-label" />
 
-        <p className="mt-10 text-lg text-dim">{t("lead")}</p>
-
-        <div className="mt-5 flex flex-wrap items-baseline gap-x-8 gap-y-4">
+        <div className="mt-14 flex flex-wrap items-baseline gap-x-8 gap-y-4">
           <a
             href={`mailto:${profile.email}`}
-            className="font-display text-[clamp(1.4rem,5vw,3.4rem)] leading-none font-medium tracking-[-0.03em] break-all text-flux"
+            className="link font-display text-[clamp(1.5rem,4.4vw,3rem)] leading-none font-light tracking-[-0.02em] break-all"
           >
             {profile.email}
           </a>
           <button
             type="button"
             onClick={copy}
-            className="lab border border-edge px-3.5 py-2.5 text-ice transition-colors hover:border-flux hover:text-flux"
+            className="label text-muted transition-colors hover:text-accent"
           >
             {copied ? t("copied") : t("copy")}
           </button>
         </div>
 
-        <div className="mt-16 border-t border-edge/40 pt-7">
-          <span className="lab">{t("elsewhere")}</span>
-          <ul className="lab mt-5 flex flex-wrap gap-x-10 gap-y-3 normal-case tracking-normal">
-            {profile.links.map((link) => (
-              <li key={link.href}>
-                <a href={link.href} className="link-scan" target="_blank" rel="noreferrer noopener">
-                  {link.label} ↗
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="mt-14 flex flex-wrap gap-x-10 gap-y-3 text-[0.95rem]">
+          {profile.links.map((link) => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                className="link text-muted"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -68,19 +68,19 @@ export default async function LocaleLayout(props: {
         <NextIntlClientProvider>
           <a
             href="#contenu"
-            className="lab sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:border focus:border-flux focus:bg-void focus:px-3 focus:py-2"
+            className="label sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:border focus:border-line focus:bg-ground focus:px-3 focus:py-2"
           >
             {t("skipToContent")}
           </a>
           <FieldLayer />
           <Nav locale={locale as Locale} />
           <main id="contenu" className="relative z-10">{props.children}</main>
-          <footer className="relative z-10 border-t border-edge/40">
-            <div className="lab mx-auto flex max-w-[86rem] flex-wrap items-center justify-between gap-4 px-5 py-9 sm:px-8">
-              <span>
+          <footer className="relative z-10">
+            <div className="mx-auto flex max-w-[80rem] flex-wrap items-center justify-between gap-4 border-t border-line-soft px-6 py-10 sm:px-10">
+              <span className="label">
                 {profile.name} — {profile.city[locale as Locale]}
               </span>
-              <span>{profile.graduation[locale as Locale]}</span>
+              <span className="label">{profile.graduation[locale as Locale]}</span>
             </div>
           </footer>
           <Scroller />
