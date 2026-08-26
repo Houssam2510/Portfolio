@@ -44,7 +44,7 @@ export function FieldLayer() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(102deg, var(--color-ground) 0%, color-mix(in srgb, var(--color-ground) 46%, transparent) 26%, transparent 56%)",
+            "linear-gradient(102deg, var(--color-ground) 0%, color-mix(in srgb, var(--color-ground) 62%, transparent) 30%, transparent 62%)",
         }}
       />
       <div

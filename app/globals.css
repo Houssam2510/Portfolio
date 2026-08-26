@@ -13,7 +13,7 @@
 
   --color-paper: #edece9;
   --color-muted: #9d9d98;
-  --color-faint: #6b6b68;
+  --color-faint: #87877f;  /* 5,41:1 — l'ancien #6B6B68 tombait à 3,66:1 */
 
   --color-accent: #00e5a0;
   --color-warn: #ff8a3d;

@@ -84,7 +84,7 @@ const FRAG = /* glsl */ `
     float ridge = smoothstep(0.7, 1.9, vHeight);
     vec3 col = mix(uPaper, uAccent, ridge * 0.55 * (0.35 + vFocus));
 
-    float a = vFade * uOpacity * (0.11 + ridge * 0.17 + vFocus * 0.24);
+    float a = vFade * uOpacity * (0.085 + ridge * 0.13 + vFocus * 0.19);
     if (a < 0.002) discard;
     gl_FragColor = vec4(col, a);
   }
