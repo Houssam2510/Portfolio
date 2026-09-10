@@ -69,21 +69,6 @@ export default function Contact() {
               {contact.email}
             </a>
             <a
-              href={contact.phoneHref}
-              className="contact-secondary"
-              style={{
-                padding: "15px 26px",
-                borderRadius: 9,
-                border: "1px solid var(--line2)",
-                color: "var(--ink)",
-                fontWeight: 500,
-                fontSize: 15,
-                fontFamily: "var(--font-mono)",
-              }}
-            >
-              {contact.phone}
-            </a>
-            <a
               href={contact.github}
               target="_blank"
               rel="noopener"

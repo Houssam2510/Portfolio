@@ -107,7 +107,6 @@ export default async function LocaleLayout({
     description: meta.description,
     url: `${siteUrl}/${locale}`,
     email: `mailto:${contact.email}`,
-    telephone: contact.phone,
     sameAs: [contact.linkedin, contact.github],
     address: {
       "@type": "PostalAddress",
