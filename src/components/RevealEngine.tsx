@@ -42,7 +42,7 @@ export default function RevealEngine() {
           if (!e.isIntersecting) return;
           e.target.setAttribute("data-reveal-armed", "");
           e.target.setAttribute("data-shown", "");
-          if (e.target.id === "s04") fillBars();
+          if (e.target.id === "capacites") fillBars();
           io.unobserve(e.target);
         });
       },

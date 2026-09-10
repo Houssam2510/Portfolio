@@ -1,9 +1,14 @@
+"use client";
+
 import SiteScreenshot from "@/components/SiteScreenshot";
-import { CaseStudy } from "@/data/content";
+import type { CaseStudy } from "@/data/types";
+import { fill, useContent } from "@/i18n/ContentProvider";
 
 const monoMeta = { fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.1em", color: "var(--dim)" };
 
 export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
+  const { content } = useContent();
+  const ui = content.ui;
   return (
     <article
       id={cs.id}
@@ -57,7 +62,7 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
         >
           <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.12em", color: "var(--acc)" }}>
-              CAS {cs.number}
+              {ui.caseLabel} {cs.number}
             </span>
             <span
               style={{
@@ -73,15 +78,15 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
           </div>
           <div style={{ display: "flex", gap: 26, flexWrap: "wrap", marginLeft: "auto" }}>
             <span style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-              <span style={monoMeta}>RÔLE</span>
+              <span style={monoMeta}>{ui.role}</span>
               <span style={{ fontSize: 12.5, color: "var(--muted)" }}>{cs.role}</span>
             </span>
             <span style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-              <span style={monoMeta}>PÉRIODE</span>
+              <span style={monoMeta}>{ui.period}</span>
               <span style={{ fontSize: 12.5, color: "var(--muted)" }}>{cs.period}</span>
             </span>
             <span style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-              <span style={monoMeta}>STATUT</span>
+              <span style={monoMeta}>{ui.status}</span>
               <span style={{ display: "flex", alignItems: "center", gap: 7, fontSize: 12.5, color: "var(--muted)" }}>
                 <span
                   style={{
@@ -91,7 +96,7 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
                     background: cs.status === "live" ? "var(--ok)" : "var(--line2)",
                   }}
                 />
-                {cs.status === "live" ? "En production" : "Outil interne"}
+                {cs.status === "live" ? ui.statusLive : ui.statusInternal}
               </span>
             </span>
             {cs.url && (
@@ -114,7 +119,7 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
                   whiteSpace: "nowrap",
                 }}
               >
-                VOIR EN LIGNE ↗
+                {ui.viewLive}
               </a>
             )}
           </div>
@@ -190,7 +195,7 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
                   {cs.domain}
                 </a>
                 <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.09em", color: "var(--dim)", flexShrink: 0 }}>
-                  LIVE
+                  {ui.live}
                 </span>
               </div>
               <SiteScreenshot url={cs.url!} domain={cs.domain} alt={cs.screenshotAlt} />
@@ -205,7 +210,7 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
                 textAlign: "center",
               }}
             >
-              APERÇU AUTOMATIQUE DE {cs.domain.toUpperCase()} · CAPTURÉ APRÈS STABILISATION
+              {fill(ui.screenshotCaption, { domain: cs.domain.toUpperCase() })}
             </figcaption>
           </figure>
         ) : (
@@ -272,13 +277,13 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 20, marginBottom: 28 }}>
           <div style={{ borderLeft: "2px solid var(--acc)", padding: "2px 0 2px 18px" }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.09em", color: "var(--acc)", marginBottom: 9 }}>
-              LE PROBLÈME
+              {ui.theProblem}
             </div>
             <p style={{ fontSize: 14, lineHeight: 1.65, color: "var(--muted)", margin: 0 }}>{cs.problem}</p>
           </div>
           <div style={{ borderLeft: "2px solid var(--line2)", padding: "2px 0 2px 18px" }}>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: "0.09em", color: "var(--dim)", marginBottom: 9 }}>
-              LA DÉCISION CENTRALE
+              {ui.theDecision}
             </div>
             <p style={{ fontSize: 14, lineHeight: 1.65, color: "var(--muted)", margin: 0 }}>{cs.decision}</p>
           </div>

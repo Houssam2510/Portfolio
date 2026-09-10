@@ -349,7 +349,7 @@ export function startBackgroundEngine() {
     }
     const hero = document.querySelector<HTMLCanvasElement>('canvas[data-bg="hero"]');
     const flow = document.querySelector<HTMLCanvasElement>('canvas[data-bg="flow"]');
-    const heroSec = document.getElementById("s00");
+    const heroSec = document.getElementById("accueil");
     let heroVis = 1;
     if (heroSec) {
       const hr = heroSec.getBoundingClientRect();

@@ -2,22 +2,24 @@
 
 import { useState } from "react";
 import SectionHeading from "@/components/SectionHeading";
-import { skillFilters, skills } from "@/data/content";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function Skills() {
+  const { content } = useContent();
+  const sk = content.sections.skills;
   const [filter, setFilter] = useState<string>("all");
 
   return (
-    <section id="s04" data-band="1" data-reveal="1" style={{ marginBottom: 128 }}>
+    <section id="capacites" data-band="1" data-reveal="1" style={{ marginBottom: 128 }}>
       <div className="band-inner">
-        <SectionHeading eyebrow="04 · FILTRER PAR DOMAINE" title="Capacités" />
+        <SectionHeading eyebrow={sk.eyebrow} title={sk.title} />
 
         <div
           role="group"
-          aria-label="Filtrer les compétences par domaine"
+          aria-label={content.ui.skillsFilterLabel}
           style={{ display: "flex", flexWrap: "wrap", gap: 9, marginBottom: 44, justifyContent: "center" }}
         >
-          {skillFilters.map((f) => (
+          {content.skillFilters.map((f) => (
             <button
               key={f.id}
               type="button"
@@ -43,7 +45,7 @@ export default function Skills() {
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(276px,1fr))", gap: "16px 44px" }}>
-          {skills.map((skill) => (
+          {content.skills.map((skill) => (
             <div
               key={skill.name}
               data-skill={skill.category}

@@ -2,16 +2,18 @@
 
 import CaseStudyCard from "@/components/CaseStudyCard";
 import SectionHeading from "@/components/SectionHeading";
-import { caseStudies } from "@/data/content";
+import { useContent } from "@/i18n/ContentProvider";
 import { useDossierIndex } from "@/hooks/useDossierIndex";
 
 export default function CaseStudies() {
+  const { content } = useContent();
+  const cs0 = content.sections.cases;
   useDossierIndex();
 
   return (
-    <section id="s02" data-band="1" data-reveal="1" style={{ marginBottom: 128 }}>
+    <section id="travaux" data-band="1" data-reveal="1" style={{ marginBottom: 128 }}>
       <div className="band-inner">
-        <SectionHeading eyebrow="02 · QUATRE DOSSIERS, RIEN DE CACHÉ" title="Études de cas" />
+        <SectionHeading eyebrow={cs0.eyebrow} title={cs0.title} />
 
         <div
           data-stagger="1"
@@ -23,7 +25,7 @@ export default function CaseStudies() {
             marginBottom: 76,
           }}
         >
-          {caseStudies.map((cs) => (
+          {content.caseStudies.map((cs) => (
             <a
               key={cs.id}
               href={`#${cs.id}`}
@@ -55,7 +57,7 @@ export default function CaseStudies() {
           ))}
         </div>
 
-        {caseStudies.map((cs) => (
+        {content.caseStudies.map((cs) => (
           <CaseStudyCard key={cs.id} cs={cs} />
         ))}
       </div>

@@ -1,14 +1,19 @@
+"use client";
+
 import SectionHeading from "@/components/SectionHeading";
-import { thesisNotes, thesisPrinciples } from "@/data/content";
+import Rich from "@/components/Rich";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function Thesis() {
+  const { content } = useContent();
+  const th = content.sections.thesis;
   return (
     <section
-      id="s01"
+      id="approche"
       data-reveal="1"
       style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,56px) 128px" }}
     >
-      <SectionHeading eyebrow="01 · ./PRINCIPES --APPLIQUÉS" title="Ma thèse d'ingénierie" />
+      <SectionHeading eyebrow={th.eyebrow} title={th.title} />
       <p
         style={{
           fontSize: "clamp(18px,2.1vw,25px)",
@@ -30,7 +35,7 @@ export default function Thesis() {
         data-reveal="1"
         style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(292px,1fr))", gap: 16 }}
       >
-        {thesisPrinciples.map((p) => (
+        {content.thesisPrinciples.map((p) => (
           <div
             key={p.numeral}
             data-lift="1"
@@ -136,7 +141,7 @@ export default function Thesis() {
           marginTop: 16,
         }}
       >
-        {thesisNotes.map((note) => (
+        {content.thesisNotes.map((note) => (
           <div
             key={note.title}
             style={{ padding: "28px 30px", border: "1px solid var(--line)", borderRadius: 18, background: "var(--bg2)" }}
@@ -152,10 +157,9 @@ export default function Thesis() {
             >
               {note.title}
             </div>
-            <p
-              style={{ fontSize: 14, lineHeight: 1.7, color: "var(--muted)", margin: 0 }}
-              dangerouslySetInnerHTML={{ __html: note.body }}
-            />
+            <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--muted)", margin: 0 }}>
+              <Rich parts={note.body} />
+            </p>
           </div>
         ))}
       </div>

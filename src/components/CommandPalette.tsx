@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { paletteItems } from "@/data/content";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function CommandPalette() {
+  const { content } = useContent();
+  const paletteItems = content.paletteItems;
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
@@ -16,7 +18,7 @@ export default function CommandPalette() {
     return paletteItems.filter(
       (i) => i.label.toLowerCase().includes(q) || i.hint.toLowerCase().includes(q) || i.index.includes(q)
     );
-  }, [query]);
+  }, [query, paletteItems]);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -122,7 +124,7 @@ export default function CommandPalette() {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Aller à une section"
+        aria-label={content.ui.paletteLabel}
         style={{
           width: "min(560px,92vw)",
           border: "1px solid var(--line2)",
@@ -148,8 +150,8 @@ export default function CommandPalette() {
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="aller à une section…"
-            aria-label="Filtrer les sections"
+            placeholder={content.ui.paletteLabel.toLowerCase() + "…"}
+            aria-label={content.ui.paletteFilter}
             style={{
               flex: 1,
               background: "transparent",
@@ -172,7 +174,7 @@ export default function CommandPalette() {
               padding: "4px 7px",
             }}
           >
-            ESC
+            {content.ui.paletteEscape}
           </span>
         </div>
         <div style={{ padding: 8, display: "flex", flexDirection: "column", gap: 2 }}>

@@ -1,14 +1,19 @@
+"use client";
+
+import Rich from "@/components/Rich";
 import SectionHeading from "@/components/SectionHeading";
-import { aggregateNumbers } from "@/data/content";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function Numbers() {
+  const { content } = useContent();
+  const { numbers } = content.sections;
   return (
     <section
-      id="s03"
+      id="chiffres"
       data-reveal="1"
       style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,56px) 128px" }}
     >
-      <SectionHeading eyebrow="03 · AGRÉGÉ SUR LES TROIS PLATEFORMES" title="Ce que ça représente" />
+      <SectionHeading eyebrow={numbers.eyebrow} title={numbers.title} />
       <div
         data-stagger="1"
         data-reveal="1"
@@ -22,7 +27,7 @@ export default function Numbers() {
           overflow: "hidden",
         }}
       >
-        {aggregateNumbers.map((stat) => (
+        {content.aggregateNumbers.map((stat) => (
           <div key={stat.label} style={{ background: "var(--surf)", padding: "26px 24px" }}>
             <div
               style={{
@@ -42,10 +47,7 @@ export default function Numbers() {
         ))}
       </div>
       <p style={{ fontSize: 14.5, lineHeight: 1.7, color: "var(--muted)", margin: "26px auto 0", maxWidth: "76ch", textAlign: "center" }}>
-        Les trois produits partagent la même colonne vertébrale : validation par schéma à toutes les frontières,
-        jamais de <span style={{ fontFamily: "var(--font-mono)", color: "var(--ink)" }}>.parse()</span> qui explose,
-        clients externes initialisés paresseusement pour qu&rsquo;un build passe sans secret, et un échec bruyant
-        préféré à une valeur fabriquée en silence.
+        <Rich parts={numbers.footnote} />
       </p>
     </section>
   );

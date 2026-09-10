@@ -1,20 +1,24 @@
+"use client";
+
 import SectionHeading from "@/components/SectionHeading";
-import { timeline } from "@/data/content";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function Timeline() {
+  const { content } = useContent();
+  const { timeline: t } = content.sections;
   return (
     <section
-      id="s05"
+      id="parcours"
       data-reveal="1"
       style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,56px) 128px" }}
     >
-      <SectionHeading eyebrow="05 · GLISSER →" title="Parcours" />
+      <SectionHeading eyebrow={t.eyebrow} title={t.title} />
       <div
         data-stagger="1"
         data-reveal="1"
         tabIndex={0}
         role="group"
-        aria-label="Parcours, faire défiler horizontalement"
+        aria-label={content.ui.timelineScrollHint}
         style={{
           display: "grid",
           gridAutoFlow: "column",
@@ -25,7 +29,7 @@ export default function Timeline() {
           paddingBottom: 14,
         }}
       >
-        {timeline.map((entry) => (
+        {content.timeline.map((entry) => (
           <article
             key={entry.title}
             data-lift="1"

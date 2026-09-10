@@ -1,9 +1,14 @@
-import { contact } from "@/data/content";
+"use client";
+
+import { contact } from "@/data";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function Contact() {
+  const { content } = useContent();
+  const c = content.contactSection;
   return (
     <section
-      id="s06"
+      id="contact"
       data-reveal="1"
       style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,56px) 118px" }}
     >
@@ -28,7 +33,7 @@ export default function Contact() {
         </div>
         <div style={{ padding: "clamp(36px,5.5vw,72px)", textAlign: "center" }}>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: 12.5, color: "var(--dim)", marginBottom: 22 }}>
-            <span style={{ color: "var(--acc)" }}>$</span> ouvrir --canal stage-2027
+            <span style={{ color: "var(--acc)" }}>$</span> {c.prompt}
           </div>
           <h2
             style={{
@@ -42,11 +47,10 @@ export default function Contact() {
               textWrap: "balance",
             }}
           >
-            Donnez-moi la contrainte, je reviens avec l&rsquo;architecture.
+            {c.title}
           </h2>
           <p style={{ fontSize: 16, lineHeight: 1.65, color: "var(--muted)", maxWidth: "58ch", margin: "0 auto 38px" }}>
-            Je cherche un stage où je touche à la production : pipeline, sécurité, données, pas seulement à la
-            maquette. Réponse sous 24 h.
+            {c.body}
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 36, justifyContent: "center" }}>
             <a
@@ -93,7 +97,7 @@ export default function Contact() {
                 fontSize: 15,
               }}
             >
-              LinkedIn ↗
+              {content.hero.ctaLinkedin}
             </a>
           </div>
           <div
@@ -108,10 +112,9 @@ export default function Contact() {
               color: "var(--dim)",
             }}
           >
-            <span>MONTRÉAL, QC</span>
-            <span>UTC−5</span>
-            <span>FR / EN</span>
-            <span>DISPONIBLE 2027</span>
+            {c.facts.map((f) => (
+              <span key={f}>{f}</span>
+            ))}
           </div>
         </div>
       </div>

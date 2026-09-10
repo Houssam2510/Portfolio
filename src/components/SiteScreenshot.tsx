@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { fill, useContent } from "@/i18n/ContentProvider";
 import { screenshotUrl } from "@/lib/screenshot";
 
 /**
@@ -19,6 +20,8 @@ export default function SiteScreenshot({
   domain: string;
   alt: string;
 }) {
+  const { content } = useContent();
+  const ui = content.ui;
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
 
   return (
@@ -82,11 +85,11 @@ export default function SiteScreenshot({
                   animation: "cnPulse 1.4s ease-in-out infinite",
                 }}
               />
-              CAPTURE EN COURS
+              {ui.screenshotLoading}
             </>
           ) : (
             <>
-              <span style={{ color: "var(--muted)" }}>APERÇU INDISPONIBLE</span>
+              <span style={{ color: "var(--muted)" }}>{ui.screenshotFailed}</span>
               <a
                 href={url}
                 target="_blank"
@@ -100,7 +103,7 @@ export default function SiteScreenshot({
                   letterSpacing: "0.04em",
                 }}
               >
-                OUVRIR {domain.toUpperCase()} ↗
+                {fill(ui.screenshotOpen, { domain: domain.toUpperCase() })}
               </a>
             </>
           )}

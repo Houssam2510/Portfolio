@@ -2,7 +2,7 @@
 
 import { RefObject, useEffect } from "react";
 
-const SECTION_IDS = ["s00", "s01", "s02", "s03", "s04", "s05", "s06"];
+const SECTION_IDS = ["accueil", "approche", "travaux", "chiffres", "capacites", "parcours", "contact"];
 
 declare global {
   interface Window {

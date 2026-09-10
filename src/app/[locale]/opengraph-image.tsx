@@ -1,10 +1,12 @@
 import { ImageResponse } from "next/og";
-import { contact } from "@/data/content";
+import { contact, getContent } from "@/data";
+import { isLocale, locales } from "@/i18n/config";
 
-export const alt =
-  "Houssam Nadir, génie informatique à Polytechnique Montréal. Trois produits en production.";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+const size = { width: 1200, height: 630 };
 
 // Palette Ambre CRT, en dur : ImageResponse ne résout pas les variables CSS.
 const BG = "#0F0C08";
@@ -14,7 +16,27 @@ const INK = "#F7F5F2";
 const MUTED = "#B1ADA9";
 const ACC = "#FFB225";
 
-export default function Image() {
+/**
+ * Le texte alternatif doit suivre la langue de la page. Un `export const alt`
+ * est figé au niveau du module ; generateImageMetadata reçoit params et permet
+ * donc de le traduire.
+ */
+export async function generateImageMetadata({
+  params,
+}: {
+  params: { locale: string } | Promise<{ locale: string }>;
+}) {
+  // Selon le contexte de build, Next passe params directement ou sous forme
+  // de promesse : on accepte les deux plutôt que de supposer.
+  const resolved = await params;
+  const locale = isLocale(resolved?.locale) ? resolved.locale : "fr";
+  return [{ id: locale, alt: getContent(locale).meta.ogAlt, size, contentType: "image/png" }];
+}
+
+export default async function Image({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const c = getContent(isLocale(locale) ? locale : "fr");
+
   return new ImageResponse(
     (
       <div
@@ -31,7 +53,7 @@ export default function Image() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18, color: ACC, fontSize: 24 }}>
           <div style={{ width: 14, height: 14, borderRadius: 7, background: ACC }} />
-          <div style={{ letterSpacing: 3 }}>DISPONIBLE · STAGE 2027</div>
+          <div style={{ letterSpacing: 3 }}>{c.ui.availability}</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -39,10 +61,12 @@ export default function Image() {
             Houssam Nadir
           </div>
           <div style={{ fontSize: 34, color: MUTED, marginTop: 18, lineHeight: 1.35 }}>
-            Génie informatique · Polytechnique Montréal
+            {locale === "en"
+              ? "Computer engineering · Polytechnique Montréal"
+              : "Génie informatique · Polytechnique Montréal"}
           </div>
           <div style={{ fontSize: 30, color: ACC, marginTop: 10 }}>
-            Trois produits en production, seul.
+            {locale === "en" ? "Three products in production, solo." : "Trois produits en production, seul."}
           </div>
         </div>
 

@@ -1,0 +1,20 @@
+import type { Locale } from "@/i18n/config";
+import { en } from "./content.en";
+import { fr } from "./content.fr";
+import type { Content } from "./types";
+
+const dictionaries: Record<Locale, Content> = { fr, en };
+
+export function getContent(locale: Locale): Content {
+  return dictionaries[locale];
+}
+
+/** Coordonnées, identiques dans les deux langues. */
+export const contact = {
+  email: "houssam.nadir@outlook.com",
+  phone: "+1 514 503 0893",
+  phoneHref: "tel:+15145030893",
+  linkedin: "https://www.linkedin.com/in/houssam-nadir-a1a292263/",
+};
+
+export * from "./types";
