@@ -99,6 +99,23 @@ button {
   font: inherit;
 }
 
+/*
+ * Anneau de focus visible au clavier. Aucun n'était défini : un visiteur
+ * naviguant au clavier ne voyait pas du tout où il se trouvait.
+ */
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Cible tactile confortable pour les liens et boutons de navigation. */
+@media (pointer: coarse) {
+  .nav-link {
+    padding: 10px 2px;
+  }
+}
+
 /* Visible uniquement pour les lecteurs d'écran. */
 .sr-only {
   position: absolute;
@@ -158,6 +175,7 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
   [data-reveal-armed] { opacity: 1; transform: none; transition: none; }
   [data-stagger] > *, [data-stagger][data-shown] > * { opacity: 1; transform: none; transition: none; }
   [data-lift]:hover { transform: none; }
@@ -197,15 +215,54 @@ button {
   border-bottom-color: var(--acc) !important;
 }
 
+/*
+ * Bande pleine largeur.
+ *
+ * L'élément est un bloc en flux normal : il occupe donc toute la largeur du
+ * conteneur sans artifice. Le contenu est recentré par `.band-inner`.
+ *
+ * L'implémentation précédente simulait la pleine largeur avec une ombre portée
+ * de 100vmax rognée par `clip-path`. Ce montage dépendait de la taille du
+ * viewport, rognait les ombres au survol des cartes sur les bords de la
+ * section, et pouvait provoquer un débordement horizontal.
+ */
 [data-band] {
   position: relative;
-  clip-path: inset(0 -100vmax);
-  box-shadow: 0 0 0 100vmax var(--surf), 0 1px 0 100vmax var(--line), 0 -1px 0 100vmax var(--line);
+  background: var(--surf);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
+.band-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 112px clamp(20px, 4vw, 56px);
+}
+
+/*
+ * Sous 720px la navigation passait en `display: none` : le visiteur mobile
+ * perdait tout accès aux sections (le raccourci ⌘K n'existe pas sans clavier).
+ * Elle devient une barre défilante horizontalement, qui reste utilisable.
+ */
 @media (max-width: 720px) {
+  .header-inner {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
   [data-topnav] {
-    display: none !important;
+    order: 3;
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+  [data-topnav]::-webkit-scrollbar {
+    display: none;
+  }
+  [data-topnav] .nav-link {
+    white-space: nowrap;
   }
 }
 
