@@ -34,10 +34,10 @@ export default function StatusBar({ clockRef }: { clockRef: RefObject<HTMLSpanEl
           />
           {content.ui.statusBarHeadline}
         </span>
-        <span style={{ width: 1, height: 11, background: "var(--line2)" }} />
-        <span>CARRIV</span>
-        <span>STUDYLUMINA</span>
-        <span>SANADE</span>
+        <span className="status-products" style={{ width: 1, height: 11, background: "var(--line2)" }} />
+        <span className="status-products">CARRIV</span>
+        <span className="status-products">STUDYLUMINA</span>
+        <span className="status-products">SANADE</span>
         <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 14 }}>
           <span ref={clockRef}>--:--:--</span>
           <span>{content.ui.localTime}</span>

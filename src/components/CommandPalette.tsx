@@ -26,7 +26,9 @@ export default function CommandPalette() {
     setOpen(false);
     const el = document.getElementById(id);
     if (!el) return;
-    const y = el.getBoundingClientRect().top + window.scrollY - 70;
+    const header = document.querySelector("header");
+    const offset = (header?.getBoundingClientRect().height ?? 70) + 14;
+    const y = el.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
   }, []);
 

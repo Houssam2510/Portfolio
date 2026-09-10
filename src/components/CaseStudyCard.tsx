@@ -23,7 +23,7 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
         background: "var(--surf)",
         overflow: "hidden",
         marginBottom: cs.number === "04" ? 0 : 40,
-        scrollMarginTop: 118,
+        scrollMarginTop: "var(--jump-offset, 118px)",
       }}
     >
       <span
@@ -293,6 +293,9 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
           {cs.pipelineLabel}
         </div>
         <div
+          tabIndex={0}
+          role="group"
+          aria-label={cs.pipelineLabel}
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: 11.5,

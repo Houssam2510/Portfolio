@@ -49,7 +49,10 @@ export function useSmoothJump() {
       const el = document.getElementById(id);
       if (!el) return;
       e.preventDefault();
-      const offset = target.closest("[data-dossier-link]") ? 104 : 70;
+      // La hauteur de l'en-tête collant varie beaucoup entre mobile et bureau :
+      // un décalage codé en dur laissait le titre de section caché dessous.
+      const header = document.querySelector("header");
+      const offset = (header?.getBoundingClientRect().height ?? 70) + 14;
       window.scrollTo({
         top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - offset),
         behavior: "smooth",

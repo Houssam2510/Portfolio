@@ -134,7 +134,7 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
             type="button"
             title={`${content.ui.search} (⌘K)`}
             aria-label={content.ui.openPalette}
-            className="chrome-btn"
+            className="chrome-btn palette-btn"
             onClick={() => window.dispatchEvent(new CustomEvent("pf:open-palette"))}
             style={{
               fontFamily: "var(--font-mono)",
