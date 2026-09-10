@@ -29,7 +29,7 @@ export function useTheme() {
       try {
         localStorage.setItem(STORAGE_KEY, next);
       } catch {
-        // Persistance indisponible (navigation privée) — le thème reste
+        // Persistance indisponible (navigation privée). Le thème reste
         // appliqué pour la session en cours.
       }
       return next;

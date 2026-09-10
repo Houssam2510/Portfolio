@@ -37,6 +37,10 @@ export default function Home() {
 
   return (
     <div style={{ position: "relative", minHeight: "100vh", background: "var(--bg)" }}>
+      <a href="#contenu" className="skip-link">
+        Aller au contenu
+      </a>
+
       <BackgroundEngine />
       <BackgroundLayer spotRef={spotRef} />
 
@@ -45,13 +49,15 @@ export default function Home() {
         <Header theme={theme} toggleTheme={handleToggleTheme} />
         <StatusBar clockRef={clockRef} />
 
-        <Hero />
-        <Thesis />
-        <CaseStudies />
-        <Numbers />
-        <Skills />
-        <Timeline />
-        <Contact />
+        <main id="contenu">
+          <Hero />
+          <Thesis />
+          <CaseStudies />
+          <Numbers />
+          <Skills />
+          <Timeline />
+          <Contact />
+        </main>
 
         <Footer />
       </div>

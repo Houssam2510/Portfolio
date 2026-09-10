@@ -48,7 +48,7 @@ export const thesisPrinciples: ThesisPrinciple[] = [
 export const thesisNotes = [
   {
     title: "LE BUG QUI A CRÉÉ UNE RÈGLE",
-    body: 'Huit copies d’une palette codaient les valeurs du thème clair en dur : le meilleur score possible s’affichait à <strong style="color:var(--ink)">1,59:1</strong> de contraste sur le thème sombre — invisible. Après passage aux tokens : <strong style="color:var(--acc)">9,95:1</strong>. Depuis, un test interdit les couleurs littérales dans les composants.',
+    body: 'Huit copies d’une palette codaient les valeurs du thème clair en dur : le meilleur score possible s’affichait à <strong style="color:var(--ink)">1,59:1</strong> de contraste sur le thème sombre, donc invisible. Après passage aux tokens : <strong style="color:var(--acc)">9,95:1</strong>. Depuis, un test interdit les couleurs littérales dans les composants.',
   },
   {
     title: "CE QUE JE REFUSE D'EXPÉDIER",
@@ -92,25 +92,25 @@ export const caseStudies: CaseStudy[] = [
     role: "Conception & développement, seul",
     period: "2026",
     url: "https://carriv.com",
-    title: "Carriv — adapter un CV à une offre, sans jamais rien inventer",
+    title: "Carriv : adapter un CV à une offre, sans jamais rien inventer",
     description:
       "Postuler correctement demande 30 à 45 minutes par candidature ; demander à un chatbot de « faire le CV » produit des expériences inventées qui s'effondrent en entretien. Carriv adapte un profil maître à une offre donnée sous une règle de zéro invention inscrite dans chaque prompt.",
-    screenshotAlt: "Capture Carriv — CV adapté et score ATS",
+    screenshotAlt: "Capture Carriv : CV adapté et score ATS",
     changeTitle: "CE QUE ÇA CHANGE POUR LE CANDIDAT",
     changes: [
       "30 à 45 minutes de travail par candidature ramenées à une trentaine de secondes.",
       "Rien d'inventé : tout ce qui est écrit sur le CV est défendable en entretien.",
       "Le PDF passe les filtres ATS au lieu d'être rejeté par sa mise en page.",
-      "Le crédit est remboursé automatiquement si la génération échoue — jamais payé pour rien.",
+      "Le crédit est remboursé automatiquement si la génération échoue. Jamais payé pour rien.",
     ],
     problem:
-      "Le modèle peut réordonner, sélectionner, reformuler et omettre — jamais fabriquer une expérience, une date, un employeur, un diplôme ou un chiffre. La traduction est la seule transformation autorisée, avec fidélité stricte du niveau de diplôme.",
+      "Le modèle peut réordonner, sélectionner, reformuler et omettre, mais jamais fabriquer une expérience, une date, un employeur, un diplôme ou un chiffre. La traduction est la seule transformation autorisée, avec fidélité stricte du niveau de diplôme.",
     decision:
-      "Le score ATS n'est pas produit par le modèle. Un vrai ATS est un moteur de correspondance de mots-clés, pas un juge : le LLM extrait et classe les écarts, le score est une fonction déterministe. Re-scorer donne toujours le même nombre, et appliquer une reformulation ne peut qu'ajouter un mot-clé — donc jamais faire baisser le score.",
-    pipelineLabel: "POST /api/generate — LE PIPELINE",
+      "Le score ATS n'est pas produit par le modèle. Un vrai ATS est un moteur de correspondance de mots-clés, pas un juge : le LLM extrait et classe les écarts, le score est une fonction déterministe. Re-scorer donne toujours le même nombre, et appliquer une reformulation ne peut qu'ajouter un mot-clé, donc jamais faire baisser le score.",
+    pipelineLabel: "POST /api/generate · LE PIPELINE",
     pipelineCode: `resolveApiUser      session ou token personnel (extension)
 enforceRateLimit    30 générations / h / utilisateur
-getProfile          scopé userId — jamais d'accès croisé
+getProfile          scopé userId : jamais d'accès croisé
 reserveCredit       findOneAndUpdate atomique { credits: { $gte: 1 } } → 402
 analyzeJob          Structured Outputs · modèle principal
 adaptCVAndLetter    Structured Outputs · modèle principal
@@ -126,11 +126,11 @@ catch → refundCredit + alerte`,
     details: [
       {
         title: "REMBOURSEMENT GARANTI",
-        body: "Client OpenAI plafonné à 90 s et une seule reprise, au lieu de 10 minutes et 2 retries. Sur Vercel, une requête pendue doit échouer pendant que la Lambda vit encore — sinon le catch qui rembourse ne s'exécute jamais et l'utilisateur paie une génération qu'il n'a pas reçue.",
+        body: "Client OpenAI plafonné à 90 s et une seule reprise, au lieu de 10 minutes et 2 retries. Sur Vercel, une requête pendue doit échouer pendant que la Lambda vit encore, sinon le catch qui rembourse ne s'exécute jamais et l'utilisateur paie une génération qu'il n'a pas reçue.",
       },
       {
         title: "LE MUR ATS",
-        body: "L'application a une direction artistique affirmée ; les PDF restent strictement ATS-safe — une colonne, typographie seule, aucune couleur ni décor. C'est exactement là que la plupart des générateurs échouent.",
+        body: "L'application a une direction artistique affirmée ; les PDF restent strictement ATS-safe : une colonne, typographie seule, aucune couleur ni décor. C'est exactement là que la plupart des générateurs échouent.",
       },
       {
         title: "SÉCURITÉ PAIEMENT",
@@ -160,22 +160,22 @@ catch → refundCredit + alerte`,
     role: "Conception & développement, seul",
     period: "2026",
     url: "https://app.studylumina.com",
-    title: "StudyLumina — mesurer la préparation réelle à un examen",
+    title: "StudyLumina : mesurer la préparation réelle à un examen",
     description:
       "Les outils d'étude IA s'arrêtent à la génération de contenu. StudyLumina mesure la préparation réelle, chapitre par chapitre, et indique quoi faire aujourd'hui. Aucune note n'est jamais produite par un LLM.",
-    screenshotAlt: "Capture StudyLumina — préparation par chapitre",
+    screenshotAlt: "Capture StudyLumina : préparation par chapitre",
     changeTitle: "CE QUE ÇA CHANGE POUR L'ÉTUDIANT",
     changes: [
       "Une réponse à la seule question utile : suis-je prêt, sur quel chapitre, et que faire aujourd'hui.",
-      "Chaque réponse est citée — document et page — donc vérifiable au lieu d'être crue.",
+      "Chaque réponse est citée (document et page), donc vérifiable au lieu d'être crue.",
       "Le score s'expose à la contradiction : l'erreur moyenne face aux vraies notes est affichée.",
       "On dépose un PDF et on continue à travailler : résumé, flashcards et quiz arrivent en arrière-plan.",
     ],
     problem:
-      "Un résumé ne dit pas si l'étudiant est prêt. Sans rattachement d'un document à un chapitre, impossible d'attribuer une réponse de quiz à une matière — donc impossible de mesurer autre chose qu'une moyenne globale sans valeur.",
+      "Un résumé ne dit pas si l'étudiant est prêt. Sans rattachement d'un document à un chapitre, impossible d'attribuer une réponse de quiz à une matière, donc impossible de mesurer autre chose qu'une moyenne globale sans valeur.",
     decision:
       "Cours → Chapitre → Document est obligatoire : un document orphelin n'existe pas. C'est la condition de possibilité de tout le produit. L'Exam Readiness Score est une fonction pure de ~850 lignes, sans réseau ni LLM, et l'ajout du facteur de rétention est gaté : un chapitre sans flashcard révisée obtient un score strictement identique à avant, prouvé par test.",
-    pipelineLabel: "INGESTION ASYNCHRONE — 6 FILES BULLMQ",
+    pipelineLabel: "INGESTION ASYNCHRONE · 6 FILES BULLMQ",
     pipelineCode: `upload → ingestion    extraction PDF, nettoyage pages
        → embeddings   chunking, batch + rate-limit, pgvector
        → course-map   rattachement chunks ↔ chapitres
@@ -194,7 +194,7 @@ récupération. Citations → document + page.`,
     details: [
       {
         title: "UN SCORE FALSIFIABLE",
-        body: "L'étudiant saisit sa vraie note après l'examen ; le produit affiche l'erreur moyenne entre score prédit et note obtenue. La note réelle n'est jamais réinjectée dans le calcul — le score se rend réfutable au lieu de se déclarer juste.",
+        body: "L'étudiant saisit sa vraie note après l'examen ; le produit affiche l'erreur moyenne entre score prédit et note obtenue. La note réelle n'est jamais réinjectée dans le calcul : le score se rend réfutable au lieu de se déclarer juste.",
       },
       {
         title: "HONNÊTETÉ DU SCORE",
@@ -226,24 +226,24 @@ récupération. Citations → document + page.`,
     status: "live",
     domain: "sanade.app",
     role: "Conception & développement, seul",
-    period: "2025 — 2026",
+    period: "2025-2026",
     url: "https://sanade.app",
-    title: "Sanade — le suivi d'habitudes qui arbitre au lieu d'enregistrer",
+    title: "Sanade : le suivi d'habitudes qui arbitre au lieu d'enregistrer",
     description:
       "Les trackers affichent fidèlement l'écart entre le prévu et le fait, pendant des mois, sans jamais rien en faire. Sanade calcule le temps réellement utilisable dans la journée, propose deux ou trois objectifs tenables et écarte le reste en disant pourquoi.",
-    screenshotAlt: "Capture Sanade — arbitrage du jour",
+    screenshotAlt: "Capture Sanade : arbitrage du jour",
     changeTitle: "CE QUE ÇA CHANGE POUR L'UTILISATEUR",
     changes: [
       "Deux ou trois objectifs tenables pour aujourd'hui, au lieu d'une liste de douze qui culpabilise.",
       "Chaque objectif écarté est motivé : l'utilisateur voit pourquoi, il ne subit pas un tri opaque.",
-      "On écrit sa note en français, en darija translittérée ou en arabe — le texte brut est conservé tel quel.",
+      "On écrit sa note en français, en darija translittérée ou en arabe : le texte brut est conservé tel quel.",
       "Web et mobile partagent le même cœur de domaine : aucune divergence de calcul entre les deux.",
     ],
     problem:
       "Une capacité déclarée est une capacité fantasmée. Et avec six domaines et des décalages temporels, un cycle d'analyse teste des centaines de paires : un seuil individuel garantirait mécaniquement des faux liens à chaque passage.",
     decision:
-      "Faits contre projections, visible dans les noms de tables : tout calcul stocké porte le préfixe proj_, donc clearProjections() est sûr à tout moment et une formule de score peut être corrigée sans laisser un historique incohérent. Aucune table de faits ne pointe vers une projection — et un test d'architecture le vérifie, parce que la règle a déjà été violée en silence une fois.",
-    pipelineLabel: "INGESTION — UNE EXTRACTION NE CRÉE JAMAIS DE DONNÉE",
+      "Faits contre projections, visible dans les noms de tables : tout calcul stocké porte le préfixe proj_, donc clearProjections() est sûr à tout moment et une formule de score peut être corrigée sans laisser un historique incohérent. Aucune table de faits ne pointe vers une projection, et un test d'architecture le vérifie, parce que la règle a déjà été violée en silence une fois.",
+    pipelineLabel: "INGESTION · UNE EXTRACTION NE CRÉE JAMAIS DE DONNÉE",
     pipelineCode: `texte brut (FR / darija translittérée / arabe)
   → RawNote                stockée telle quelle, jamais réécrite
   → prompt versionné + LLM côté serveur
@@ -261,15 +261,15 @@ récupération. Citations → document + page.`,
     details: [
       {
         title: "LA BIENVEILLANCE EST DANS LA FORMULE",
-        body: "Une journée non renseignée sort du calcul au lieu de compter zéro : elle fait baisser la confiance affichée, jamais le score. Trois jours sans données affichent « score 74, confiance faible », pas « score 31 » — sinon le produit punirait le fait de ne pas ouvrir l'application.",
+        body: "Une journée non renseignée sort du calcul au lieu de compter zéro : elle fait baisser la confiance affichée, jamais le score. Trois jours sans données affichent « score 74, confiance faible », pas « score 31 », sinon le produit punirait le fait de ne pas ouvrir l'application.",
       },
       {
         title: "RIGUEUR STATISTIQUE",
-        body: "Ce qui est affiché est une fréquence conditionnelle empirique — deux nombres refaisables à la main. Les liens sont testés par cycle complet, le nombre de tests est compté, et la publication est filtrée sur le taux de fausses découvertes. Chaque motif fige son cycle.",
+        body: "Ce qui est affiché est une fréquence conditionnelle empirique : deux nombres refaisables à la main. Les liens sont testés par cycle complet, le nombre de tests est compté, et la publication est filtrée sur le taux de fausses découvertes. Chaque motif fige son cycle.",
       },
       {
         title: "CŒUR DE DOMAINE PUR",
-        body: "packages/core n'importe jamais db, api, ingestion ni React : 13 700 lignes testables sans base, sans réseau, sans clé d'API. La logique ne peut pas diverger entre web et mobile — c'est une propriété de la structure, pas une discipline.",
+        body: "packages/core n'importe jamais db, api, ingestion ni React : 13 700 lignes testables sans base, sans réseau, sans clé d'API. La logique ne peut pas diverger entre web et mobile : c'est une propriété de la structure, pas une discipline.",
       },
     ],
     tags: [
@@ -294,9 +294,9 @@ récupération. Citations → document + page.`,
     domain: "",
     role: "Outil personnel",
     period: "2025",
-    title: "CSPM-Lite — la sécurité cloud qui bloque le pipeline",
+    title: "CSPM-Lite : la sécurité cloud qui bloque le pipeline",
     description:
-      "Un outil CLI qui analyse un compte AWS, détecte les mauvaises configurations, évalue la conformité et produit des rapports exploitables — puis refuse de laisser passer le déploiement.",
+      "Un outil CLI qui analyse un compte AWS, détecte les mauvaises configurations, évalue la conformité et produit des rapports exploitables, puis refuse de laisser passer le déploiement.",
     screenshotAlt: "",
     changeTitle: "CE QUE ÇA CHANGE POUR L'ÉQUIPE",
     changes: [
@@ -307,7 +307,7 @@ récupération. Citations → document + page.`,
     problem:
       "Une mauvaise configuration cloud ne se voit pas dans une revue de code : bucket S3 public, port SSH ouvert, utilisateur sans MFA. Elle se voit en production, ou dans une fuite.",
     decision:
-      "Le rapport ne suffit pas — personne ne lit un rapport. Le contrôle devient bloquant : une faille critique arrête le pipeline CI/CD, ce qui déplace la sécurité de l'audit vers la porte d'entrée.",
+      "Le rapport ne suffit pas : personne ne lit un rapport. Le contrôle devient bloquant : une faille critique arrête le pipeline CI/CD, ce qui déplace la sécurité de l'audit vers la porte d'entrée.",
     pipelineLabel: "CONTRÔLES ET SORTIES",
     pipelineCode: `scan compte AWS
   → détection      S3 public · SSH ouvert · absence de MFA
@@ -324,7 +324,7 @@ récupération. Citations → document + page.`,
     details: [
       {
         title: "POURQUOI CET OUTIL",
-        body: "Le cours de cybersécurité donne les concepts ; un compte AWS réel donne les mauvaises surprises. Cet outil est né du besoin de vérifier mes propres déploiements avant qu'un correcteur — ou un attaquant — ne le fasse.",
+        body: "Le cours de cybersécurité donne les concepts ; un compte AWS réel donne les mauvaises surprises. Cet outil est né du besoin de vérifier mes propres déploiements avant qu'un correcteur, ou un attaquant, ne le fasse.",
       },
       {
         title: "LABORATOIRES ASSOCIÉS",
@@ -392,31 +392,31 @@ export const timeline: TimelineEntry[] = [
     org: "Polytechnique Montréal",
     body: "Parcours orienté systèmes sécurisés, cloud et environnements distribués.",
     lines: [
-      "Cybersécurité — A",
-      "Systèmes répartis & infonuagique — B+",
-      "GPA — 3,65 (hiver 2026)",
+      "Cybersécurité : A",
+      "Systèmes répartis & infonuagique : B+",
+      "GPA : 3,65 (hiver 2026)",
     ],
   },
   {
-    date: "OCT. 2024 — PRÉSENT",
+    date: "DEPUIS OCT. 2024",
     title: "Représentant de marque",
-    org: "Qualcomm / Snapdragon PC — Channel Partners",
+    org: "Qualcomm / Snapdragon PC, Channel Partners",
     body: "Vulgarisation de solutions techniques auprès du public : adapter le discours à chaque interlocuteur, rendre une architecture compréhensible en deux minutes. C'est la compétence qui rend une décision d'ingénierie défendable.",
   },
   {
-    date: "2025 — 2026",
+    date: "2025-2026",
     title: "Trois produits expédiés seul",
     org: "Carriv · StudyLumina · Sanade",
-    body: "Conception, développement, mise en production, paiement, e-mails transactionnels, SEO bilingue et observabilité — sans équipe.",
+    body: "Conception, développement, mise en production, paiement, e-mails transactionnels, SEO bilingue et observabilité, sans équipe.",
   },
   {
     date: "CERTIFICATIONS & LANGUES",
     title: "Repères",
     org: "",
     lines: [
-      "Advent of Cyber — TryHackMe · déc. 2025",
-      "Français — natif",
-      "Anglais — courant",
+      "Advent of Cyber · TryHackMe · déc. 2025",
+      "Français : natif",
+      "Anglais : courant",
       "Montréal, QC · ouvert au télétravail",
     ],
   },

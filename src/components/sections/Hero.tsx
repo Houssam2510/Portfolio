@@ -81,7 +81,7 @@ export default function Hero() {
               animation: "cnPulse 2.4s ease-in-out infinite",
             }}
           />
-          <span>DISPONIBLE — STAGE 2027</span>
+          <span>DISPONIBLE · STAGE 2027</span>
           <span style={{ width: 40, height: 1, background: "var(--line2)" }} />
           <span>MONTRÉAL · UTC−5</span>
           <span style={{ width: 40, height: 1, background: "var(--line2)" }} />
@@ -153,8 +153,8 @@ export default function Hero() {
             textWrap: "pretty",
           }}
         >
-          Étudiant en génie informatique à Polytechnique Montréal. J&rsquo;expédie des produits complets, seul
-          — pipelines LLM à sorties structurées, scoring déterministe, comptabilité transactionnelle sans
+          Étudiant en génie informatique à Polytechnique Montréal. J&rsquo;expédie des produits complets, seul :
+          pipelines LLM à sorties structurées, scoring déterministe, comptabilité transactionnelle sans
           course, sécurité cloud. Trois plateformes en production, de la landing bilingue au webhook de
           paiement signé.
         </p>

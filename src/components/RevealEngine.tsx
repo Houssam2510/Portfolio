@@ -7,7 +7,7 @@ import { useEffect } from "react";
  *
  * Invariant: content is never left hidden without an observer having proven
  * it can deliver, and an unconditional 2.2s net reveals everything regardless
- * — so a missed intersection callback can never leave a section blank.
+ * so a missed intersection callback can never leave a section blank.
  */
 export default function RevealEngine() {
   useEffect(() => {

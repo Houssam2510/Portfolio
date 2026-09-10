@@ -8,10 +8,13 @@ export default function Timeline() {
       data-reveal="1"
       style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,56px) 128px" }}
     >
-      <SectionHeading eyebrow="05 — GLISSER →" title="Parcours" />
+      <SectionHeading eyebrow="05 · GLISSER →" title="Parcours" />
       <div
         data-stagger="1"
         data-reveal="1"
+        tabIndex={0}
+        role="group"
+        aria-label="Parcours, faire défiler horizontalement"
         style={{
           display: "grid",
           gridAutoFlow: "column",
@@ -69,12 +72,14 @@ export default function Timeline() {
                 }}
               >
                 {entry.lines.map((line) => {
-                  const [label, value] = line.split(" — ");
+                  const at = line.indexOf(" : ");
+                  const label = at === -1 ? line : line.slice(0, at);
+                  const value = at === -1 ? null : line.slice(at + 3);
                   return (
                     <span key={line}>
                       {value ? (
                         <>
-                          {label} — <strong style={{ color: "var(--ink)" }}>{value}</strong>
+                          {label} : <strong style={{ color: "var(--ink)" }}>{value}</strong>
                         </>
                       ) : (
                         line

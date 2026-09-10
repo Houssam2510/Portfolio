@@ -1,5 +1,5 @@
+import SiteScreenshot from "@/components/SiteScreenshot";
 import { CaseStudy } from "@/data/content";
-import { screenshotUrl } from "@/lib/screenshot";
 
 const monoMeta = { fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.1em", color: "var(--dim)" };
 
@@ -193,24 +193,7 @@ export default function CaseStudyCard({ cs }: { cs: CaseStudy }) {
                   LIVE
                 </span>
               </div>
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  aspectRatio: "16/10",
-                  background: "var(--soft)",
-                  display: "grid",
-                  placeItems: "center",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={screenshotUrl(cs.url!)}
-                  alt={cs.screenshotAlt}
-                  loading="lazy"
-                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                />
-              </div>
+              <SiteScreenshot url={cs.url!} domain={cs.domain} alt={cs.screenshotAlt} />
             </div>
             <figcaption
               style={{

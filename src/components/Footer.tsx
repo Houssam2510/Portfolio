@@ -18,7 +18,7 @@ export default function Footer() {
           color: "var(--dim)",
         }}
       >
-        <span style={{ marginRight: "auto" }}>© 2026 HOUSSAM NADIR — CONÇU ET CODÉ À MONTRÉAL</span>
+        <span style={{ marginRight: "auto" }}>© 2026 HOUSSAM NADIR · CONÇU ET CODÉ À MONTRÉAL</span>
         <a href={contact.linkedin} target="_blank" rel="noopener" className="footer-link" style={{ color: "var(--muted)" }}>
           LINKEDIN
         </a>

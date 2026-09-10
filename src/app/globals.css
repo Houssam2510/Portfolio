@@ -118,6 +118,35 @@ button {
   }
 }
 
+/*
+ * Lien d'évitement : premier élément focalisable de la page, invisible tant
+ * qu'il n'a pas le focus. Permet de sauter la navigation au clavier.
+ */
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  padding: 12px 18px;
+  border-radius: 9px;
+  background: var(--acc);
+  color: var(--on-acc);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 13px;
+  transform: translateY(-160%);
+  transition: transform 0.18s ease;
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+  color: var(--on-acc);
+}
+
+/* Le conteneur défilant de la frise doit montrer son focus clavier. */
+[role="group"]:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 4px;
+}
+
 /* Visible uniquement pour les lecteurs d'écran. */
 .sr-only {
   position: absolute;
