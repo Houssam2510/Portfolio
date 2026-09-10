@@ -9,9 +9,13 @@ import type { NextConfig } from "next";
  * restreignant les origines (aucun script, iframe ou requête vers un tiers non
  * listé). Les polices sont auto-hébergées par next/font, d'où font-src 'self'.
  */
+// React a besoin de eval() en développement (reconstruction des piles d'appel).
+// Il ne l'utilise jamais en production, où la directive reste stricte.
+const devEval = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${devEval}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://image.thum.io",
   "font-src 'self'",
