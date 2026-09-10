@@ -23,6 +23,7 @@ type BgConfig = {
   paper: string;
   dotColor: string;
   canvasOp: number;
+  forceRedraw?: boolean;
   pickColors: () => void;
   mask: HTMLCanvasElement | null;
   maskW?: number;
@@ -108,8 +109,13 @@ export function startBackgroundEngine() {
     return r;
   };
 
+  // Respecte prefers-reduced-motion : le fond ne dérive plus tout seul, il ne
+  // se redessine qu'en réaction au défilement ou à un redimensionnement.
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   let t = 0;
   let last = performance.now();
+  let lastStaticKey = "";
 
   const drawHero = (el: HTMLCanvasElement) => {
     const r = fit(el);
@@ -332,7 +338,15 @@ export function startBackgroundEngine() {
     last = now;
     if (!cfg.enabled) return;
     if (cfg.readColors) cfg.pickColors();
-    t += dt;
+    if (reduceMotion) {
+      // Rien de nouveau à peindre tant que la page n'a pas bougé.
+      const key = `${window.scrollY}|${window.innerWidth}x${window.innerHeight}`;
+      if (key === lastStaticKey && !cfg.forceRedraw) return;
+      lastStaticKey = key;
+      cfg.forceRedraw = false;
+    } else {
+      t += dt;
+    }
     const hero = document.querySelector<HTMLCanvasElement>('canvas[data-bg="hero"]');
     const flow = document.querySelector<HTMLCanvasElement>('canvas[data-bg="flow"]');
     const heroSec = document.getElementById("s00");
@@ -368,5 +382,10 @@ export function stopBackgroundEngine() {
 /** Forces the next frame to re-sample theme colors (call on theme toggle). */
 export function refreshBackgroundColors() {
   if (typeof window === "undefined") return;
-  if (window.__pfBgEngine) window.__pfBgEngine.readColors = true;
+  if (window.__pfBgEngine) {
+    window.__pfBgEngine.readColors = true;
+    // En mode mouvement réduit la boucle est au repos : il faut lui demander
+    // explicitement de repeindre avec la nouvelle palette.
+    window.__pfBgEngine.forceRedraw = true;
+  }
 }

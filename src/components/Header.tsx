@@ -16,6 +16,7 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
       }}
     >
       <div
+        className="header-inner"
         style={{
           maxWidth: 1280,
           margin: "0 auto",
