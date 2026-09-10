@@ -88,18 +88,8 @@ export default function Hero() {
           <span>B.ING · DÉC. 2027</span>
         </div>
 
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 600,
-            fontSize: "clamp(46px,9vw,132px)",
-            lineHeight: 0.9,
-            letterSpacing: "-0.045em",
-            margin: "0 0 2px",
-          }}
-        >
-          Houssam
-        </h1>
+        {/* Un seul h1 pour la page : les deux lignes du nom sont des blocs internes,
+            pour garder le rendu du design sans casser la hiérarchie de titres. */}
         <h1
           style={{
             fontFamily: "var(--font-display)",
@@ -108,12 +98,19 @@ export default function Hero() {
             lineHeight: 0.9,
             letterSpacing: "-0.045em",
             margin: "0 0 30px",
-            color: "transparent",
-            WebkitTextStroke: "1.7px var(--acc)",
           }}
         >
-          Nadir
-          <span style={{ WebkitTextStroke: 0, color: "var(--acc)" }}>.</span>
+          <span style={{ display: "block", marginBottom: 2 }}>Houssam</span>
+          <span
+            style={{
+              display: "block",
+              color: "transparent",
+              WebkitTextStroke: "1.7px var(--acc)",
+            }}
+          >
+            Nadir
+            <span style={{ WebkitTextStroke: 0, color: "var(--acc)" }}>.</span>
+          </span>
         </h1>
 
         <div
@@ -129,8 +126,13 @@ export default function Hero() {
             minHeight: "1.6em",
           }}
         >
-          <span style={{ color: "var(--acc)" }}>&gt;</span>
-          <span>{typed}</span>
+          <span style={{ color: "var(--acc)" }} aria-hidden="true">
+            &gt;
+          </span>
+          {/* Le texte animé est décoratif pour les lecteurs d'écran : ils reçoivent
+              la liste complète et stable plutôt qu'une chaîne tronquée en cours de frappe. */}
+          <span className="sr-only">{typingLines.join(". ")}</span>
+          <span aria-hidden="true">{typed}</span>
           <span
             style={{
               width: 9,

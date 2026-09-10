@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { paletteItems } from "@/data/content";
 
 export default function CommandPalette() {
@@ -8,6 +8,7 @@ export default function CommandPalette() {
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -17,32 +18,44 @@ export default function CommandPalette() {
     );
   }, [query]);
 
-  const close = () => setOpen(false);
+  const close = useCallback(() => setOpen(false), []);
 
-  const go = (id: string) => {
-    close();
+  const go = useCallback((id: string) => {
+    setOpen(false);
     const el = document.getElementById(id);
     if (!el) return;
     const y = el.getBoundingClientRect().top + window.scrollY - 70;
     window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
-    if (open) {
-      // Resetting the modal's local UI state on open, not syncing render state.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setQuery("");
-      setCursor(0);
-      const t = setTimeout(() => inputRef.current?.focus(), 30);
-      return () => clearTimeout(t);
+    if (!open) {
+      // Rend le focus à l'élément qui a ouvert la palette.
+      restoreFocusRef.current?.focus();
+      restoreFocusRef.current = null;
+      return;
     }
+    restoreFocusRef.current = document.activeElement as HTMLElement | null;
+    // Réinitialisation de l'état local de la modale à l'ouverture.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setQuery("");
+    setCursor(0);
+    const t = setTimeout(() => inputRef.current?.focus(), 30);
+    return () => clearTimeout(t);
   }, [open]);
 
   useEffect(() => {
-    // Clamping the cursor to the filtered list's new bounds, not mirroring render state.
+    // Ramène le curseur dans les bornes de la liste filtrée.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCursor((c) => Math.min(c, Math.max(0, visible.length - 1)));
   }, [visible]);
+
+  // Le gestionnaire de touches lit l'état via des refs : il n'est enregistré
+  // qu'une fois, au lieu d'être réattaché à chaque frappe.
+  const stateRef = useRef({ open, visible, cursor });
+  useEffect(() => {
+    stateRef.current = { open, visible, cursor };
+  }, [open, visible, cursor]);
 
   useEffect(() => {
     const openPalette = () => setOpen(true);
@@ -54,14 +67,15 @@ export default function CommandPalette() {
         setOpen((o) => !o);
         return;
       }
-      if (!open) return;
+      const s = stateRef.current;
+      if (!s.open) return;
       if (e.key === "Escape") {
         e.preventDefault();
-        close();
+        setOpen(false);
       }
       if (e.key === "ArrowDown") {
         e.preventDefault();
-        setCursor((c) => Math.min(c + 1, visible.length - 1));
+        setCursor((c) => Math.min(c + 1, s.visible.length - 1));
       }
       if (e.key === "ArrowUp") {
         e.preventDefault();
@@ -69,7 +83,7 @@ export default function CommandPalette() {
       }
       if (e.key === "Enter") {
         e.preventDefault();
-        const v = visible[cursor];
+        const v = s.visible[s.cursor];
         if (v) go(v.id);
       }
     };
@@ -78,12 +92,15 @@ export default function CommandPalette() {
       window.removeEventListener("pf:open-palette", openPalette);
       window.removeEventListener("keydown", onKeydown);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, visible, cursor]);
+  }, [go]);
 
   return (
     <div
-      data-open={open ? "" : undefined}
+      // Fermée, la palette sort de l'arbre d'accessibilité et du parcours de
+      // tabulation : sans cela son champ et ses options restent lisibles par
+      // les lecteurs d'écran alors qu'elles sont invisibles.
+      aria-hidden={!open}
+      inert={!open}
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
@@ -103,6 +120,9 @@ export default function CommandPalette() {
       }}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Aller à une section"
         style={{
           width: "min(560px,92vw)",
           border: "1px solid var(--line2)",
@@ -121,12 +141,15 @@ export default function CommandPalette() {
             borderBottom: "1px solid var(--line)",
           }}
         >
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--acc)" }}>&gt;</span>
+          <span aria-hidden="true" style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--acc)" }}>
+            &gt;
+          </span>
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="aller à une section…"
+            aria-label="Filtrer les sections"
             style={{
               flex: 1,
               background: "transparent",
@@ -138,6 +161,7 @@ export default function CommandPalette() {
             }}
           />
           <span
+            aria-hidden="true"
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: 10,

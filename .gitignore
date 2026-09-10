@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Design handoff bundle — kept locally, never published
+/.design-handoff/
+
+# Claude Code local instructions
+/CLAUDE.md
