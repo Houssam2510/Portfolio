@@ -16,12 +16,15 @@ import Numbers from "@/components/sections/Numbers";
 import Skills from "@/components/sections/Skills";
 import Thesis from "@/components/sections/Thesis";
 import Timeline from "@/components/sections/Timeline";
+import type { Content } from "@/data/types";
+import { ContentProvider } from "@/i18n/ContentProvider";
+import type { Locale } from "@/i18n/config";
 import { refreshBackgroundColors } from "@/lib/backgroundEngine";
 import { useScrollChrome } from "@/hooks/useScrollChrome";
 import { useSmoothJump } from "@/hooks/useDossierIndex";
 import { useTheme } from "@/hooks/useTheme";
 
-export default function Home() {
+export default function HomeClient({ content, locale }: { content: Content; locale: Locale }) {
   const { theme, toggleTheme } = useTheme();
   const progressRef = useRef<HTMLDivElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
@@ -36,34 +39,32 @@ export default function Home() {
   };
 
   return (
-    <div style={{ position: "relative", minHeight: "100vh", background: "var(--bg)" }}>
-      <a href="#contenu" className="skip-link">
-        Aller au contenu
-      </a>
+    <ContentProvider value={{ content, locale }}>
+      <div style={{ position: "relative", minHeight: "100vh", background: "var(--bg)" }}>
+        <BackgroundEngine />
+        <BackgroundLayer spotRef={spotRef} />
 
-      <BackgroundEngine />
-      <BackgroundLayer spotRef={spotRef} />
+        <div data-main="1" style={{ position: "relative", zIndex: 1 }}>
+          <ProgressBar progressRef={progressRef} />
+          <Header theme={theme} toggleTheme={handleToggleTheme} />
+          <StatusBar clockRef={clockRef} />
 
-      <div data-main="1" style={{ position: "relative", zIndex: 1 }}>
-        <ProgressBar progressRef={progressRef} />
-        <Header theme={theme} toggleTheme={handleToggleTheme} />
-        <StatusBar clockRef={clockRef} />
+          <main id="contenu">
+            <Hero />
+            <Thesis />
+            <CaseStudies />
+            <Numbers />
+            <Skills />
+            <Timeline />
+            <Contact />
+          </main>
 
-        <main id="contenu">
-          <Hero />
-          <Thesis />
-          <CaseStudies />
-          <Numbers />
-          <Skills />
-          <Timeline />
-          <Contact />
-        </main>
+          <Footer />
+        </div>
 
-        <Footer />
+        <RevealEngine />
+        <CommandPalette />
       </div>
-
-      <RevealEngine />
-      <CommandPalette />
-    </div>
+    </ContentProvider>
   );
 }

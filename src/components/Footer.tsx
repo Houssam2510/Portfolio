@@ -1,6 +1,10 @@
-import { contact } from "@/data/content";
+"use client";
+
+import { contact } from "@/data";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function Footer() {
+  const { content } = useContent();
   return (
     <footer style={{ borderTop: "1px solid var(--line)", background: "var(--bg2)" }}>
       <div
@@ -18,7 +22,7 @@ export default function Footer() {
           color: "var(--dim)",
         }}
       >
-        <span style={{ marginRight: "auto" }}>© 2026 HOUSSAM NADIR · CONÇU ET CODÉ À MONTRÉAL</span>
+        <span style={{ marginRight: "auto" }}>{content.ui.footer}</span>
         <a href={contact.linkedin} target="_blank" rel="noopener" className="footer-link" style={{ color: "var(--muted)" }}>
           LINKEDIN
         </a>

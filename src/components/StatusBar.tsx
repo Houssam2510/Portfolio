@@ -1,6 +1,10 @@
+"use client";
+
 import { RefObject } from "react";
+import { useContent } from "@/i18n/ContentProvider";
 
 export default function StatusBar({ clockRef }: { clockRef: RefObject<HTMLSpanElement | null> }) {
+  const { content } = useContent();
   return (
     <div style={{ borderBottom: "1px solid var(--line)", background: "var(--bg2)" }}>
       <div
@@ -28,7 +32,7 @@ export default function StatusBar({ clockRef }: { clockRef: RefObject<HTMLSpanEl
               animation: "cnPulse 2.4s ease-in-out infinite",
             }}
           />
-          TROIS PRODUITS EN PRODUCTION
+          {content.ui.statusBarHeadline}
         </span>
         <span style={{ width: 1, height: 11, background: "var(--line2)" }} />
         <span>CARRIV</span>
@@ -36,7 +40,7 @@ export default function StatusBar({ clockRef }: { clockRef: RefObject<HTMLSpanEl
         <span>SANADE</span>
         <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 14 }}>
           <span ref={clockRef}>--:--:--</span>
-          <span>MONTRÉAL · UTC−5</span>
+          <span>{content.ui.localTime}</span>
         </span>
       </div>
     </div>

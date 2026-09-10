@@ -1,9 +1,13 @@
 "use client";
 
-import { navLinks } from "@/data/content";
+import Link from "next/link";
+import { useContent } from "@/i18n/ContentProvider";
+import { locales } from "@/i18n/config";
 import { Theme } from "@/hooks/useTheme";
 
 export default function Header({ theme, toggleTheme }: { theme: Theme; toggleTheme: () => void }) {
+  const { content, locale } = useContent();
+  const other = locales.find((l) => l !== locale)!;
   return (
     <header
       style={{
@@ -27,7 +31,7 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
         }}
       >
         <a
-          href="#s00"
+          href="#accueil"
           data-jump="1"
           style={{ display: "flex", alignItems: "center", gap: 11, marginRight: "auto", color: "var(--ink)" }}
         >
@@ -52,7 +56,7 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
               Houssam Nadir
             </span>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: 9.5, letterSpacing: "0.09em", color: "var(--dim)" }}>
-              GÉNIE INFORMATIQUE · POLYMTL
+              {content.ui.tagline}
             </span>
           </span>
         </a>
@@ -61,7 +65,7 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
           data-topnav="1"
           style={{ display: "flex", alignItems: "center", gap: "clamp(14px,2vw,30px)", flexWrap: "wrap" }}
         >
-          {navLinks.map((link) => (
+          {content.navLinks.map((link) => (
             <a
               key={link.id}
               href={`#${link.id}`}
@@ -82,11 +86,32 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
         </nav>
 
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* Un vrai lien vers l'autre langue : indexable, partageable, et
+              fonctionnel sans JavaScript. */}
+          <Link
+            href={`/${other}`}
+            hrefLang={other}
+            title={content.ui.switchLanguage}
+            aria-label={content.ui.switchLanguage}
+            className="chrome-btn"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              letterSpacing: "0.06em",
+              padding: "8px 11px",
+              border: "1px solid var(--line2)",
+              borderRadius: 8,
+              color: "var(--dim)",
+              textTransform: "uppercase",
+            }}
+          >
+            {other}
+          </Link>
           <button
             type="button"
             onClick={toggleTheme}
-            title="Basculer clair / sombre"
-            aria-label="Basculer le thème"
+            title={content.ui.toggleTheme}
+            aria-label={content.ui.toggleTheme}
             className="chrome-btn"
             style={{
               fontFamily: "var(--font-mono)",
@@ -107,7 +132,8 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
           </button>
           <button
             type="button"
-            title="Rechercher (⌘K)"
+            title={`${content.ui.search} (⌘K)`}
+            aria-label={content.ui.openPalette}
             className="chrome-btn"
             onClick={() => window.dispatchEvent(new CustomEvent("pf:open-palette"))}
             style={{
@@ -125,7 +151,7 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
             ⌘K
           </button>
           <a
-            href="#s06"
+            href="#contact"
             data-jump="1"
             style={{
               fontFamily: "var(--font-mono)",
@@ -139,7 +165,7 @@ export default function Header({ theme, toggleTheme }: { theme: Theme; toggleThe
               whiteSpace: "nowrap",
             }}
           >
-            CONTACT
+            {content.ui.contact}
           </a>
         </div>
       </div>

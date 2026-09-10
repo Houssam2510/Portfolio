@@ -1,14 +1,15 @@
 "use client";
 
-import { heroStats, typingLines } from "@/data/content";
+import { useContent } from "@/i18n/ContentProvider";
 import { useTyping } from "@/hooks/useTyping";
 
 export default function Hero() {
-  const typed = useTyping(typingLines);
+  const { content } = useContent();
+  const typed = useTyping(content.typingLines);
 
   return (
     <section
-      id="s00"
+      id="accueil"
       style={{
         position: "relative",
         overflow: "hidden",
@@ -81,11 +82,11 @@ export default function Hero() {
               animation: "cnPulse 2.4s ease-in-out infinite",
             }}
           />
-          <span>DISPONIBLE · STAGE 2027</span>
+          <span>{content.ui.availability}</span>
           <span style={{ width: 40, height: 1, background: "var(--line2)" }} />
-          <span>MONTRÉAL · UTC−5</span>
+          <span>{content.ui.location}</span>
           <span style={{ width: 40, height: 1, background: "var(--line2)" }} />
-          <span>B.ING · DÉC. 2027</span>
+          <span>{content.ui.graduation}</span>
         </div>
 
         {/* Un seul h1 pour la page : les deux lignes du nom sont des blocs internes,
@@ -131,7 +132,7 @@ export default function Hero() {
           </span>
           {/* Le texte animé est décoratif pour les lecteurs d'écran : ils reçoivent
               la liste complète et stable plutôt qu'une chaîne tronquée en cours de frappe. */}
-          <span className="sr-only">{typingLines.join(". ")}</span>
+          <span className="sr-only">{content.typingLines.join(". ")}</span>
           <span aria-hidden="true">{typed}</span>
           <span
             style={{
@@ -153,10 +154,7 @@ export default function Hero() {
             textWrap: "pretty",
           }}
         >
-          Étudiant en génie informatique à Polytechnique Montréal. J&rsquo;expédie des produits complets, seul :
-          pipelines LLM à sorties structurées, scoring déterministe, comptabilité transactionnelle sans
-          course, sécurité cloud. Trois plateformes en production, de la landing bilingue au webhook de
-          paiement signé.
+          {content.hero.lede}
         </p>
 
         <div
@@ -164,7 +162,7 @@ export default function Hero() {
           style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 60, justifyContent: "center" }}
         >
           <a
-            href="#s02"
+            href="#travaux"
             data-jump="1"
             className="cta-primary"
             style={{
@@ -179,7 +177,7 @@ export default function Hero() {
               fontSize: 14.5,
             }}
           >
-            Voir les études de cas <span style={{ color: "var(--on-acc)", fontFamily: "var(--font-mono)" }}>→</span>
+            {content.hero.ctaCases} <span style={{ color: "var(--on-acc)", fontFamily: "var(--font-mono)" }}>→</span>
           </a>
           <a
             href="https://www.linkedin.com/in/houssam-nadir-a1a292263/"
@@ -198,10 +196,10 @@ export default function Hero() {
               fontSize: 14.5,
             }}
           >
-            LinkedIn ↗
+            {content.hero.ctaLinkedin}
           </a>
           <a
-            href="#s06"
+            href="#contact"
             data-jump="1"
             className="cta-secondary"
             style={{
@@ -216,7 +214,7 @@ export default function Hero() {
               fontSize: 14.5,
             }}
           >
-            Me contacter
+            {content.hero.ctaContact}
           </a>
         </div>
 
@@ -234,7 +232,7 @@ export default function Hero() {
             overflow: "hidden",
           }}
         >
-          {heroStats.map((stat) => (
+          {content.heroStats.map((stat) => (
             <div key={stat.label} className="stat-cell" style={{ background: "var(--surf)", padding: "20px 22px", transition: "background .3s ease" }}>
               <div style={{ fontFamily: "var(--font-display)", fontSize: 27, fontWeight: 600, letterSpacing: "-0.02em" }}>
                 {stat.value.includes("+") ? (
