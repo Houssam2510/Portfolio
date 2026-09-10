@@ -1,13 +1,13 @@
 /**
  * Dual canvas background, ported from the design prototype.
  *
- * "hero"  — continuous drifting light-ribbons behind the name, evided over
+ * "hero": continuous drifting light-ribbons behind the name, evided over
  *           the real text so it never sits on top of a letter.
- * "flow"  — a topographic contour field for the rest of the page, with one
+ * "flow": a topographic contour field for the rest of the page, with one
  *           bright contour that migrates upward as the page scrolls.
  *
  * A single rAF loop lives on `window` (not tied to any component's mount
- * lifecycle) so nothing in React's render cycle can kill it — mirrors the
+ * lifecycle) so nothing in React's render cycle can kill it, mirroring the
  * prototype's own fix for the same class of bug.
  */
 

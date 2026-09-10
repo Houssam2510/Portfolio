@@ -8,7 +8,7 @@ export default function Thesis() {
       data-reveal="1"
       style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,56px) 128px" }}
     >
-      <SectionHeading eyebrow="01 — ./PRINCIPES --APPLIQUÉS" title="Ma thèse d'ingénierie" />
+      <SectionHeading eyebrow="01 · ./PRINCIPES --APPLIQUÉS" title="Ma thèse d'ingénierie" />
       <p
         style={{
           fontSize: "clamp(18px,2.1vw,25px)",

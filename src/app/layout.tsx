@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import { contact } from "@/data/content";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -24,9 +25,9 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const title = "Houssam Nadir — Génie informatique, Polytechnique Montréal";
+const title = "Houssam Nadir · Génie informatique, Polytechnique Montréal";
 const description =
-  "Étudiant en génie informatique à Polytechnique Montréal. Cloud, cybersécurité et développement — trois produits en production, seul : Carriv, StudyLumina, Sanade.";
+  "Étudiant en génie informatique à Polytechnique Montréal. Cloud, cybersécurité et développement. Trois produits en production, seul : Carriv, StudyLumina, Sanade.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -82,6 +83,42 @@ export const viewport: Viewport = {
  */
 const themeScript = `(function(){try{var t=localStorage.getItem("pf-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"}document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})()`;
 
+/**
+ * Données structurées Person : donnent aux moteurs de recherche (et aux outils
+ * de recrutement qui les lisent) le nom, la formation, les compétences et les
+ * projets sous forme exploitable, au lieu de les laisser deviner depuis le HTML.
+ */
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Houssam Nadir",
+  jobTitle: "Étudiant en génie informatique",
+  description,
+  url: siteUrl,
+  email: `mailto:${contact.email}`,
+  telephone: contact.phone,
+  sameAs: [contact.linkedin],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Montréal",
+    addressRegion: "QC",
+    addressCountry: "CA",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Polytechnique Montréal",
+  },
+  knowsLanguage: ["fr", "en"],
+  knowsAbout: [
+    "Génie informatique",
+    "Infonuagique",
+    "Cybersécurité",
+    "Next.js",
+    "TypeScript",
+    "AWS",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -94,6 +131,10 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
       </head>
       <body suppressHydrationWarning>{children}</body>
     </html>

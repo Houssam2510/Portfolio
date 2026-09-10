@@ -45,7 +45,7 @@ export default function Contact() {
             Donnez-moi la contrainte, je reviens avec l&rsquo;architecture.
           </h2>
           <p style={{ fontSize: 16, lineHeight: 1.65, color: "var(--muted)", maxWidth: "58ch", margin: "0 auto 38px" }}>
-            Je cherche un stage où je touche à la production — pipeline, sécurité, données — pas seulement à la
+            Je cherche un stage où je touche à la production : pipeline, sécurité, données, pas seulement à la
             maquette. Réponse sous 24 h.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 36, justifyContent: "center" }}>

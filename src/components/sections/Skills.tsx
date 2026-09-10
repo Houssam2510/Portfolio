@@ -10,15 +10,20 @@ export default function Skills() {
   return (
     <section id="s04" data-band="1" data-reveal="1" style={{ marginBottom: 128 }}>
       <div className="band-inner">
-        <SectionHeading eyebrow="04 — FILTRER PAR DOMAINE" title="Capacités" />
+        <SectionHeading eyebrow="04 · FILTRER PAR DOMAINE" title="Capacités" />
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 9, marginBottom: 44, justifyContent: "center" }}>
+        <div
+          role="group"
+          aria-label="Filtrer les compétences par domaine"
+          style={{ display: "flex", flexWrap: "wrap", gap: 9, marginBottom: 44, justifyContent: "center" }}
+        >
           {skillFilters.map((f) => (
             <button
               key={f.id}
               type="button"
               data-filter={f.id}
               data-active={filter === f.id ? "" : undefined}
+              aria-pressed={filter === f.id}
               onClick={() => setFilter(f.id)}
               style={{
                 fontFamily: "var(--font-mono)",

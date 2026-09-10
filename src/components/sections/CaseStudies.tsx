@@ -11,7 +11,7 @@ export default function CaseStudies() {
   return (
     <section id="s02" data-band="1" data-reveal="1" style={{ marginBottom: 128 }}>
       <div className="band-inner">
-        <SectionHeading eyebrow="02 — QUATRE DOSSIERS, RIEN DE CACHÉ" title="Études de cas" />
+        <SectionHeading eyebrow="02 · QUATRE DOSSIERS, RIEN DE CACHÉ" title="Études de cas" />
 
         <div
           data-stagger="1"
