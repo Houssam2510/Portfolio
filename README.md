@@ -11,6 +11,8 @@ TypeScript. Génie informatique, Polytechnique Montréal.
   `oklch()`), le reste est en styles inline au niveau des composants.
 - **Polices** via `next/font/google` : Space Grotesk (titres), IBM Plex Sans
   (texte), JetBrains Mono (données et étiquettes).
+- **Palette Ambre CRT** : ambre sur charbon chaud, en `oklch()`. Tous les
+  couples texte/fond ont été vérifiés au ratio WCAG (AA au minimum).
 - **Fond animé** : deux canvas pilotés par une seule boucle `requestAnimationFrame`
   (`src/lib/backgroundEngine.ts`) — rubans lumineux derrière le nom, champ
   topographique pour le reste de la page.
@@ -19,7 +21,8 @@ TypeScript. Génie informatique, Polytechnique Montréal.
 
 ```
 src/
-  app/          layout, page, styles globaux, robots.ts, sitemap.ts
+  app/          layout, page, styles globaux, robots.ts, sitemap.ts,
+                opengraph-image.tsx (image de partage générée)
   components/   chrome (en-tête, palette, barre de progression) + sections/
   data/         content.ts — tout le contenu rédactionnel, en un seul endroit
   hooks/        thème, révélation au scroll, effet machine à écrire
@@ -49,10 +52,13 @@ npm run typecheck  # tsc --noEmit
 ## Points connus
 
 - Les aperçus des études de cas sont capturés à la volée par un service tiers
-  (`image.thum.io`) sur carriv.com, app.studylumina.com et sanade.app. Si le
-  service est lent ou indisponible, la zone d'aperçu reste vide. Pour s'en
-  affranchir, remplacer `screenshotUrl()` dans `src/lib/screenshot.ts` par des
-  images statiques servies depuis `public/`.
-- Aucune image `og:image` n'est encore fournie : les cartes de partage
-  s'afficheront sans visuel tant qu'un fichier ne sera pas ajouté et référencé
-  dans `openGraph.images` (`src/app/layout.tsx`).
+  (`image.thum.io`) sur carriv.com, app.studylumina.com et sanade.app. Le
+  composant `SiteScreenshot` affiche un état de chargement puis un repli vers
+  le site réel si la capture échoue, mais la dépendance reste externe : pour
+  s'en affranchir, remplacer `screenshotUrl()` dans `src/lib/screenshot.ts` par
+  des images statiques servies depuis `public/`.
+- La CSP définie dans `next.config.ts` autorise `'unsafe-inline'` pour les
+  scripts et les styles, parce que le thème est appliqué par un script inline
+  avant le premier paint et que la mise en forme repose sur des attributs
+  `style`. Sortir les styles inline vers des CSS Modules permettrait de
+  resserrer cette directive.
