@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="./image-slot.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="light"] {
+    --bg:oklch(0.977 0.003 250); --bg2:oklch(0.958 0.004 250); --surf:#fff; --soft:oklch(0.948 0.005 250);
+    --bg-94:oklch(0.977 0.003 250 / 0.94); --bg-92:oklch(0.977 0.003 250 / 0.92); --bg-88:oklch(0.977 0.003 250 / 0.88); --bg-55:oklch(0.977 0.003 250 / 0.55);
+    --line:oklch(0.895 0.007 250); --line2:oklch(0.855 0.010 250); --line3:oklch(0.800 0.013 250);
+    --ink:oklch(0.20 0.018 255); --ink2:oklch(0.27 0.018 255); --text:oklch(0.36 0.016 255);
+    --muted:oklch(0.45 0.015 255); --dim:oklch(0.52 0.013 255); --dim2:oklch(0.60 0.012 255);
+    --acc:oklch(0.46 0.135 130); --acc-hi:oklch(0.52 0.150 130); --acc-2:oklch(0.38 0.115 130);
+    --on-acc:oklch(0.985 0.010 130); --acc-glow:oklch(0.70 0.160 130 / 0.11);
+    --ok:oklch(0.50 0.130 162); --warn:oklch(0.55 0.170 28);
+    --sh1:oklch(0.30 0.020 255 / 0.10); --sh2:oklch(0.30 0.020 255 / 0.06); --scrim:oklch(0.25 0.020 255 / 0.40);
+    --canvas-op:1;
+  }
+  :root, [data-theme="dark"] {
+    --bg:oklch(0.155 0.014 252); --bg2:oklch(0.125 0.012 252); --surf:oklch(0.198 0.015 252); --soft:oklch(0.228 0.016 252);
+    --bg-94:oklch(0.155 0.014 252 / 0.94); --bg-92:oklch(0.155 0.014 252 / 0.92); --bg-88:oklch(0.155 0.014 252 / 0.88); --bg-55:oklch(0.155 0.014 252 / 0.55);
+    --line:oklch(0.295 0.017 252); --line2:oklch(0.355 0.018 252); --line3:oklch(0.420 0.018 252);
+    --ink:oklch(0.970 0.004 252); --ink2:oklch(0.920 0.005 252); --text:oklch(0.830 0.007 252);
+    --muted:oklch(0.750 0.008 252); --dim:oklch(0.645 0.010 252); --dim2:oklch(0.560 0.012 252);
+    --acc:oklch(0.870 0.200 128); --acc-hi:oklch(0.930 0.185 128); --acc-2:oklch(0.780 0.190 128);
+    --on-acc:oklch(0.160 0.030 128); --acc-glow:oklch(0.870 0.200 128 / 0.10);
+    --ok:oklch(0.800 0.170 162); --warn:oklch(0.740 0.160 30);
+    --sh1:oklch(0 0 0 / 0.50); --sh2:oklch(0 0 0 / 0.28); --scrim:oklch(0.080 0.010 252 / 0.68);
+    --canvas-op:1;
+  }
+  html { background:var(--bg); }
+  body { margin:0; background:var(--bg); transition:background .35s ease, color .35s ease; color:var(--ink); font-family:"IBM Plex Sans", system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  [data-theme] { color-scheme:light dark; }
+  a { color:var(--acc); text-decoration:none; }
+  a:hover { color:var(--acc-2); }
+  ::selection { background:var(--acc); color:var(--on-acc); }
+  @keyframes cnBlink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+  @keyframes cnPulse { 0%,100% { opacity:0.3; } 50% { opacity:1; } }
+  [data-reveal-armed] { opacity:0; transform:translateY(30px); transition:opacity .85s cubic-bezier(.16,.8,.24,1), transform .85s cubic-bezier(.16,.8,.24,1); }
+  [data-reveal-armed][data-shown] { opacity:1; transform:translateY(0); }
+  [data-stagger] > * { opacity:0; transform:translateY(20px); }
+  [data-stagger][data-shown] > * { opacity:1; transform:translateY(0); transition:opacity .7s cubic-bezier(.16,.8,.24,1), transform .7s cubic-bezier(.16,.8,.24,1); }
+  [data-stagger][data-shown] > *:nth-child(1) { transition-delay:.04s; }
+  [data-stagger][data-shown] > *:nth-child(2) { transition-delay:.12s; }
+  [data-stagger][data-shown] > *:nth-child(3) { transition-delay:.20s; }
+  [data-stagger][data-shown] > *:nth-child(4) { transition-delay:.28s; }
+  [data-stagger][data-shown] > *:nth-child(5) { transition-delay:.36s; }
+  [data-stagger][data-shown] > *:nth-child(6) { transition-delay:.44s; }
+  [data-lift] { transition:transform .3s cubic-bezier(.16,.8,.24,1), border-color .3s ease, box-shadow .3s ease; }
+  [data-lift]:hover { transform:translateY(-4px); border-color:var(--line3); box-shadow:0 20px 44px var(--sh2); }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal-armed] { opacity:1; transform:none; transition:none; }
+    [data-stagger] > *, [data-stagger][data-shown] > * { opacity:1; transform:none; transition:none; }
+    [data-lift]:hover { transform:none; }
+  }
+  [data-dossier-link][data-active] { border-color:var(--acc) !important; background:var(--soft) !important; }
+  [data-skill][data-dim] { opacity:0.22; }
+  [data-filter][data-active] { background:var(--acc); color:var(--on-acc); border-color:var(--acc); }
+  [data-palette] { opacity:0; pointer-events:none; transition:opacity .18s ease; }
+  [data-palette][data-open] { opacity:1; pointer-events:auto; }
+  [data-pal-item][data-cursor] { background:var(--soft); }
+  @media (prefers-reduced-motion: reduce) { [data-reveal-armed] { opacity:1; transform:none; transition:none; } }
+  [data-nav][data-active] { color:var(--ink) !important; border-bottom-color:var(--acc) !important; }
+  [data-band] { position:relative; clip-path:inset(0 -100vmax); box-shadow:0 0 0 100vmax var(--surf), 0 1px 0 100vmax var(--line), 0 -1px 0 100vmax var(--line); }
+  @media (max-width: 720px) { [data-topnav] { display:none !important; } }
+</style>
+</helmet>
+
+<div style="position:relative; min-height:100vh; background:var(--bg);">
+
+  <div style="position:fixed; inset:0; z-index:0; pointer-events:none;">
+    <canvas data-bg="flow" ref="{{ canvasRef }}" style="position:absolute; inset:0; width:100%; height:100%; display:block; opacity:0;"></canvas>
+    <div style="position:absolute; inset:0; background:radial-gradient(ellipse at 74% 14%, transparent 0%, var(--bg) 100%); opacity:0.55;"></div>
+    <div ref="{{ spotRef }}" style="position:absolute; top:0; left:0; width:560px; height:560px; margin:-280px 0 0 -280px; border-radius:50%; background:radial-gradient(circle, var(--acc-glow) 0%, transparent 66%); will-change:transform;"></div>
+  </div>
+
+
+  <div data-main="1" style="position:relative; z-index:1;">
+
+    <div ref="{{ progRef }}" style="position:fixed; top:0; left:0; height:2px; width:0%; background:var(--acc); z-index:60;"></div>
+
+    <header style="position:sticky; top:0; z-index:50; background:var(--bg-88); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);">
+      <div style="max-width:1280px; margin:0 auto; padding:18px clamp(20px,4vw,56px); display:flex; align-items:center; gap:clamp(16px,3vw,44px);">
+        <a href="#s00" data-jump="1" style="display:flex; align-items:center; gap:11px; margin-right:auto; color:var(--ink);" style-hover="color:var(--ink)">
+          <span style="width:32px; height:32px; border:1.5px solid var(--acc); border-radius:9px; display:grid; place-items:center; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--acc); flex-shrink:0;">HN</span>
+          <span style="display:flex; flex-direction:column; line-height:1.25;">
+            <span style="font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; letter-spacing:-0.015em;">Houssam Nadir</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.09em; color:var(--dim);">GÉNIE INFORMATIQUE · POLYMTL</span>
+          </span>
+        </a>
+        <nav data-topnav="1" style="display:flex; align-items:center; gap:clamp(14px,2vw,30px); flex-wrap:wrap;">
+        <a href="#s01" data-jump="1" data-nav="s01" style="color:var(--muted); font-size:13.5px; letter-spacing:-0.005em; padding:6px 0; border-bottom:1px solid transparent;" style-hover="color:var(--ink)">Approche</a>
+        <a href="#s02" data-jump="1" data-nav="s02" style="color:var(--muted); font-size:13.5px; letter-spacing:-0.005em; padding:6px 0; border-bottom:1px solid transparent;" style-hover="color:var(--ink)">Travaux</a>
+        <a href="#s04" data-jump="1" data-nav="s04" style="color:var(--muted); font-size:13.5px; letter-spacing:-0.005em; padding:6px 0; border-bottom:1px solid transparent;" style-hover="color:var(--ink)">Capacités</a>
+        <a href="#s05" data-jump="1" data-nav="s05" style="color:var(--muted); font-size:13.5px; letter-spacing:-0.005em; padding:6px 0; border-bottom:1px solid transparent;" style-hover="color:var(--ink)">Parcours</a>
+        </nav>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button data-theme-toggle="1" title="Basculer clair / sombre" aria-label="Basculer le thème" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; width:34px; height:34px; display:grid; place-items:center; border:1px solid var(--line2); border-radius:8px; background:transparent; color:var(--dim); cursor:pointer;" style-hover="border-color:var(--acc); color:var(--ink)"><span data-theme-icon="1">◐</span></button>
+          <button data-pal-open="1" title="Rechercher (⌘K)" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; padding:8px 11px; border:1px solid var(--line2); border-radius:8px; background:transparent; color:var(--dim); cursor:pointer;" style-hover="border-color:var(--acc); color:var(--ink)">⌘K</button>
+          <a href="#s06" data-jump="1" style="font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:0.05em; padding:10px 18px; border-radius:8px; background:var(--ink); color:var(--bg); font-weight:500; white-space:nowrap;" style-hover="background:var(--acc); color:var(--on-acc)">CONTACT</a>
+        </div>
+      </div>
+    </header>
+
+    <div style="border-bottom:1px solid var(--line); background:var(--bg2);">
+      <div style="max-width:1280px; margin:0 auto; padding:11px clamp(20px,4vw,56px); display:flex; align-items:center; gap:20px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.09em; color:var(--dim);">
+        <span style="display:flex; align-items:center; gap:8px; color:var(--acc);"><span style="width:6px; height:6px; border-radius:50%; background:var(--ok); animation:cnPulse 2.4s ease-in-out infinite;"></span>TROIS PRODUITS EN PRODUCTION</span>
+        <span style="width:1px; height:11px; background:var(--line2);"></span>
+        <span>CARRIV</span><span>STUDYLUMINA</span><span>SANADE</span>
+        <span style="margin-left:auto; display:flex; align-items:center; gap:14px;"><span ref="{{ clockRef }}">--:--:--</span><span>MONTRÉAL · UTC−5</span></span>
+      </div>
+    </div>
+
+    <!-- 00 HÉROS -->
+    <section id="s00" style="position:relative; overflow:hidden; padding:clamp(76px,12vh,132px) clamp(20px,4vw,56px) 104px; min-height:82vh; display:flex; flex-direction:column; justify-content:center;">
+      <canvas data-bg="hero" style="position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0;"></canvas>
+      <div style="position:absolute; inset:0; z-index:0; background:radial-gradient(ellipse at 50% 48%, var(--bg-88) 0%, var(--bg-55) 30%, transparent 66%);"></div>
+      <div style="position:absolute; left:0; right:0; bottom:0; height:30%; z-index:0; background:linear-gradient(to bottom, transparent, var(--bg));"></div>
+
+      <div style="position:relative; z-index:1; max-width:1280px; margin:0 auto; width:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
+        <div data-hero-block="1" style="display:flex; align-items:center; gap:14px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em; color:var(--muted); margin-bottom:34px; flex-wrap:wrap; justify-content:center;">
+          <span style="width:7px; height:7px; border-radius:50%; background:var(--ok); animation:cnPulse 2.4s ease-in-out infinite;"></span>
+          <span>DISPONIBLE — STAGE 2027</span>
+          <span style="width:40px; height:1px; background:var(--line2);"></span>
+          <span>MONTRÉAL · UTC−5</span>
+          <span style="width:40px; height:1px; background:var(--line2);"></span>
+          <span>B.ING · DÉC. 2027</span>
+        </div>
+        <h1 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:clamp(46px,9vw,132px); line-height:0.90; letter-spacing:-0.045em; margin:0 0 2px;">Houssam</h1>
+        <h1 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:clamp(46px,9vw,132px); line-height:0.90; letter-spacing:-0.045em; margin:0 0 30px; color:transparent; -webkit-text-stroke:1.7px var(--acc);">Nadir<span style="-webkit-text-stroke:0; color:var(--acc);">.</span></h1>
+
+        <div data-hero-block="1" style="display:flex; align-items:baseline; gap:14px; font-family:'JetBrains Mono',monospace; font-size:clamp(13px,1.6vw,17px); color:var(--ink2); margin-bottom:30px; min-height:1.6em;">
+          <span style="color:var(--acc);">&gt;</span>
+          <span ref="{{ typeRef }}">le modèle génère, le code décide</span>
+          <span style="width:9px; height:1.05em; background:var(--acc); animation:cnBlink 1.1s step-end infinite;"></span>
+        </div>
+
+        <p style="font-size:clamp(15px,1.5vw,18px); line-height:1.65; color:var(--muted); max-width:60ch; margin:0 0 42px; text-wrap:pretty;">
+          Étudiant en génie informatique à Polytechnique Montréal. J'expédie des produits complets, seul — pipelines LLM à sorties structurées, scoring déterministe, comptabilité transactionnelle sans course, sécurité cloud. Trois plateformes en production, de la landing bilingue au webhook de paiement signé.
+        </p>
+
+        <div data-hero-block="1" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:60px; justify-content:center;">
+          <a href="#s02" data-jump="1" data-cta="primary" style="color:var(--on-acc); background:var(--acc); display:inline-flex; align-items:center; gap:12px; padding:15px 26px; border-radius:9px; font-weight:600; font-size:14.5px;" style-hover="background:var(--acc-2); color:var(--on-acc)">Voir les études de cas <span style="color:var(--on-acc); font-family:'JetBrains Mono',monospace;">→</span></a>
+          <a href="https://www.linkedin.com/in/houssam-nadir-a1a292263/" target="_blank" rel="noopener" data-cta="secondary" style="color:var(--ink); display:inline-flex; align-items:center; gap:12px; padding:15px 26px; border-radius:9px; border:1px solid var(--line2); font-weight:500; font-size:14.5px;" style-hover="border-color:var(--dim2); background:var(--surf); color:var(--ink)">LinkedIn ↗</a>
+          <a href="#s06" data-jump="1" data-cta="secondary" style="color:var(--ink); display:inline-flex; align-items:center; gap:12px; padding:15px 26px; border-radius:9px; border:1px solid var(--line2); font-weight:500; font-size:14.5px;" style-hover="border-color:var(--dim2); background:var(--surf); color:var(--ink)">Me contacter</a>
+        </div>
+
+        <div data-hero-block="1" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; width:100%; max-width:940px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden;">
+          <div style="background:var(--surf); padding:20px 22px; transition:background .3s ease;" style-hover="background:var(--soft)">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:27px; font-weight:600; letter-spacing:-0.02em;">3</div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:6px;">PRODUITS EN PRODUCTION</div>
+          </div>
+          <div style="background:var(--surf); padding:20px 22px; transition:background .3s ease;" style-hover="background:var(--soft)">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:27px; font-weight:600; letter-spacing:-0.02em;">110k<span style="color:var(--acc);">+</span></div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:6px;">LIGNES DE TYPESCRIPT</div>
+          </div>
+          <div style="background:var(--surf); padding:20px 22px; transition:background .3s ease;" style-hover="background:var(--soft)">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:27px; font-weight:600; letter-spacing:-0.02em;">941</div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:6px;">CAS DE TEST · SANADE</div>
+          </div>
+          <div style="background:var(--surf); padding:20px 22px; transition:background .3s ease;" style-hover="background:var(--soft)">
+            <div style="font-family:'Space Grotesk',sans-serif; font-size:27px; font-weight:600; letter-spacing:-0.02em;">3,65</div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:6px;">GPA · HIVER 2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 THÈSE -->
+    <section id="s01" data-reveal="1" style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,4vw,56px) 128px;">
+      <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:13px; margin-bottom:52px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:var(--acc);">01 — ./PRINCIPES --APPLIQUÉS</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.4vw,42px); font-weight:600; letter-spacing:-0.035em; margin:0; max-width:26ch; text-wrap:balance;">Ma thèse d'ingénierie</h2>
+        <span style="width:52px; height:2px; background:var(--acc); border-radius:2px;"></span>
+      </div>
+      <p style="font-size:clamp(18px,2.1vw,25px); line-height:1.45; letter-spacing:-0.02em; color:var(--ink2); margin:0 auto 52px; max-width:46ch; text-align:center; text-wrap:balance;">
+        Trois principes, tenus dans les trois produits. Ce ne sont pas des slogans : chacun est vérifié par du code.
+      </p>
+      <div data-stagger="1" data-reveal="1" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(292px,1fr)); gap:16px;">
+        <div data-lift="1" style="position:relative; display:flex; flex-direction:column; padding:36px 30px 30px; border:1px solid var(--line); border-radius:18px; background:var(--surf); overflow:hidden;">
+          <span aria-hidden="true" style="position:absolute; top:-6px; right:16px; font-family:'Space Grotesk',sans-serif; font-size:104px; font-weight:700; line-height:1; letter-spacing:-0.04em; color:transparent; -webkit-text-stroke:1.4px var(--line); pointer-events:none; user-select:none;">I</span>
+          <span style="display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:var(--acc); margin-bottom:22px;">
+            <span style="width:20px; height:2px; background:var(--acc); border-radius:2px;"></span>PRINCIPE I
+          </span>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:600; letter-spacing:-0.02em; margin:0 0 14px; line-height:1.22; max-width:22ch; position:relative;">Le modèle extrait, le code décide</h3>
+          <p style="font-size:14px; line-height:1.7; color:var(--muted); margin:0 0 24px;">Un LLM est excellent pour reformuler et classer, désastreux pour produire un nombre censé être reproductible. Chaque chiffre affiché à l’utilisateur sort d’une fonction pure.</p>
+          <div style="margin-top:auto; display:flex; flex-direction:column; gap:11px; padding-top:20px; border-top:1px solid var(--line);">
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Carriv</span>
+              <span style="color:var(--dim);">score ATS déterministe</span>
+            </span>
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">StudyLumina</span>
+              <span style="color:var(--dim);">ERS, fonction pure de ~850 lignes</span>
+            </span>
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Sanade</span>
+              <span style="color:var(--dim);">zéro modèle entraîné</span>
+            </span>
+          </div>
+        </div>
+        <div data-lift="1" style="position:relative; display:flex; flex-direction:column; padding:36px 30px 30px; border:1px solid var(--line); border-radius:18px; background:var(--surf); overflow:hidden;">
+          <span aria-hidden="true" style="position:absolute; top:-6px; right:16px; font-family:'Space Grotesk',sans-serif; font-size:104px; font-weight:700; line-height:1; letter-spacing:-0.04em; color:transparent; -webkit-text-stroke:1.4px var(--line); pointer-events:none; user-select:none;">II</span>
+          <span style="display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:var(--acc); margin-bottom:22px;">
+            <span style="width:20px; height:2px; background:var(--acc); border-radius:2px;"></span>PRINCIPE II
+          </span>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:600; letter-spacing:-0.02em; margin:0 0 14px; line-height:1.22; max-width:22ch; position:relative;">Un invariant non testé n’existe pas</h3>
+          <p style="font-size:14px; line-height:1.7; color:var(--muted); margin:0 0 24px;">Les règles produit descendent au niveau du test : elles échouent la CI au lieu de vivre dans un document que personne ne relit.</p>
+          <div style="margin-top:auto; display:flex; flex-direction:column; gap:11px; padding-top:20px; border-top:1px solid var(--line);">
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Cliquet</span>
+              <span style="color:var(--dim);">les <span style="font-family:'JetBrains Mono',monospace">any</span> ne remontent jamais</span>
+            </span>
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Seuils</span>
+              <span style="color:var(--dim);">client ≡ serveur, vérifié</span>
+            </span>
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Architecture</span>
+              <span style="color:var(--dim);">faits ⇸ projections</span>
+            </span>
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Couleurs</span>
+              <span style="color:var(--dim);">aucun littéral en dur</span>
+            </span>
+          </div>
+        </div>
+        <div data-lift="1" style="position:relative; display:flex; flex-direction:column; padding:36px 30px 30px; border:1px solid var(--line); border-radius:18px; background:var(--surf); overflow:hidden;">
+          <span aria-hidden="true" style="position:absolute; top:-6px; right:16px; font-family:'Space Grotesk',sans-serif; font-size:104px; font-weight:700; line-height:1; letter-spacing:-0.04em; color:transparent; -webkit-text-stroke:1.4px var(--line); pointer-events:none; user-select:none;">III</span>
+          <span style="display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.14em; color:var(--acc); margin-bottom:22px;">
+            <span style="width:20px; height:2px; background:var(--acc); border-radius:2px;"></span>PRINCIPE III
+          </span>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:600; letter-spacing:-0.02em; margin:0 0 14px; line-height:1.22; max-width:22ch; position:relative;">La contrainte d’exécution est une contrainte de conception</h3>
+          <p style="font-size:14px; line-height:1.7; color:var(--muted); margin:0 0 24px;">Le serverless, le débit d’un fournisseur, la mort d’une Lambda : des paramètres d’architecture, pas des accidents à absorber en production.</p>
+          <div style="margin-top:auto; display:flex; flex-direction:column; gap:11px; padding-top:20px; border-top:1px solid var(--line);">
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Timeout</span>
+              <span style="color:var(--dim);">90 s &lt; durée de vie Lambda</span>
+            </span>
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Crédit</span>
+              <span style="color:var(--dim);">réservé avant l’appel</span>
+            </span>
+            <span style="display:flex; align-items:baseline; gap:11px; font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.5;">
+              <span style="color:var(--acc); flex-shrink:0;">✓</span>
+              <span style="color:var(--text); min-width:88px; flex-shrink:0;">Rate limit</span>
+              <span style="color:var(--dim);">en base, pas en mémoire</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div data-stagger="1" data-reveal="1" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:16px;">
+        <div style="padding:28px 30px; border:1px solid var(--line); border-radius:18px; background:var(--bg2);">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim); margin-bottom:14px;">LE BUG QUI A CRÉÉ UNE RÈGLE</div>
+          <p style="font-size:14px; line-height:1.7; color:var(--muted); margin:0;">Huit copies d’une palette codaient les valeurs du thème clair en dur : le meilleur score possible s’affichait à <strong style="color:var(--ink);">1,59:1</strong> de contraste sur le thème sombre — invisible. Après passage aux tokens : <strong style="color:var(--acc);">9,95:1</strong>. Depuis, un test interdit les couleurs littérales dans les composants.</p>
+        </div>
+        <div style="padding:28px 30px; border:1px solid var(--line); border-radius:18px; background:var(--bg2);">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.12em; color:var(--dim); margin-bottom:14px;">CE QUE JE REFUSE D’EXPÉDIER</div>
+          <p style="font-size:14px; line-height:1.7; color:var(--muted); margin:0;">Une expérience inventée par un modèle, un score qui régresse sans raison explicable, un crédit débité pour une génération jamais reçue, un PDF joli mais illisible par un ATS. Ces quatre refus ont chacun produit une ligne d’architecture.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 TRAVAUX -->
+    <section id="s02" data-band="1" data-reveal="1" style="max-width:1280px; margin:0 auto 128px; padding:112px clamp(20px,4vw,56px);">
+      <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:13px; margin-bottom:52px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:var(--acc);">02 — QUATRE DOSSIERS, RIEN DE CACHÉ</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.4vw,42px); font-weight:600; letter-spacing:-0.035em; margin:0; max-width:26ch; text-wrap:balance;">Études de cas</h2>
+        <span style="width:52px; height:2px; background:var(--acc); border-radius:2px;"></span>
+      </div>
+      <div data-stagger="1" data-reveal="1" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(196px,1fr)); gap:12px; margin-bottom:76px;">
+        <a href="#dossier-01" data-dossier-link="dossier-01" style="display:flex; flex-direction:column; gap:7px; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surf); color:var(--ink); transition:border-color .2s ease, transform .2s ease;" style-hover="border-color:var(--acc); transform:translateY(-3px); color:var(--ink)">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--acc);">01</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600; letter-spacing:-0.015em;">Carriv</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); line-height:1.5;">ADAPTATION DE CV · EN PRODUCTION</span>
+        </a>
+        <a href="#dossier-02" data-dossier-link="dossier-02" style="display:flex; flex-direction:column; gap:7px; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surf); color:var(--ink); transition:border-color .2s ease, transform .2s ease;" style-hover="border-color:var(--acc); transform:translateY(-3px); color:var(--ink)">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--acc);">02</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600; letter-spacing:-0.015em;">StudyLumina</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); line-height:1.5;">PRÉPARATION AUX EXAMENS · EN PRODUCTION</span>
+        </a>
+        <a href="#dossier-03" data-dossier-link="dossier-03" style="display:flex; flex-direction:column; gap:7px; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surf); color:var(--ink); transition:border-color .2s ease, transform .2s ease;" style-hover="border-color:var(--acc); transform:translateY(-3px); color:var(--ink)">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--acc);">03</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600; letter-spacing:-0.015em;">Sanade</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); line-height:1.5;">ARBITRAGE D’HABITUDES · EN PRODUCTION</span>
+        </a>
+        <a href="#dossier-04" data-dossier-link="dossier-04" style="display:flex; flex-direction:column; gap:7px; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surf); color:var(--ink); transition:border-color .2s ease, transform .2s ease;" style-hover="border-color:var(--acc); transform:translateY(-3px); color:var(--ink)">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--acc);">04</span>
+          <span style="font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600; letter-spacing:-0.015em;">CSPM-Lite</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); line-height:1.5;">POSTURE CLOUD · OUTIL CLI</span>
+        </a>
+      </div>
+
+          <article id="dossier-01" data-dossier="01" data-reveal="1" style="position:relative; border:1px solid var(--line); border-top:2px solid var(--acc); border-radius:20px; background:var(--surf); overflow:hidden; margin-bottom:40px; scroll-margin-top:118px;" data-lift="1">
+            <span aria-hidden="true" style="position:absolute; top:6px; right:26px; font-family:'Space Grotesk',sans-serif; font-size:clamp(78px,10vw,146px); font-weight:700; line-height:0.8; letter-spacing:-0.05em; color:transparent; -webkit-text-stroke:1.5px var(--line2); pointer-events:none; user-select:none; opacity:0.55; z-index:0;">01</span>
+            <div style="position:relative; z-index:1; padding:clamp(24px,3vw,40px);">
+              <div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap; padding-bottom:22px; border-bottom:1px solid var(--line); margin-bottom:26px;">
+                <div style="display:flex; align-items:baseline; gap:14px;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--acc);">CAS 01</span>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3vw,38px); font-weight:600; letter-spacing:-0.035em; line-height:1;">Carriv</span>
+                </div>
+                <div style="display:flex; gap:26px; flex-wrap:wrap; margin-left:auto;">
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">RÔLE</span><span style="font-size:12.5px; color:var(--muted);">Conception &amp; développement, seul</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">PÉRIODE</span><span style="font-size:12.5px; color:var(--muted);">2026</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">STATUT</span><span style="display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted);"><span style="width:6px; height:6px; border-radius:50%; background:var(--ok);"></span>En production</span></span>
+                  <a href="https://carriv.com" target="_blank" rel="noopener" style="position:relative; z-index:3; align-self:flex-end; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.04em; padding:11px 18px; border-radius:8px; background:var(--ink); color:var(--on-acc); white-space:nowrap;" style-hover="background:var(--acc); color:var(--on-acc)">VOIR EN LIGNE ↗</a>
+                </div>
+              </div>
+              <h3 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(22px,2.7vw,31px); font-weight:600; letter-spacing:-0.025em; margin:0 0 16px; line-height:1.14;">Carriv — adapter un CV à une offre, sans jamais rien inventer</h3>
+              <p style="font-size:15.5px; line-height:1.7; color:var(--muted); margin:0 0 28px; max-width:66ch;">Postuler correctement demande 30 à 45 minutes par candidature ; demander à un chatbot de « faire le CV » produit des expériences inventées qui s'effondrent en entretien. Carriv adapte un profil maître à une offre donnée sous une règle de zéro invention inscrite dans chaque prompt.</p>
+
+              <figure style="margin:0 0 28px;">
+                <div style="border:1px solid var(--line2); border-radius:14px; overflow:hidden; background:var(--surf); box-shadow:0 18px 44px var(--sh1), 0 2px 6px var(--sh2);">
+                  <div style="display:flex; align-items:center; gap:10px; padding:11px 14px; border-bottom:1px solid var(--line); background:var(--soft);">
+                    <span style="display:flex; gap:6px; flex-shrink:0;">
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                    </span>
+                    <a href="https://carriv.com" target="_blank" rel="noopener" style="flex:1; min-width:0; display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.02em; color:var(--muted); background:var(--surf); border:1px solid var(--line); border-radius:6px; padding:6px 11px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;" style-hover="color:var(--ink); border-color:var(--line2)">
+                      <span style="color:var(--ok); flex-shrink:0;">▲</span>carriv.com
+                    </a>
+                    <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.09em; color:var(--dim); flex-shrink:0;">LIVE</span>
+                  </div>
+                  <div style="position:relative; width:100%; aspect-ratio:16/10; background:var(--soft); display:grid; place-items:center;">
+                    <image-slot id="shot-carriv" shape="rect" fit="contain" src="https://image.thum.io/get/noanimate/wait/8/width/1600/crop/1000/viewportWidth/1440/https://carriv.com" placeholder="Capture Carriv — CV adapté et score ATS"></image-slot>
+                  </div>
+                </div>
+                <figcaption style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.08em; color:var(--dim); margin-top:10px; text-align:center;">APERÇU AUTOMATIQUE DE CARRIV.COM · CAPTURÉ APRÈS STABILISATION · DÉPOSEZ VOTRE PROPRE IMAGE POUR REMPLACER</figcaption>
+              </figure>
+              <div style="border:1px solid var(--line); border-radius:14px; border-left:2px solid var(--acc); padding:26px 28px; margin-bottom:28px; background:var(--soft);">
+                <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--ink); margin-bottom:18px;">CE QUE ÇA CHANGE POUR LE CANDIDAT</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(228px,1fr)); gap:18px 26px;">
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">01</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">30 à 45 minutes de travail par candidature ramenées à une trentaine de secondes.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">02</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Rien d'inventé : tout ce qui est écrit sur le CV est défendable en entretien.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">03</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Le PDF passe les filtres ATS au lieu d'être rejeté par sa mise en page.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">04</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Le crédit est remboursé automatiquement si la génération échoue — jamais payé pour rien.</p>
+                </div>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; margin-bottom:28px;">
+                <div style="border-left:2px solid var(--acc); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--acc); margin-bottom:9px;">LE PROBLÈME</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Le modèle peut réordonner, sélectionner, reformuler et omettre — jamais fabriquer une expérience, une date, un employeur, un diplôme ou un chiffre. La traduction est la seule transformation autorisée, avec fidélité stricte du niveau de diplôme.</p>
+                </div>
+                <div style="border-left:2px solid var(--line2); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:9px;">LA DÉCISION CENTRALE</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Le score ATS n'est pas produit par le modèle. Un vrai ATS est un moteur de correspondance de mots-clés, pas un juge : le LLM extrait et classe les écarts, le score est une fonction déterministe. Re-scorer donne toujours le même nombre, et appliquer une reformulation ne peut qu'ajouter un mot-clé — donc jamais faire baisser le score.</p>
+                </div>
+              </div>
+
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:10px;">POST /api/generate — LE PIPELINE</div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.85; color:var(--text); background:var(--soft); border:1px solid var(--line); border-radius:10px; padding:18px 20px; overflow-x:auto; white-space:pre; margin-bottom:24px;">resolveApiUser      session ou token personnel (extension)
+enforceRateLimit    30 générations / h / utilisateur
+getProfile          scopé userId — jamais d'accès croisé
+reserveCredit       findOneAndUpdate atomique { credits: { $gte: 1 } } → 402
+analyzeJob          Structured Outputs · modèle principal
+adaptCVAndLetter    Structured Outputs · modèle principal
+scoreATS            matching déterministe, pondéré must=2 / nice=1
+createApplication
+catch → refundCredit + alerte</div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(104px,1fr)); gap:18px; padding:22px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:24px;">
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em; color:var(--acc);">~30 s</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">GÉNÉRATION</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">10</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">MODÈLES PDF</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">30/h</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">PLAFOND</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">2</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">DEVISES</div></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; margin-bottom:26px;">
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">REMBOURSEMENT GARANTI</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Client OpenAI plafonné à 90 s et une seule reprise, au lieu de 10 minutes et 2 retries. Sur Vercel, une requête pendue doit échouer pendant que la Lambda vit encore — sinon le catch qui rembourse ne s'exécute jamais et l'utilisateur paie une génération qu'il n'a pas reçue.</p></div>
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">LE MUR ATS</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">L'application a une direction artistique affirmée ; les PDF restent strictement ATS-safe — une colonne, typographie seule, aucune couleur ni décor. C'est exactement là que la plupart des générateurs échouent.</p></div>
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">SÉCURITÉ PAIEMENT</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Le montant Stripe n'est jamais cru côté client : le nombre de crédits vient de la table serveur indexée par Price ID, webhook vérifié par signature. Tokens d'extension stockés en SHA-256 uniquement. Plafond explicite à 30 pages contre les bombes de décompression PDF.</p></div>
+              </div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:7px;">
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">SvelteKit 2</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Svelte 5 runes</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">TypeScript strict</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">MongoDB</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">better-auth</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">OpenAI Structured Outputs</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Stripe</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">puppeteer-core</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Vercel</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Vitest</span>
+              </div>
+            </div>
+          </article>
+          <article id="dossier-02" data-dossier="02" data-reveal="1" style="position:relative; border:1px solid var(--line); border-top:2px solid var(--acc); border-radius:20px; background:var(--surf); overflow:hidden; margin-bottom:40px; scroll-margin-top:118px;" data-lift="1">
+            <span aria-hidden="true" style="position:absolute; top:6px; right:26px; font-family:'Space Grotesk',sans-serif; font-size:clamp(78px,10vw,146px); font-weight:700; line-height:0.8; letter-spacing:-0.05em; color:transparent; -webkit-text-stroke:1.5px var(--line2); pointer-events:none; user-select:none; opacity:0.55; z-index:0;">02</span>
+            <div style="position:relative; z-index:1; padding:clamp(24px,3vw,40px);">
+              <div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap; padding-bottom:22px; border-bottom:1px solid var(--line); margin-bottom:26px;">
+                <div style="display:flex; align-items:baseline; gap:14px;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--acc);">CAS 02</span>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3vw,38px); font-weight:600; letter-spacing:-0.035em; line-height:1;">StudyLumina</span>
+                </div>
+                <div style="display:flex; gap:26px; flex-wrap:wrap; margin-left:auto;">
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">RÔLE</span><span style="font-size:12.5px; color:var(--muted);">Conception &amp; développement, seul</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">PÉRIODE</span><span style="font-size:12.5px; color:var(--muted);">2026</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">STATUT</span><span style="display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted);"><span style="width:6px; height:6px; border-radius:50%; background:var(--ok);"></span>En production</span></span>
+                  <a href="https://app.studylumina.com" target="_blank" rel="noopener" style="position:relative; z-index:3; align-self:flex-end; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.04em; padding:11px 18px; border-radius:8px; background:var(--ink); color:var(--on-acc); white-space:nowrap;" style-hover="background:var(--acc); color:var(--on-acc)">VOIR EN LIGNE ↗</a>
+                </div>
+              </div>
+              <h3 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(22px,2.7vw,31px); font-weight:600; letter-spacing:-0.025em; margin:0 0 16px; line-height:1.14;">StudyLumina — mesurer la préparation réelle à un examen</h3>
+              <p style="font-size:15.5px; line-height:1.7; color:var(--muted); margin:0 0 28px; max-width:66ch;">Les outils d'étude IA s'arrêtent à la génération de contenu. StudyLumina mesure la préparation réelle, chapitre par chapitre, et indique quoi faire aujourd'hui. Aucune note n'est jamais produite par un LLM.</p>
+
+              <figure style="margin:0 0 28px;">
+                <div style="border:1px solid var(--line2); border-radius:14px; overflow:hidden; background:var(--surf); box-shadow:0 18px 44px var(--sh1), 0 2px 6px var(--sh2);">
+                  <div style="display:flex; align-items:center; gap:10px; padding:11px 14px; border-bottom:1px solid var(--line); background:var(--soft);">
+                    <span style="display:flex; gap:6px; flex-shrink:0;">
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                    </span>
+                    <a href="https://app.studylumina.com" target="_blank" rel="noopener" style="flex:1; min-width:0; display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.02em; color:var(--muted); background:var(--surf); border:1px solid var(--line); border-radius:6px; padding:6px 11px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;" style-hover="color:var(--ink); border-color:var(--line2)">
+                      <span style="color:var(--ok); flex-shrink:0;">▲</span>app.studylumina.com
+                    </a>
+                    <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.09em; color:var(--dim); flex-shrink:0;">LIVE</span>
+                  </div>
+                  <div style="position:relative; width:100%; aspect-ratio:16/10; background:var(--soft); display:grid; place-items:center;">
+                    <image-slot id="shot-studylumina" shape="rect" fit="contain" src="https://image.thum.io/get/noanimate/wait/8/width/1600/crop/1000/viewportWidth/1440/https://app.studylumina.com" placeholder="Capture StudyLumina — préparation par chapitre"></image-slot>
+                  </div>
+                </div>
+                <figcaption style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.08em; color:var(--dim); margin-top:10px; text-align:center;">APERÇU AUTOMATIQUE DE APP.STUDYLUMINA.COM · CAPTURÉ APRÈS STABILISATION · DÉPOSEZ VOTRE PROPRE IMAGE POUR REMPLACER</figcaption>
+              </figure>
+              <div style="border:1px solid var(--line); border-radius:14px; border-left:2px solid var(--acc); padding:26px 28px; margin-bottom:28px; background:var(--soft);">
+                <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--ink); margin-bottom:18px;">CE QUE ÇA CHANGE POUR L'ÉTUDIANT</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(228px,1fr)); gap:18px 26px;">
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">01</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Une réponse à la seule question utile : suis-je prêt, sur quel chapitre, et que faire aujourd'hui.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">02</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Chaque réponse est citée — document et page — donc vérifiable au lieu d'être crue.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">03</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Le score s'expose à la contradiction : l'erreur moyenne face aux vraies notes est affichée.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">04</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">On dépose un PDF et on continue à travailler : résumé, flashcards et quiz arrivent en arrière-plan.</p>
+                </div>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; margin-bottom:28px;">
+                <div style="border-left:2px solid var(--acc); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--acc); margin-bottom:9px;">LE PROBLÈME</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Un résumé ne dit pas si l'étudiant est prêt. Sans rattachement d'un document à un chapitre, impossible d'attribuer une réponse de quiz à une matière — donc impossible de mesurer autre chose qu'une moyenne globale sans valeur.</p>
+                </div>
+                <div style="border-left:2px solid var(--line2); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:9px;">LA DÉCISION CENTRALE</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Cours → Chapitre → Document est obligatoire : un document orphelin n'existe pas. C'est la condition de possibilité de tout le produit. L'Exam Readiness Score est une fonction pure de ~850 lignes, sans réseau ni LLM, et l'ajout du facteur de rétention est gaté : un chapitre sans flashcard révisée obtient un score strictement identique à avant, prouvé par test.</p>
+                </div>
+              </div>
+
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:10px;">INGESTION ASYNCHRONE — 6 FILES BULLMQ</div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.85; color:var(--text); background:var(--soft); border:1px solid var(--line); border-radius:10px; padding:18px 20px; overflow-x:auto; white-space:pre; margin-bottom:24px;">upload → ingestion    extraction PDF, nettoyage pages
+       → embeddings   chunking, batch + rate-limit, pgvector
+       → course-map   rattachement chunks ↔ chapitres
+       → summary | flashcards | quiz        (en parallèle)
+
+RAG hybride : pgvector + BM25 (GIN) fusionnés, filtrés
+cours/chapitre, SQL paramétré. Sur un follow-up, la
+question est condensée en requête autonome avant
+récupération. Citations → document + page.</div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(104px,1fr)); gap:18px; padding:22px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:24px;">
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">47 600</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">LIGNES TS</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">78</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">ROUTES API</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em; color:var(--acc);">74</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">FICHIERS DE TESTS</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">25</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">MODÈLES PRISMA</div></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; margin-bottom:26px;">
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">UN SCORE FALSIFIABLE</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">L'étudiant saisit sa vraie note après l'examen ; le produit affiche l'erreur moyenne entre score prédit et note obtenue. La note réelle n'est jamais réinjectée dans le calcul — le score se rend réfutable au lieu de se déclarer juste.</p></div>
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">HONNÊTETÉ DU SCORE</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">La couverture agit en multiplicateur de confiance : trois bonnes réponses ne peuvent pas faire lire « Ready ». Le score global est lissé, donc un seul mauvais quiz ne fait pas tout s'effondrer.</p></div>
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">MODÈLE DE DONNÉES</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Modèle bridge DocumentChapterSpan avec plages de pages plutôt qu'une clé étrangère : un PDF couvre souvent plusieurs chapitres, un chapitre s'étale sur plusieurs PDF. Aucune métrique scalaire en JSON brut.</p></div>
+              </div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:7px;">
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Next.js 15</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">React 18</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">PostgreSQL + pgvector</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Prisma 6</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">BullMQ + Redis</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Auth.js v5</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Gemini / OpenAI / DeepSeek</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Stripe</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Pino + Prometheus</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">next-intl</span>
+              </div>
+            </div>
+          </article>
+          <article id="dossier-03" data-dossier="03" data-reveal="1" style="position:relative; border:1px solid var(--line); border-top:2px solid var(--acc); border-radius:20px; background:var(--surf); overflow:hidden; margin-bottom:40px; scroll-margin-top:118px;" data-lift="1">
+            <span aria-hidden="true" style="position:absolute; top:6px; right:26px; font-family:'Space Grotesk',sans-serif; font-size:clamp(78px,10vw,146px); font-weight:700; line-height:0.8; letter-spacing:-0.05em; color:transparent; -webkit-text-stroke:1.5px var(--line2); pointer-events:none; user-select:none; opacity:0.55; z-index:0;">03</span>
+            <div style="position:relative; z-index:1; padding:clamp(24px,3vw,40px);">
+              <div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap; padding-bottom:22px; border-bottom:1px solid var(--line); margin-bottom:26px;">
+                <div style="display:flex; align-items:baseline; gap:14px;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--acc);">CAS 03</span>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3vw,38px); font-weight:600; letter-spacing:-0.035em; line-height:1;">Sanade</span>
+                </div>
+                <div style="display:flex; gap:26px; flex-wrap:wrap; margin-left:auto;">
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">RÔLE</span><span style="font-size:12.5px; color:var(--muted);">Conception &amp; développement, seul</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">PÉRIODE</span><span style="font-size:12.5px; color:var(--muted);">2025 — 2026</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">STATUT</span><span style="display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted);"><span style="width:6px; height:6px; border-radius:50%; background:var(--ok);"></span>En production</span></span>
+                  <a href="https://sanade.app" target="_blank" rel="noopener" style="position:relative; z-index:3; align-self:flex-end; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.04em; padding:11px 18px; border-radius:8px; background:var(--ink); color:var(--on-acc); white-space:nowrap;" style-hover="background:var(--acc); color:var(--on-acc)">VOIR EN LIGNE ↗</a>
+                </div>
+              </div>
+              <h3 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(22px,2.7vw,31px); font-weight:600; letter-spacing:-0.025em; margin:0 0 16px; line-height:1.14;">Sanade — le suivi d'habitudes qui arbitre au lieu d'enregistrer</h3>
+              <p style="font-size:15.5px; line-height:1.7; color:var(--muted); margin:0 0 28px; max-width:66ch;">Les trackers affichent fidèlement l'écart entre le prévu et le fait, pendant des mois, sans jamais rien en faire. Sanade calcule le temps réellement utilisable dans la journée, propose deux ou trois objectifs tenables et écarte le reste en disant pourquoi.</p>
+
+              <figure style="margin:0 0 28px;">
+                <div style="border:1px solid var(--line2); border-radius:14px; overflow:hidden; background:var(--surf); box-shadow:0 18px 44px var(--sh1), 0 2px 6px var(--sh2);">
+                  <div style="display:flex; align-items:center; gap:10px; padding:11px 14px; border-bottom:1px solid var(--line); background:var(--soft);">
+                    <span style="display:flex; gap:6px; flex-shrink:0;">
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                      <span style="width:9px; height:9px; border-radius:50%; background:var(--line2);"></span>
+                    </span>
+                    <a href="https://sanade.app" target="_blank" rel="noopener" style="flex:1; min-width:0; display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.02em; color:var(--muted); background:var(--surf); border:1px solid var(--line); border-radius:6px; padding:6px 11px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;" style-hover="color:var(--ink); border-color:var(--line2)">
+                      <span style="color:var(--ok); flex-shrink:0;">▲</span>sanade.app
+                    </a>
+                    <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.09em; color:var(--dim); flex-shrink:0;">LIVE</span>
+                  </div>
+                  <div style="position:relative; width:100%; aspect-ratio:16/10; background:var(--soft); display:grid; place-items:center;">
+                    <image-slot id="shot-sanade" shape="rect" fit="contain" src="https://image.thum.io/get/noanimate/wait/8/width/1600/crop/1000/viewportWidth/1440/https://sanade.app" placeholder="Capture Sanade — arbitrage du jour"></image-slot>
+                  </div>
+                </div>
+                <figcaption style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.08em; color:var(--dim); margin-top:10px; text-align:center;">APERÇU AUTOMATIQUE DE SANADE.APP · CAPTURÉ APRÈS STABILISATION · DÉPOSEZ VOTRE PROPRE IMAGE POUR REMPLACER</figcaption>
+              </figure>
+              <div style="border:1px solid var(--line); border-radius:14px; border-left:2px solid var(--acc); padding:26px 28px; margin-bottom:28px; background:var(--soft);">
+                <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--ink); margin-bottom:18px;">CE QUE ÇA CHANGE POUR L'UTILISATEUR</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(228px,1fr)); gap:18px 26px;">
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">01</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Deux ou trois objectifs tenables pour aujourd'hui, au lieu d'une liste de douze qui culpabilise.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">02</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Chaque objectif écarté est motivé : l'utilisateur voit pourquoi, il ne subit pas un tri opaque.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">03</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">On écrit sa note en français, en darija translittérée ou en arabe — le texte brut est conservé tel quel.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">04</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Web et mobile partagent le même cœur de domaine : aucune divergence de calcul entre les deux.</p>
+                </div>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; margin-bottom:28px;">
+                <div style="border-left:2px solid var(--acc); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--acc); margin-bottom:9px;">LE PROBLÈME</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Une capacité déclarée est une capacité fantasmée. Et avec six domaines et des décalages temporels, un cycle d'analyse teste des centaines de paires : un seuil individuel garantirait mécaniquement des faux liens à chaque passage.</p>
+                </div>
+                <div style="border-left:2px solid var(--line2); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:9px;">LA DÉCISION CENTRALE</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Faits contre projections, visible dans les noms de tables : tout calcul stocké porte le préfixe proj_, donc clearProjections() est sûr à tout moment et une formule de score peut être corrigée sans laisser un historique incohérent. Aucune table de faits ne pointe vers une projection — et un test d'architecture le vérifie, parce que la règle a déjà été violée en silence une fois.</p>
+                </div>
+              </div>
+
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:10px;">INGESTION — UNE EXTRACTION NE CRÉE JAMAIS DE DONNÉE</div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.85; color:var(--text); background:var(--soft); border:1px solid var(--line); border-radius:10px; padding:18px 20px; overflow-x:auto; white-space:pre; margin-bottom:24px;">texte brut (FR / darija translittérée / arabe)
+  → RawNote                stockée telle quelle, jamais réécrite
+  → prompt versionné + LLM côté serveur
+  → JSON validé par schéma Zod strict
+      ├─ échec  → une réparation, puis échec journalisé
+      └─ succès → Extraction { proposals, confidence }
+  → écran de revue          validation item par item
+  → Trackable (PLAN) ou LogEntry (CHECKIN)</div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(104px,1fr)); gap:18px; padding:22px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:24px;">
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">62 000</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">LIGNES TS</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em; color:var(--acc);">941</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">TESTS</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">13 700</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">DOMAINE PUR</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">0</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">SERVICE REQUIS</div></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; margin-bottom:26px;">
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">LA BIENVEILLANCE EST DANS LA FORMULE</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Une journée non renseignée sort du calcul au lieu de compter zéro : elle fait baisser la confiance affichée, jamais le score. Trois jours sans données affichent « score 74, confiance faible », pas « score 31 » — sinon le produit punirait le fait de ne pas ouvrir l'application.</p></div>
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">RIGUEUR STATISTIQUE</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Ce qui est affiché est une fréquence conditionnelle empirique — deux nombres refaisables à la main. Les liens sont testés par cycle complet, le nombre de tests est compté, et la publication est filtrée sur le taux de fausses découvertes. Chaque motif fige son cycle.</p></div>
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">CŒUR DE DOMAINE PUR</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">packages/core n'importe jamais db, api, ingestion ni React : 13 700 lignes testables sans base, sans réseau, sans clé d'API. La logique ne peut pas diverger entre web et mobile — c'est une propriété de la structure, pas une discipline.</p></div>
+              </div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:7px;">
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">TypeScript ESM</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Next.js 16 / React 19</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Expo · React Native</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">tRPC v11</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Prisma + PostgreSQL</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">PGlite (WASM)</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Zod</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Vitest · Playwright</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Turborepo · pnpm</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Sentry</span>
+              </div>
+            </div>
+          </article>
+          <article id="dossier-04" data-dossier="04" data-reveal="1" style="position:relative; border:1px solid var(--line); border-top:2px solid var(--acc); border-radius:20px; background:var(--surf); overflow:hidden; margin-bottom:0px; scroll-margin-top:118px;" data-lift="1">
+            <span aria-hidden="true" style="position:absolute; top:6px; right:26px; font-family:'Space Grotesk',sans-serif; font-size:clamp(78px,10vw,146px); font-weight:700; line-height:0.8; letter-spacing:-0.05em; color:transparent; -webkit-text-stroke:1.5px var(--line2); pointer-events:none; user-select:none; opacity:0.55; z-index:0;">04</span>
+            <div style="position:relative; z-index:1; padding:clamp(24px,3vw,40px);">
+              <div style="display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap; padding-bottom:22px; border-bottom:1px solid var(--line); margin-bottom:26px;">
+                <div style="display:flex; align-items:baseline; gap:14px;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.12em; color:var(--acc);">CAS 04</span>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3vw,38px); font-weight:600; letter-spacing:-0.035em; line-height:1;">CSPM-Lite</span>
+                </div>
+                <div style="display:flex; gap:26px; flex-wrap:wrap; margin-left:auto;">
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">RÔLE</span><span style="font-size:12.5px; color:var(--muted);">Outil personnel</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">PÉRIODE</span><span style="font-size:12.5px; color:var(--muted);">2025</span></span>
+                  <span style="display:flex; flex-direction:column; gap:5px;"><span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--dim);">STATUT</span><span style="display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted);"><span style="width:6px; height:6px; border-radius:50%; background:var(--line2);"></span>Outil interne</span></span>
+                  
+                </div>
+              </div>
+              <h3 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(22px,2.7vw,31px); font-weight:600; letter-spacing:-0.025em; margin:0 0 16px; line-height:1.14;">CSPM-Lite — la sécurité cloud qui bloque le pipeline</h3>
+              <p style="font-size:15.5px; line-height:1.7; color:var(--muted); margin:0 0 28px; max-width:66ch;">Un outil CLI qui analyse un compte AWS, détecte les mauvaises configurations, évalue la conformité et produit des rapports exploitables — puis refuse de laisser passer le déploiement.</p>
+
+              <div style="border:1px solid var(--line); border-radius:14px; border-left:2px solid var(--acc); padding:26px 28px; margin-bottom:28px; background:var(--soft);">
+                <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; color:var(--ink); margin-bottom:18px;">CE QUE ÇA CHANGE POUR L'ÉQUIPE</div>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(228px,1fr)); gap:18px 26px;">
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">01</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Une faille critique arrête le déploiement : la sécurité devient une porte, plus un rapport.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">02</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Deux sorties : du JSON pour la machine, du HTML lisible pour la revue humaine.</p>
+                </div>
+                <div style="display:flex; gap:13px; align-items:flex-start;">
+                  <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--acc); padding-top:3px; flex-shrink:0;">03</span>
+                  <p style="font-size:13.5px; line-height:1.6; color:var(--muted); margin:0;">Des contrôles alignés CIS sans licence d'outil commercial.</p>
+                </div>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; margin-bottom:28px;">
+                <div style="border-left:2px solid var(--acc); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--acc); margin-bottom:9px;">LE PROBLÈME</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Une mauvaise configuration cloud ne se voit pas dans une revue de code : bucket S3 public, port SSH ouvert, utilisateur sans MFA. Elle se voit en production, ou dans une fuite.</p>
+                </div>
+                <div style="border-left:2px solid var(--line2); padding:2px 0 2px 18px;">
+                  <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:9px;">LA DÉCISION CENTRALE</div>
+                  <p style="font-size:14px; line-height:1.65; color:var(--muted); margin:0;">Le rapport ne suffit pas — personne ne lit un rapport. Le contrôle devient bloquant : une faille critique arrête le pipeline CI/CD, ce qui déplace la sécurité de l'audit vers la porte d'entrée.</p>
+                </div>
+              </div>
+
+              <div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.09em; color:var(--dim); margin-bottom:10px;">CONTRÔLES ET SORTIES</div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.85; color:var(--text); background:var(--soft); border:1px solid var(--line); border-radius:10px; padding:18px 20px; overflow-x:auto; white-space:pre; margin-bottom:24px;">scan compte AWS
+  → détection      S3 public · SSH ouvert · absence de MFA
+  → conformité     contrôles alignés CIS Benchmark
+  → priorisation   criticité + recommandation de remédiation
+  → rapports       JSON (machine) + HTML (humain)
+  → gate CI/CD     faille critique → build bloqué</div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(104px,1fr)); gap:18px; padding:22px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:24px;">
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">CIS</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">RÉFÉRENTIEL</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">2</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">FORMATS DE RAPPORT</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em; color:var(--acc);">CI</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">BLOCAGE ACTIF</div></div>
+                <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600; letter-spacing:-0.02em;">A</div><div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.07em; color:var(--dim); margin-top:5px;">COURS CYBERSÉCURITÉ</div></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; margin-bottom:26px;">
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">POURQUOI CET OUTIL</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Le cours de cybersécurité donne les concepts ; un compte AWS réel donne les mauvaises surprises. Cet outil est né du besoin de vérifier mes propres déploiements avant qu'un correcteur — ou un attaquant — ne le fasse.</p></div>
+                <div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-bottom:8px;">LABORATOIRES ASSOCIÉS</div><p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Découverte réseau, énumération de services, sécurité web de base et dépannage en environnement Linux. Advent of Cyber (TryHackMe, déc. 2025) pour la démarche d'investigation structurée.</p></div>
+              </div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:7px;">
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Python</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">AWS SDK (boto3)</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">CIS Benchmark</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">Linux</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">GitHub Actions</span>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; padding:6px 10px; border-radius:6px; border:1px solid var(--line2); color:var(--text);">JSON / HTML</span>
+              </div>
+            </div>
+          </article>
+    </section>
+    <!-- 03 CHIFFRES -->
+    <section id="s03" data-reveal="1" style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,4vw,56px) 128px;">
+      <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:13px; margin-bottom:52px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:var(--acc);">03 — AGRÉGÉ SUR LES TROIS PLATEFORMES</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.4vw,42px); font-weight:600; letter-spacing:-0.035em; margin:0; max-width:26ch; text-wrap:balance;">Ce que ça représente</h2>
+        <span style="width:52px; height:2px; background:var(--acc); border-radius:2px;"></span>
+      </div>
+      <div data-stagger="1" data-reveal="1" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden;">
+        <div style="background:var(--surf); padding:26px 24px;"><div style="font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:600; letter-spacing:-0.025em;">~110 000</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:8px;">LIGNES DE TYPESCRIPT</div></div>
+        <div style="background:var(--surf); padding:26px 24px;"><div style="font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:600; letter-spacing:-0.025em; color:var(--acc);">941 + 74</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:8px;">CAS DE TEST · FICHIERS DE TESTS</div></div>
+        <div style="background:var(--surf); padding:26px 24px;"><div style="font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:600; letter-spacing:-0.025em;">78</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:8px;">ROUTES API · STUDYLUMINA</div></div>
+        <div style="background:var(--surf); padding:26px 24px;"><div style="font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:600; letter-spacing:-0.025em;">3</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:8px;">PRODUITS BILINGUES FR/EN</div></div>
+        <div style="background:var(--surf); padding:26px 24px;"><div style="font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:600; letter-spacing:-0.025em;">0</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:8px;">MODÈLE ML ENTRAÎNÉ</div></div>
+        <div style="background:var(--surf); padding:26px 24px;"><div style="font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:600; letter-spacing:-0.025em;">2</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.08em; color:var(--dim); margin-top:8px;">WEBHOOKS STRIPE EN PROD</div></div>
+      </div>
+      <p style="font-size:14.5px; line-height:1.7; color:var(--muted); margin:26px auto 0; max-width:76ch; text-align:center;">
+        Les trois produits partagent la même colonne vertébrale : validation par schéma à toutes les frontières, jamais de <span style="font-family:'JetBrains Mono',monospace; color:var(--ink);">.parse()</span> qui explose, clients externes initialisés paresseusement pour qu'un build passe sans secret, et un échec bruyant préféré à une valeur fabriquée en silence.
+      </p>
+    </section>
+
+    <!-- 04 CAPACITÉS -->
+    <section id="s04" data-band="1" data-reveal="1" style="max-width:1280px; margin:0 auto 128px; padding:112px clamp(20px,4vw,56px);">
+      <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:13px; margin-bottom:52px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:var(--acc);">04 — FILTRER PAR DOMAINE</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.4vw,42px); font-weight:600; letter-spacing:-0.035em; margin:0; max-width:26ch; text-wrap:balance;">Capacités</h2>
+        <span style="width:52px; height:2px; background:var(--acc); border-radius:2px;"></span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:9px; margin-bottom:44px; justify-content:center;">
+        <button data-filter="all" data-active="" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.07em; padding:9px 15px; border:1px solid var(--line2); border-radius:999px; background:transparent; color:var(--muted); cursor:pointer;">TOUT</button>
+        <button data-filter="dev" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.07em; padding:9px 15px; border:1px solid var(--line2); border-radius:999px; background:transparent; color:var(--muted); cursor:pointer;">PRODUIT &amp; BACKEND</button>
+        <button data-filter="cloud" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.07em; padding:9px 15px; border:1px solid var(--line2); border-radius:999px; background:transparent; color:var(--muted); cursor:pointer;">CLOUD &amp; DONNÉES</button>
+        <button data-filter="secu" style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.07em; padding:9px 15px; border:1px solid var(--line2); border-radius:999px; background:transparent; color:var(--muted); cursor:pointer;">SÉCURITÉ</button>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(276px,1fr)); gap:16px 44px;">
+        <div data-skill="dev" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">TypeScript strict</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">expert</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="92" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="dev" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Next.js · SvelteKit · React</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">avancé</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="88" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="dev" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Node.js · API typées (tRPC)</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">avancé</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="85" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="dev" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Python</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">avancé</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="86" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="dev" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">C / C++ · systèmes</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">solide</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="74" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="cloud" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">PostgreSQL · Prisma · MongoDB</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">avancé</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="86" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="cloud" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">AWS · déploiement serverless</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">solide</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="78" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="cloud" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Docker · Linux · WSL</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">avancé</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="84" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="cloud" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Files de travaux (BullMQ · Redis)</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">solide</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="76" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="cloud" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">RAG · pgvector · embeddings</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">solide</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="80" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="secu" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Sécurité applicative · authentification</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">avancé</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="84" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="secu" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Posture cloud · CIS · IAM</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">solide</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="78" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+        <div data-skill="secu" style="transition:opacity .3s ease;">
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:9px;"><span style="font-size:14.5px; color:var(--ink2);">Reconnaissance réseau · Linux</span><span style="margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--dim);">solide</span></div>
+          <div style="height:3px; background:var(--soft); border-radius:2px; overflow:hidden;"><div data-bar="72" style="height:100%; width:0; background:var(--acc); transition:width 1.1s cubic-bezier(.16,.8,.24,1);"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 PARCOURS -->
+    <section id="s05" data-reveal="1" style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,4vw,56px) 128px;">
+      <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:13px; margin-bottom:52px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.14em; color:var(--acc);">05 — GLISSER →</span>
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.4vw,42px); font-weight:600; letter-spacing:-0.035em; margin:0; max-width:26ch; text-wrap:balance;">Parcours</h2>
+        <span style="width:52px; height:2px; background:var(--acc); border-radius:2px;"></span>
+      </div>
+      <div data-stagger="1" data-reveal="1" style="display:grid; grid-auto-flow:column; grid-auto-columns:minmax(272px,1fr); gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:14px;">
+        <article style="scroll-snap-align:start; border:1px solid var(--line); border-top:2px solid var(--acc); border-radius:0 0 12px 12px; padding:26px 22px; background:var(--surf);" data-lift="1">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em; color:var(--acc); margin-bottom:14px;">→ DÉC. 2027</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:600; margin:0 0 6px; letter-spacing:-0.01em;">B.Ing. génie informatique</h3>
+          <div style="font-size:13.5px; color:var(--muted); margin-bottom:12px;">Polytechnique Montréal</div>
+          <p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0 0 14px;">Parcours orienté systèmes sécurisés, cloud et environnements distribués.</p>
+          <div style="display:flex; flex-direction:column; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); border-top:1px solid var(--line); padding-top:14px;">
+            <span>Cybersécurité — <strong style="color:var(--ink);">A</strong></span>
+            <span>Systèmes répartis &amp; infonuagique — <strong style="color:var(--ink);">B+</strong></span>
+            <span>GPA — <strong style="color:var(--ink);">3,65</strong> (hiver 2026)</span>
+          </div>
+        </article>
+        <article style="scroll-snap-align:start; border:1px solid var(--line); border-top:2px solid var(--line2); border-radius:0 0 12px 12px; padding:26px 22px; background:var(--surf);" data-lift="1">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em; color:var(--dim); margin-bottom:14px;">OCT. 2024 — PRÉSENT</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:600; margin:0 0 6px; letter-spacing:-0.01em;">Représentant de marque</h3>
+          <div style="font-size:13.5px; color:var(--muted); margin-bottom:12px;">Qualcomm / Snapdragon PC — Channel Partners</div>
+          <p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Vulgarisation de solutions techniques auprès du public : adapter le discours à chaque interlocuteur, rendre une architecture compréhensible en deux minutes. C'est la compétence qui rend une décision d'ingénierie défendable.</p>
+        </article>
+        <article style="scroll-snap-align:start; border:1px solid var(--line); border-top:2px solid var(--line2); border-radius:0 0 12px 12px; padding:26px 22px; background:var(--surf);" data-lift="1">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em; color:var(--dim); margin-bottom:14px;">2025 — 2026</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:600; margin:0 0 6px; letter-spacing:-0.01em;">Trois produits expédiés seul</h3>
+          <div style="font-size:13.5px; color:var(--muted); margin-bottom:12px;">Carriv · StudyLumina · Sanade</div>
+          <p style="font-size:13.5px; line-height:1.65; color:var(--muted); margin:0;">Conception, développement, mise en production, paiement, e-mails transactionnels, SEO bilingue et observabilité — sans équipe.</p>
+        </article>
+        <article style="scroll-snap-align:start; border:1px solid var(--line); border-top:2px solid var(--line2); border-radius:0 0 12px 12px; padding:26px 22px; background:var(--surf);" data-lift="1">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.08em; color:var(--dim); margin-bottom:14px;">CERTIFICATIONS &amp; LANGUES</div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:600; margin:0 0 14px; letter-spacing:-0.01em;">Repères</h3>
+          <div style="display:flex; flex-direction:column; gap:10px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--text);">
+            <span>Advent of Cyber — TryHackMe · déc. 2025</span>
+            <span>Français — natif</span>
+            <span>Anglais — courant</span>
+            <span>Montréal, QC · ouvert au télétravail</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 06 CONTACT -->
+    <section id="s06" data-reveal="1" style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,4vw,56px) 118px;">
+      <div style="border:1px solid var(--line2); border-radius:18px; overflow:hidden; background:var(--surf);">
+        <div style="display:flex; align-items:center; gap:10px; padding:13px 20px; border-bottom:1px solid var(--line); font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.07em; color:var(--dim);">
+          <span style="width:9px; height:9px; border-radius:50%; background:var(--warn);"></span>
+          <span style="width:9px; height:9px; border-radius:50%; background:var(--acc);"></span>
+          <span style="width:9px; height:9px; border-radius:50%; background:var(--ok);"></span>
+          <span style="margin-left:10px;">~/contact</span>
+        </div>
+        <div style="padding:clamp(36px,5.5vw,72px); text-align:center;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--dim); margin-bottom:22px;"><span style="color:var(--acc);">$</span> ouvrir --canal stage-2027</div>
+          <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(28px,4.4vw,54px); font-weight:600; letter-spacing:-0.035em; line-height:1.06; margin:0 auto 22px; max-width:26ch; text-wrap:balance;">Donnez-moi la contrainte, je reviens avec l'architecture.</h2>
+          <p style="font-size:16px; line-height:1.65; color:var(--muted); max-width:58ch; margin:0 auto 38px;">Je cherche un stage où je touche à la production — pipeline, sécurité, données — pas seulement à la maquette. Réponse sous 24 h.</p>
+          <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:36px; justify-content:center;">
+            <a href="mailto:houssam.nadir@outlook.com" style="padding:15px 26px; border-radius:9px; background:var(--acc); color:var(--on-acc); font-weight:600; font-size:15px; font-family:'JetBrains Mono',monospace;" style-hover="background:var(--acc-2); color:var(--on-acc)">houssam.nadir@outlook.com</a>
+            <a href="tel:+15145030893" style="padding:15px 26px; border-radius:9px; border:1px solid var(--line2); color:var(--ink); font-weight:500; font-size:15px; font-family:'JetBrains Mono',monospace;" style-hover="border-color:var(--dim2); color:var(--ink)">+1 514 503 0893</a>
+            <a href="https://www.linkedin.com/in/houssam-nadir-a1a292263/" target="_blank" rel="noopener" style="padding:15px 26px; border-radius:9px; border:1px solid var(--line2); color:var(--ink); font-weight:500; font-size:15px;" style-hover="border-color:var(--dim2); color:var(--ink)">LinkedIn ↗</a>
+          </div>
+          <div style="display:flex; gap:26px; flex-wrap:wrap; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.07em; color:var(--dim);">
+            <span>MONTRÉAL, QC</span><span>UTC−5</span><span>FR / EN</span><span>DISPONIBLE 2027</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showTokens }}" hint-placeholder-val="{{ true }}">
+    <section data-reveal="1" style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,4vw,56px) 96px;">
+      <div style="border-top:1px solid var(--line); padding-top:36px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.1em; color:var(--dim); margin-bottom:26px;">ANNEXE — SPÉCIFICATION POUR L'INTÉGRATION</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:34px;">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--acc); margin-bottom:14px;">PALETTE</div>
+            <div style="display:flex; flex-direction:column; gap:8px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted);">
+              <div style="display:flex; align-items:center; gap:10px;"><span style="width:24px; height:24px; border-radius:6px; background:var(--bg); border:1px solid var(--line2);"></span>bg · var(--bg)</div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="width:24px; height:24px; border-radius:6px; background:var(--surf); border:1px solid var(--line2);"></span>surface · #fff</div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="width:24px; height:24px; border-radius:6px; background:var(--line);"></span>line · var(--line)</div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="width:24px; height:24px; border-radius:6px; background:var(--acc);"></span>accent lime signal · var(--acc) · clair 5,0:1 / sombre 13,8:1</div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="width:24px; height:24px; border-radius:6px; background:var(--ok);"></span>statut / en production · var(--ok) — 5,11:1</div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="width:24px; height:24px; border-radius:6px; background:var(--ink);"></span>ink · var(--ink) — 16,5:1</div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="width:24px; height:24px; border-radius:6px; background:var(--muted);"></span>muted · var(--muted)</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--acc); margin-bottom:14px;">TYPOGRAPHIE</div>
+            <div style="display:flex; flex-direction:column; gap:12px; color:var(--text);">
+              <div><div style="font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:600;">Space Grotesk 600</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--dim);">TITRES · −0,045em</div></div>
+              <div><div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px;">IBM Plex Sans 400</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--dim);">CORPS · 1,65</div></div>
+              <div><div style="font-family:'JetBrains Mono',monospace; font-size:13px;">JetBrains Mono 400</div><div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--dim);">DONNÉES · 0,08em</div></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--acc); margin-bottom:14px;">COMPORTEMENTS</div>
+            <div style="display:flex; flex-direction:column; gap:9px; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted);">
+              <span>nav supérieure sticky · masquée &lt; 720px</span>
+              <span>progression · filet 2px haut de fenêtre</span>
+              <span>bandes pleine largeur · clip-path inset(0 -100vmax)</span>
+              <span>reveal · moteur window · filet inconditionnel 2,2 s</span>
+              <span>stagger · data-stagger, 6 délais de 40 à 440 ms</span>
+              <span>survol · data-lift, translateY(-4px) + ombre</span>
+              <span>palette · ⌘K / Ctrl+K · ↑↓ · Enter</span>
+              <span>études de cas · liste ↔ panneau · flèches</span>
+              <span>en-têtes centrés · filet accent 52px</span>
+              <span>thème · sombre par défaut · tokens [data-theme]</span>
+              <span>bascule · choix mémorisé en localStorage</span>
+              <span>dossiers · empilés, rien de masqué, index d'ancrage</span>
+              <span>aperçu · chrome navigateur, URL live, 16:10</span>
+              <span>image-slot · src auto-capture, dépôt prioritaire</span>
+              <span>canevas · accent lu dans les variables CSS au runtime</span>
+              <span>masthead cas · CAS 0n + rôle/période/statut + CTA</span>
+              <span>aperçu · capture wait/8 · fit contain · centré</span>
+              <span>fond héros · rubans, masque de texte</span>
+              <span>fond sections · contours topographiques, contour vif migrant</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <footer style="border-top:1px solid var(--line); background:var(--bg2);">
+      <div style="max-width:1280px; margin:0 auto; padding:30px clamp(20px,4vw,56px); display:flex; flex-wrap:wrap; gap:16px; align-items:center; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; color:var(--dim);">
+        <span style="margin-right:auto;">© 2026 HOUSSAM NADIR — CONÇU ET CODÉ À MONTRÉAL</span>
+        <a href="https://www.linkedin.com/in/houssam-nadir-a1a292263/" target="_blank" rel="noopener" style="color:var(--muted);" style-hover="color:var(--ink)">LINKEDIN</a>
+        <a href="mailto:houssam.nadir@outlook.com" style="color:var(--muted);" style-hover="color:var(--ink)">EMAIL</a>
+      </div>
+    </footer>
+  </div>
+
+  <div data-palette="1" style="position:fixed; inset:0; z-index:80; background:var(--scrim); backdrop-filter:blur(6px); display:flex; align-items:flex-start; justify-content:center; padding-top:14vh;">
+    <div style="width:min(560px,92vw); border:1px solid var(--line2); border-radius:14px; background:var(--surf); overflow:hidden; box-shadow:0 24px 60px var(--sh1);">
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--line);">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--acc);">&gt;</span>
+        <input data-pal-input="1" placeholder="aller à une section…" style="flex:1; background:transparent; border:none; outline:none; color:var(--ink); font-family:'JetBrains Mono',monospace; font-size:13.5px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.07em; color:var(--dim); border:1px solid var(--line2); border-radius:5px; padding:4px 7px;">ESC</span>
+      </div>
+      <div data-pal-list="1" style="padding:8px; display:flex; flex-direction:column; gap:2px;">
+        <button data-pal-item="s00" data-cursor="" style="display:flex; align-items:center; gap:14px; text-align:left; padding:12px 14px; border:none; border-radius:9px; background:transparent; color:var(--ink2); font-family:'JetBrains Mono',monospace; font-size:12.5px; cursor:pointer;"><span style="color:var(--dim);">00</span>Accueil<span style="margin-left:auto; color:var(--dim);">hero</span></button>
+        <button data-pal-item="s01" style="display:flex; align-items:center; gap:14px; text-align:left; padding:12px 14px; border:none; border-radius:9px; background:transparent; color:var(--ink2); font-family:'JetBrains Mono',monospace; font-size:12.5px; cursor:pointer;"><span style="color:var(--dim);">01</span>Thèse d'ingénierie<span style="margin-left:auto; color:var(--dim);">principes</span></button>
+        <button data-pal-item="s02" style="display:flex; align-items:center; gap:14px; text-align:left; padding:12px 14px; border:none; border-radius:9px; background:transparent; color:var(--ink2); font-family:'JetBrains Mono',monospace; font-size:12.5px; cursor:pointer;"><span style="color:var(--dim);">02</span>Études de cas<span style="margin-left:auto; color:var(--dim);">carriv · studylumina · sanade</span></button>
+        <button data-pal-item="s03" style="display:flex; align-items:center; gap:14px; text-align:left; padding:12px 14px; border:none; border-radius:9px; background:transparent; color:var(--ink2); font-family:'JetBrains Mono',monospace; font-size:12.5px; cursor:pointer;"><span style="color:var(--dim);">03</span>Chiffres<span style="margin-left:auto; color:var(--dim);">volume</span></button>
+        <button data-pal-item="s04" style="display:flex; align-items:center; gap:14px; text-align:left; padding:12px 14px; border:none; border-radius:9px; background:transparent; color:var(--ink2); font-family:'JetBrains Mono',monospace; font-size:12.5px; cursor:pointer;"><span style="color:var(--dim);">04</span>Capacités<span style="margin-left:auto; color:var(--dim);">stack</span></button>
+        <button data-pal-item="s05" style="display:flex; align-items:center; gap:14px; text-align:left; padding:12px 14px; border:none; border-radius:9px; background:transparent; color:var(--ink2); font-family:'JetBrains Mono',monospace; font-size:12.5px; cursor:pointer;"><span style="color:var(--dim);">05</span>Parcours<span style="margin-left:auto; color:var(--dim);">polytechnique</span></button>
+        <button data-pal-item="s06" style="display:flex; align-items:center; gap:14px; text-align:left; padding:12px 14px; border:none; border-radius:9px; background:transparent; color:var(--ink2); font-family:'JetBrains Mono',monospace; font-size:12.5px; cursor:pointer;"><span style="color:var(--dim);">06</span>Contact<span style="margin-left:auto; color:var(--dim);">email · téléphone</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;bgWords&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;CLOUD · SECURITE · DEVOPS · KUBERNETES · TERRAFORM · ZERO-TRUST · PYTHON · GO · CI/CD · OBSERVABILITE · PENTEST · SCALE&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Fond 3D&quot;},&quot;enable3D&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Fond 3D&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#A33B22&quot;,&quot;options&quot;:[&quot;#A33B22&quot;,&quot;#8C2F18&quot;,&quot;#B8523A&quot;,&quot;#6E4A42&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Fond 3D&quot;},&quot;showTokens&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Handoff&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.canvasRef = (el) => { if (el) { this.canvas = el; this.startBg(); } };
+    this.spotRef = (el) => { this.spot = el; };
+    this.progRef = (el) => { this.prog = el; };
+    this.clockRef = (el) => { this.clock = el; };
+    this.typeRef = (el) => { this.typeEl = el; };
+    this.cleanup = [];
+  }
+
+  on(target, type, fn, opts) {
+    target.addEventListener(type, fn, opts);
+    this.cleanup.push(() => target.removeEventListener(type, fn, opts));
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.bgWords !== this.props.bgWords || prev.accentColor !== this.props.accentColor || prev.enable3D !== this.props.enable3D) {
+      this.startBg();
+    }
+  }
+
+  initTheme() {
+    const root = document.documentElement;
+    let saved = null;
+    try { saved = localStorage.getItem('pf-theme'); } catch (e) {}
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const apply = (mode) => {
+      root.setAttribute('data-theme', mode);
+      const icon = document.querySelector('[data-theme-icon]');
+      if (icon) icon.textContent = mode === 'dark' ? '☾' : '☀';
+      const cfg = window.__pfBg;
+      if (cfg) { cfg.readColors = true; cfg.mask = null; }
+    };
+    apply(saved || 'dark');
+    const btn = document.querySelector('[data-theme-toggle]');
+    if (btn) this.on(btn, 'click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      apply(next);
+      try { localStorage.setItem('pf-theme', next); } catch (e) {}
+    });
+    void mq;
+  }
+
+  componentDidMount() {
+    this.initTheme();
+    this.startBg();
+    this.initReveal();
+    this.initCases();
+    this.initFilters();
+    this.initPalette();
+    this.initChrome();
+    this.initTyping();
+  }
+
+  componentWillUnmount() {
+    this.stopBg();
+    this.cleanup.forEach(f => f());
+    if (this.clockTimer) clearInterval(this.clockTimer);
+    if (this.typeTimer) clearTimeout(this.typeTimer);
+  }
+
+  /* ---------- révélation : moteur sur window, survit aux remontages ----------
+     Invariant : le contenu n'est JAMAIS masqué sans qu'un observateur ait prouvé
+     qu'il sait livrer, et un filet inconditionnel révèle tout au bout de 2,2 s. */
+  initReveal() {
+    const fillBars = () => document.querySelectorAll('[data-bar]').forEach(bar => {
+      bar.style.width = bar.getAttribute('data-bar') + '%';
+    });
+    const showAll = () => {
+      document.querySelectorAll('[data-reveal]').forEach(el => el.setAttribute('data-shown', ''));
+      fillBars();
+    };
+    const eng = window.__pfReveal = window.__pfReveal || {};
+    eng.showAll = showAll;
+    eng.fillBars = fillBars;
+    if (eng.running) { eng.rescan && eng.rescan(); return; }
+    eng.running = true;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) { showAll(); return; }
+
+    let delivered = false;
+    const io = new IntersectionObserver((entries) => {
+      if (!delivered) {
+        delivered = true;
+        document.querySelectorAll('[data-reveal]').forEach(el => {
+          if (!el.hasAttribute('data-shown')) el.setAttribute('data-reveal-armed', '');
+        });
+      }
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.setAttribute('data-reveal-armed', '');
+        e.target.setAttribute('data-shown', '');
+        if (e.target.id === 's04') fillBars();
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -4% 0px' });
+
+    eng.rescan = () => document.querySelectorAll('[data-reveal]:not([data-shown])').forEach(el => io.observe(el));
+    eng.rescan();
+
+    // balayage : tout élément atteint ou dépassé est révélé
+    const sweep = () => {
+      document.querySelectorAll('[data-reveal]:not([data-shown])').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.98) { el.setAttribute('data-shown', ''); io.unobserve(el); }
+      });
+      if (!document.querySelector('[data-reveal]:not([data-shown])')) fillBars();
+    };
+    eng.sweep = sweep;
+    let raf = null;
+    window.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { raf = null; sweep(); });
+    }, { passive: true });
+    setTimeout(sweep, 400);
+    setTimeout(sweep, 1000);
+    setTimeout(showAll, 2200);   // filet inconditionnel, jamais annulable
+  }
+
+  /* ---------- index des dossiers : surlignage du dossier en vue ---------- */
+  initCases() {
+    const links = Array.from(document.querySelectorAll('[data-dossier-link]'));
+    const arts = Array.from(document.querySelectorAll('[data-dossier]'));
+    if (!links.length || !arts.length) return;
+    const paint = () => {
+      let cur = null;
+      arts.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top <= window.innerHeight * 0.42 && r.bottom > window.innerHeight * 0.24) cur = el.id;
+      });
+      links.forEach(l => {
+        if (cur && l.getAttribute('data-dossier-link') === cur) l.setAttribute('data-active', '');
+        else l.removeAttribute('data-active');
+      });
+    };
+    this.paintDossiers = paint;
+    paint();
+    links.forEach(l => this.on(l, 'click', (e) => {
+      const el = document.getElementById(l.getAttribute('data-dossier-link'));
+      if (!el) return;
+      e.preventDefault();
+      window.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top + window.scrollY - 104), behavior: 'smooth' });
+    }));
+  }
+
+  /* ---------- filtres de capacités ---------- */
+  initFilters() {
+    const chips = Array.from(document.querySelectorAll('[data-filter]'));
+    const skills = Array.from(document.querySelectorAll('[data-skill]'));
+    chips.forEach(c => this.on(c, 'click', () => {
+      const f = c.getAttribute('data-filter');
+      chips.forEach(x => x === c ? x.setAttribute('data-active', '') : x.removeAttribute('data-active'));
+      skills.forEach(s => {
+        const match = f === 'all' || s.getAttribute('data-skill') === f;
+        if (match) s.removeAttribute('data-dim'); else s.setAttribute('data-dim', '');
+      });
+    }));
+  }
+
+  /* ---------- palette de commandes ---------- */
+  initPalette() {
+    const pal = document.querySelector('[data-palette]');
+    const input = document.querySelector('[data-pal-input]');
+    const items = Array.from(document.querySelectorAll('[data-pal-item]'));
+    if (!pal || !input) return;
+    let cur = 0;
+    const visible = () => items.filter(i => i.style.display !== 'none');
+    const paint = () => {
+      const vis = visible();
+      if (cur >= vis.length) cur = Math.max(0, vis.length - 1);
+      items.forEach(i => i.removeAttribute('data-cursor'));
+      if (vis[cur]) vis[cur].setAttribute('data-cursor', '');
+    };
+    const open = () => { pal.setAttribute('data-open', ''); input.value = ''; items.forEach(i => { i.style.display = ''; }); cur = 0; paint(); setTimeout(() => input.focus(), 30); };
+    const close = () => { pal.removeAttribute('data-open'); input.blur(); };
+    const go = (id) => {
+      close();
+      const el = document.getElementById(id);
+      if (!el) return;
+      const y = el.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    };
+    const trigger = document.querySelector('[data-pal-open]');
+    if (trigger) this.on(trigger, 'click', open);
+    items.forEach(i => this.on(i, 'click', () => go(i.getAttribute('data-pal-item'))));
+    this.on(input, 'input', () => {
+      const q = input.value.trim().toLowerCase();
+      items.forEach(i => { i.style.display = !q || i.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+      cur = 0; paint();
+    });
+    this.on(window, 'keydown', (e) => {
+      const isOpen = pal.hasAttribute('data-open');
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); isOpen ? close() : open(); return; }
+      if (!isOpen) return;
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+      if (e.key === 'ArrowDown') { e.preventDefault(); cur = Math.min(cur + 1, visible().length - 1); paint(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); cur = Math.max(cur - 1, 0); paint(); }
+      if (e.key === 'Enter') { e.preventDefault(); const v = visible()[cur]; if (v) go(v.getAttribute('data-pal-item')); }
+    });
+    this.on(pal, 'click', (e) => { if (e.target === pal) close(); });
+
+    // liens du rail : défilement doux
+    Array.from(document.querySelectorAll('[data-jump]')).forEach(a => this.on(a, 'click', (e) => {
+      const id = (a.getAttribute('href') || '').slice(1);
+      if (!document.getElementById(id)) return;
+      e.preventDefault();
+      go(id);
+    }));
+  }
+
+  /* ---------- rail : progression, horloge, section active, projecteur ---------- */
+  initChrome() {
+    this.navLinks = Array.from(document.querySelectorAll('[data-nav]'));
+    this.sections = ['s00', 's01', 's02', 's03', 's04', 's05', 's06'].map(id => document.getElementById(id));
+    const tick = () => {
+      if (!this.clock) return;
+      const d = new Date();
+      const p = (n) => String(n).padStart(2, '0');
+      this.clock.textContent = p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+    };
+    tick();
+    this.clockTimer = setInterval(tick, 1000);
+    this.updateChrome();
+    this.on(window, 'mousemove', (e) => {
+      if (!this.spot) return;
+      this.spot.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)';
+      const m = (window.__pfBg = window.__pfBg || {});
+      m.mouse = m.mouse || { x: 0, y: 0 };
+      m.mouse.x = (e.clientX / Math.max(1, window.innerWidth) - 0.5) * 0.6;
+      m.mouse.y = (e.clientY / Math.max(1, window.innerHeight) - 0.5) * 0.6;
+    }, { passive: true });
+    this.on(window, 'resize', () => this.updateChrome());
+  }
+
+  updateChrome() {
+    const doc = document.documentElement;
+    const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+    const pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+    if (this.prog) this.prog.style.width = pct + '%';
+    if (!this.sections) return;
+    let active = 0;
+    this.sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= window.innerHeight * 0.4) active = i; });
+    const activeId = this.sections[active] && this.sections[active].id;
+    this.navLinks.forEach(a => {
+      if (a.getAttribute('data-nav') === activeId) a.setAttribute('data-active', '');
+      else a.removeAttribute('data-active');
+    });
+  }
+
+  /* ---------- accroche tapée ---------- */
+  initTyping() {
+    if (!this.typeEl) return;
+    const lines = [
+      'le modèle génère, le code décide',
+      'trois produits en production, seul',
+      'un invariant non testé n\u2019existe pas',
+      'du prompt jusqu\u2019au webhook de paiement'
+    ];
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let li = 0, ci = lines[0].length, del = true;
+    const step = () => {
+      const line = lines[li];
+      if (del) {
+        ci--;
+        if (ci <= 0) { del = false; li = (li + 1) % lines.length; }
+      } else {
+        ci++;
+        if (ci >= line.length) { del = true; this.typeEl.textContent = line; this.typeTimer = setTimeout(step, 2600); return; }
+      }
+      this.typeEl.textContent = lines[li].slice(0, Math.max(0, ci));
+      this.typeTimer = setTimeout(step, del ? 26 : 52);
+    };
+    this.typeTimer = setTimeout(step, 3000);
+  }
+
+  /* ---------- fond 3D : nappe filaire survolée ---------- */
+  stopBg() {
+    if (this.ro) { this.ro.disconnect(); this.ro = null; }
+  }
+
+  /* Une seule boucle sur window, deux fonds en traits fins :
+     - "hero" : rubans de lumière continus, dérive fluide, jamais chargés
+     - "flow" : plan de mesure en perspective, respiration liée au scroll  */
+  startBg() {
+    const cfg = window.__pfBg = window.__pfBg || {};
+    const css = (n, fb) => (getComputedStyle(document.documentElement).getPropertyValue(n).trim() || fb);
+    cfg.readColors = true;
+    cfg.pickColors = () => {
+      cfg.accent = css('--acc', '#6B8F1F');
+      cfg.paper = css('--bg', '#F8F8F6');
+      cfg.dotColor = css('--acc-2', '#4C6B14');
+      cfg.readColors = false;
+    };
+    cfg.pickColors();
+    cfg.enabled = this.props.enable3D !== false;
+    cfg.mouse = cfg.mouse || { x: 0, y: 0 };
+    if (this.canvas && !this.ro) {
+      this.ro = new ResizeObserver(() => { cfg.mask = null; });
+      this.ro.observe(this.canvas);
+    }
+    if (cfg.running) return;
+    cfg.running = true;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const size = new WeakMap();
+    const fit = (el) => {
+      const r = el.getBoundingClientRect();
+      const s0 = size.get(el);
+      if (!s0 || s0.w !== r.width || s0.h !== r.height) {
+        size.set(el, { w: r.width, h: r.height });
+        el.width = Math.max(1, r.width * dpr);
+        el.height = Math.max(1, r.height * dpr);
+      }
+      return r;
+    };
+    let t = 0, last = performance.now();
+
+    /* ---------- HÉROS : rubans fluides ---------- */
+    const TRAILS = [
+      { amp: 0.16, freq: 1.05, sp: 0.34, off: -0.16, w: 2.4, al: 0.95 },
+      { amp: 0.22, freq: 0.74, sp: -0.26, off: 0.04, w: 1.7, al: 0.78 },
+      { amp: 0.12, freq: 1.55, sp: 0.44, off: 0.20, w: 1.3, al: 0.62 },
+      { amp: 0.28, freq: 0.52, sp: -0.18, off: 0.30, w: 1.1, al: 0.48 }
+    ];
+    const trailY = (tr, u, H, ph, lift) =>
+      H * (0.5 + tr.off)
+      + H * tr.amp * Math.sin(u * 6.283 * tr.freq + ph)
+      + H * tr.amp * 0.34 * Math.sin(u * 6.283 * tr.freq * 2.3 - ph * 1.4)
+      + lift;
+
+    const drawHero = (el) => {
+      const r = fit(el);
+      const W = r.width, H = r.height;
+      if (!W || !H) return;
+      const ctx = el.getContext('2d');
+      const host = el.parentElement;
+
+      // masque du texte, construit une seule fois par géométrie
+      const hostH = host.offsetHeight;
+      if (!cfg.mask || cfg.maskW !== el.width || cfg.maskH !== el.height || cfg.maskHostH !== hostH) {
+        cfg.maskHostH = hostH; cfg.maskW = el.width; cfg.maskH = el.height;
+        const hostRect = host.getBoundingClientRect();
+        const rects = [];
+        const rng = document.createRange();
+        host.querySelectorAll('h1, p').forEach(zn => {
+          const walk = document.createTreeWalker(zn, NodeFilter.SHOW_TEXT);
+          let n;
+          while ((n = walk.nextNode())) {
+            if (!n.nodeValue || !n.nodeValue.trim()) continue;
+            rng.selectNodeContents(n);
+            for (const lr of rng.getClientRects()) if (lr.width > 1 && lr.height > 1) rects.push(lr);
+          }
+        });
+        host.querySelectorAll('[data-hero-block] > *').forEach(ch => {
+          const cr = ch.getBoundingClientRect();
+          if (cr.width > 1 && cr.height > 1) rects.push(cr);
+        });
+        const mk = cfg.mask = document.createElement('canvas');
+        mk.width = el.width; mk.height = el.height;
+        const mctx = mk.getContext('2d');
+        mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        mctx.filter = 'blur(14px)';
+        mctx.fillStyle = '#000';
+        for (const r2 of rects) mctx.fillRect(r2.left - hostRect.left - 12, r2.top - hostRect.top - 8, r2.width + 24, r2.height + 16);
+        mctx.filter = 'none';
+      }
+
+      if (!cfg.off) cfg.off = document.createElement('canvas');
+      const off = cfg.off;
+      if (off.width !== el.width || off.height !== el.height) { off.width = el.width; off.height = el.height; }
+      const octx = off.getContext('2d');
+      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      octx.clearRect(0, 0, W, H);
+      octx.lineCap = 'round';
+      octx.lineJoin = 'round';
+
+      const my = cfg.mouse.y * H * 0.12, mx = cfg.mouse.x * 0.5;
+      const STEP = Math.max(9, W / 120);
+
+      // lattice de repères, très sparse
+      octx.fillStyle = cfg.accent;
+      const G = 58;
+      for (let x = W * 0.30; x < W + G; x += G) {
+        for (let y = G * 0.5; y < H; y += G) {
+          const d = Math.sin(x * 0.013 + y * 0.011 + t * 0.5);
+          octx.globalAlpha = 0.10 + 0.12 * (d * 0.5 + 0.5);
+          octx.beginPath(); octx.arc(x, y, 1.1, 0, 6.2832); octx.fill();
+        }
+      }
+
+      // rubans
+      for (let i = 0; i < TRAILS.length; i++) {
+        const tr = TRAILS[i];
+        const ph = t * tr.sp * 6.283 + i * 1.7 + mx;
+        // trace d'écho, plus basse et plus pâle : donne la profondeur sans charger
+        for (let pass = 0; pass < 2; pass++) {
+          const lift = pass ? 9 + i * 3 : 0;
+          octx.globalAlpha = pass ? tr.al * 0.22 : tr.al;
+          octx.lineWidth = pass ? tr.w * 0.6 : tr.w;
+          octx.strokeStyle = cfg.accent;
+          octx.beginPath();
+          for (let x = -STEP; x <= W + STEP; x += STEP) {
+            const u = x / W;
+            const y = trailY(tr, u, H, ph, lift + my * (0.4 + i * 0.2));
+            x === -STEP ? octx.moveTo(x, y) : octx.lineTo(x, y);
+          }
+          octx.stroke();
+        }
+        // marqueur qui glisse le long du ruban
+        const uu = ((t * 0.09 + i * 0.27) % 1.2) - 0.1;
+        if (uu > 0 && uu < 1) {
+          const px = uu * W, py = trailY(tr, uu, H, ph, my * (0.4 + i * 0.2));
+          octx.globalAlpha = tr.al;
+          octx.fillStyle = cfg.dotColor;
+          octx.beginPath(); octx.arc(px, py, 2.6, 0, 6.2832); octx.fill();
+          octx.globalAlpha = tr.al * 0.30;
+          octx.beginPath(); octx.arc(px, py, 8.5, 0, 6.2832); octx.fill();
+        }
+      }
+
+      // évidement du texte : une seule composition
+      octx.globalAlpha = 1;
+      octx.globalCompositeOperation = 'destination-out';
+      octx.setTransform(1, 0, 0, 1, 0, 0);
+      octx.drawImage(cfg.mask, 0, 0);
+      octx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      octx.globalCompositeOperation = 'source-over';
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      const glow = ctx.createRadialGradient(W * 0.74, H * 0.42, 0, W * 0.74, H * 0.42, Math.max(W, H) * 0.6);
+      glow.addColorStop(0, cfg.accent);
+      glow.addColorStop(1, 'transparent');
+      ctx.globalAlpha = 0.09;
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, W, H);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.drawImage(off, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    /* ---------- SUITE DE LA PAGE : champ de mesure topographique ---------- */
+    const drawFlow = (el) => {
+      const r = fit(el);
+      const W = r.width, H = r.height;
+      if (!W || !H) return;
+      const ctx = el.getContext('2d');
+      const y0 = window.scrollY || 0;
+      const ph = y0 * 0.0016;
+      const dx = y0 * 0.045;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      // champ de hauteur : une seule fonction, échantillonnée en contours
+      const field = (x, y) =>
+        Math.sin(x * 0.0042 + ph * 1.5) * Math.cos(y * 0.0051 - ph * 1.1)
+        + 0.55 * Math.sin((x * 0.0026 + y * 0.0037) * 1.7 + ph * 2.2)
+        + 0.30 * Math.cos(x * 0.0091 - ph * 0.8);
+
+      // contours : polylignes suivant une ligne d'iso approximée par colonne
+      const LEVELS = 11, STEP = Math.max(11, W / 130);
+      const live = ((y0 * 0.0022) % 1) * LEVELS;   // le contour vif migre au scroll
+      for (let l = 0; l < LEVELS; l++) {
+        const isLive = Math.abs(l - live) < 0.55;
+        const base = H * (0.06 + (l / (LEVELS - 1)) * 0.94);
+        const amp = 26 + 30 * Math.sin(l * 0.9 + 0.4);
+        ctx.strokeStyle = cfg.accent;
+        ctx.globalAlpha = isLive ? 0.42 : 0.085 + 0.05 * (l / LEVELS);
+        ctx.lineWidth = isLive ? 1.8 : 0.7;
+        ctx.beginPath();
+        for (let x = -STEP; x <= W + STEP; x += STEP) {
+          const y = base + amp * field(x + dx * (0.4 + l * 0.06), base);
+          x === -STEP ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        if (isLive) {
+          // nœuds de mesure sur le contour actif
+          ctx.fillStyle = cfg.accent;
+          for (let n = 0; n <= 6; n++) {
+            const x = (n / 6) * W;
+            const y = base + amp * field(x + dx * (0.4 + l * 0.06), base);
+            ctx.globalAlpha = 0.55;
+            ctx.beginPath(); ctx.arc(x, y, 2.4, 0, 6.2832); ctx.fill();
+            ctx.globalAlpha = 0.14;
+            ctx.beginPath(); ctx.arc(x, y, 9, 0, 6.2832); ctx.fill();
+          }
+        }
+      }
+
+      // treillis de repères, dérive lente en diagonale
+      const G = 76, off = (dx * 0.5) % G;
+      ctx.fillStyle = cfg.dotColor;
+      for (let x = -G + off; x < W + G; x += G) {
+        for (let y = -G + ((y0 * 0.22) % G); y < H + G; y += G) {
+          const d = field(x, y);
+          ctx.globalAlpha = 0.05 + 0.10 * (d * 0.5 + 0.5);
+          ctx.beginPath(); ctx.arc(x, y, 1.2, 0, 6.2832); ctx.fill();
+        }
+      }
+
+      // règle verticale : graduations qui défilent
+      ctx.strokeStyle = cfg.accent;
+      const rx = W - 34;
+      ctx.globalAlpha = 0.16;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(rx, 0); ctx.lineTo(rx, H); ctx.stroke();
+      const TICK = 46, tOff = (y0 * 0.28) % TICK;
+      for (let y = -TICK + tOff; y < H + TICK; y += TICK) {
+        const major = Math.round((y + y0 * 0.28) / TICK) % 4 === 0;
+        ctx.globalAlpha = major ? 0.30 : 0.13;
+        ctx.lineWidth = major ? 1.4 : 0.8;
+        ctx.beginPath(); ctx.moveTo(rx, y); ctx.lineTo(rx + (major ? 16 : 8), y); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    const loop = () => {
+      cfg.raf = requestAnimationFrame(loop);
+      const now = performance.now();
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      if (!cfg.enabled) return;
+      if (cfg.readColors && cfg.pickColors) cfg.pickColors();
+      t += dt;
+      const hero = document.querySelector('canvas[data-bg="hero"]');
+      const flow = document.querySelector('canvas[data-bg="flow"]');
+      const heroSec = document.getElementById('s00');
+      let heroVis = 1;
+      if (heroSec) {
+        const hr = heroSec.getBoundingClientRect();
+        heroVis = Math.min(1, Math.max(0, (hr.bottom - 40) / Math.max(1, hr.height)));
+      }
+      if (hero && hero.isConnected) {
+        const co = parseFloat(css('--canvas-op', '0.85')) || 0.85;
+        hero.style.opacity = String(co * (0.42 + 0.58 * heroVis));
+        if (heroVis > 0.02) drawHero(hero);
+      }
+      if (flow && flow.isConnected) {
+        flow.style.opacity = ((parseFloat(css('--canvas-op', '0.85')) || 0.85) * (1 - heroVis)).toFixed(3);
+        if (heroVis < 0.98) drawFlow(flow);
+      }
+    };
+    loop();
+  }
+
+  renderVals() {
+    return {
+      canvasRef: this.canvasRef,
+      spotRef: this.spotRef,
+      progRef: this.progRef,
+      clockRef: this.clockRef,
+      typeRef: this.typeRef,
+      showTokens: this.props.showTokens !== false
+    };
+  }
+}
+
+</script>
+</body>
+</html>
