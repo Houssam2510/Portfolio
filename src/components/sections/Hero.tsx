@@ -13,8 +13,8 @@ export default function Hero() {
       style={{
         position: "relative",
         overflow: "hidden",
-        padding: "clamp(76px,12vh,132px) clamp(20px,4vw,56px) 104px",
-        minHeight: "82vh",
+        padding: "clamp(36px,7vh,132px) clamp(20px,4vw,56px) clamp(56px,8vh,104px)",
+        minHeight: "min(82vh, 720px)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -83,9 +83,9 @@ export default function Hero() {
             }}
           />
           <span>{content.ui.availability}</span>
-          <span style={{ width: 40, height: 1, background: "var(--line2)" }} />
+          <span className="hero-rule" style={{ width: 40, height: 1, background: "var(--line2)" }} />
           <span>{content.ui.location}</span>
-          <span style={{ width: 40, height: 1, background: "var(--line2)" }} />
+          <span className="hero-rule" style={{ width: 40, height: 1, background: "var(--line2)" }} />
           <span>{content.ui.graduation}</span>
         </div>
 

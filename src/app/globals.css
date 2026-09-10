@@ -271,15 +271,27 @@ button {
 }
 
 /*
- * Sous 720px la navigation passait en `display: none` : le visiteur mobile
- * perdait tout accès aux sections (le raccourci ⌘K n'existe pas sans clavier).
- * Elle devient une barre défilante horizontalement, qui reste utilisable.
+ * MOBILE
+ *
+ * L'en-tête empilait logo, boutons et navigation sur trois rangées, soit plus
+ * de 300px avant le moindre contenu, et recouvrait le titre de section après
+ * un saut d'ancre. Il est ici resserré, et le décalage des ancres est calculé
+ * à partir de sa hauteur réelle (voir useSmoothJump).
  */
 @media (max-width: 720px) {
   .header-inner {
     flex-wrap: wrap;
-    row-gap: 12px;
+    row-gap: 10px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
   }
+
+  /* Le raccourci ⌘K n'a pas de sens sans clavier, et la navigation reste
+     accessible juste en dessous. */
+  .palette-btn {
+    display: none !important;
+  }
+
   [data-topnav] {
     order: 3;
     width: 100%;
@@ -287,6 +299,7 @@ button {
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    gap: 18px !important;
     padding-bottom: 2px;
   }
   [data-topnav]::-webkit-scrollbar {
@@ -294,6 +307,49 @@ button {
   }
   [data-topnav] .nav-link {
     white-space: nowrap;
+  }
+
+  /* La barre de statut débordait sur trois lignes : on ne garde que
+     l'essentiel et l'heure. */
+  .status-products {
+    display: none !important;
+  }
+
+  /* Les filets décoratifs du hero pendaient dans le vide une fois la ligne
+     repliée. */
+  .hero-rule {
+    display: none !important;
+  }
+
+  /* Plancher de lisibilité : plus rien sous 11px sur petit écran. */
+  .band-inner {
+    padding-top: 72px !important;
+    padding-bottom: 72px !important;
+  }
+}
+
+/*
+ * Cibles tactiles. Sur pointeur grossier, tout lien ou bouton de chrome
+ * atteint 44px de haut, le minimum confortable.
+ */
+@media (pointer: coarse) {
+  header a,
+  header button,
+  .footer-link,
+  .contact-secondary,
+  .contact-primary,
+  .cta-primary,
+  .cta-secondary,
+  .view-live-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  [data-topnav] .nav-link {
+    min-height: 44px;
+  }
+  [data-filter] {
+    min-height: 40px;
   }
 }
 

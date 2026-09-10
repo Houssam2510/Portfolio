@@ -15,6 +15,7 @@ export const contact = {
   phone: "+1 514 503 0893",
   phoneHref: "tel:+15145030893",
   linkedin: "https://www.linkedin.com/in/houssam-nadir-a1a292263/",
+  github: "https://github.com/Houssam2510",
 };
 
 export * from "./types";

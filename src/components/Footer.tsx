@@ -23,6 +23,9 @@ export default function Footer() {
         }}
       >
         <span style={{ marginRight: "auto" }}>{content.ui.footer}</span>
+        <a href={contact.github} target="_blank" rel="noopener" className="footer-link" style={{ color: "var(--muted)" }}>
+          GITHUB
+        </a>
         <a href={contact.linkedin} target="_blank" rel="noopener" className="footer-link" style={{ color: "var(--muted)" }}>
           LINKEDIN
         </a>

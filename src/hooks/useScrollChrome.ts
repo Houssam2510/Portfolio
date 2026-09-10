@@ -41,8 +41,16 @@ export function useScrollChrome(
       document.querySelectorAll<HTMLElement>("header [data-nav]")
     );
 
+    const header = document.querySelector("header");
+
     const updateChrome = () => {
       const doc = document.documentElement;
+
+      // Publie la hauteur de l'en-tête collant pour que scroll-margin-top
+      // suive, y compris pour le défilement natif vers une ancre.
+      if (header) {
+        doc.style.setProperty("--jump-offset", `${Math.round(header.getBoundingClientRect().height) + 14}px`);
+      }
       const max = Math.max(1, doc.scrollHeight - window.innerHeight);
       const pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
       if (progressRef.current) progressRef.current.style.width = pct + "%";
