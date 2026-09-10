@@ -225,7 +225,7 @@ export const en: Content = {
     { id: "chiffres", index: "03", label: "Numbers", hint: "volume" },
     { id: "capacites", index: "04", label: "Capabilities", hint: "stack" },
     { id: "parcours", index: "05", label: "Career path", hint: "polytechnique" },
-    { id: "contact", index: "06", label: "Contact", hint: "email · phone" },
+    { id: "contact", index: "06", label: "Contact", hint: "email · linkedin" },
   ],
 
   heroStats: [
