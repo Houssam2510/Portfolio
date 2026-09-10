@@ -76,9 +76,9 @@ export function startBackgroundEngine() {
     } as BgConfig));
 
   cfg.pickColors = () => {
-    cfg.accent = css("--acc", "#6B8F1F");
-    cfg.paper = css("--bg", "#F8F8F6");
-    cfg.dotColor = css("--acc-2", "#4C6B14");
+    cfg.accent = css("--acc", "#FFB225");
+    cfg.paper = css("--bg", "#0F0C08");
+    cfg.dotColor = css("--acc-2", "#EA9307");
     cfg.canvasOp = parseFloat(css("--canvas-op", "0.85")) || 0.85;
     cfg.readColors = false;
   };
