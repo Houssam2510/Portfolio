@@ -22,6 +22,7 @@ type BgConfig = {
   accent: string;
   paper: string;
   dotColor: string;
+  canvasOp: number;
   pickColors: () => void;
   mask: HTMLCanvasElement | null;
   maskW?: number;
@@ -68,6 +69,7 @@ export function startBackgroundEngine() {
       accent: "",
       paper: "",
       dotColor: "",
+      canvasOp: 0.85,
       mask: null,
       pickColors: () => {},
     } as BgConfig));
@@ -76,6 +78,7 @@ export function startBackgroundEngine() {
     cfg.accent = css("--acc", "#6B8F1F");
     cfg.paper = css("--bg", "#F8F8F6");
     cfg.dotColor = css("--acc-2", "#4C6B14");
+    cfg.canvasOp = parseFloat(css("--canvas-op", "0.85")) || 0.85;
     cfg.readColors = false;
   };
   cfg.pickColors();
@@ -339,16 +342,27 @@ export function startBackgroundEngine() {
       heroVis = Math.min(1, Math.max(0, (hr.bottom - 40) / Math.max(1, hr.height)));
     }
     if (hero && hero.isConnected) {
-      const co = parseFloat(css("--canvas-op", "0.85")) || 0.85;
-      hero.style.opacity = String(co * (0.42 + 0.58 * heroVis));
+      hero.style.opacity = String(cfg.canvasOp * (0.42 + 0.58 * heroVis));
       if (heroVis > 0.02) drawHero(hero);
     }
     if (flow && flow.isConnected) {
-      flow.style.opacity = ((parseFloat(css("--canvas-op", "0.85")) || 0.85) * (1 - heroVis)).toFixed(3);
+      flow.style.opacity = (cfg.canvasOp * (1 - heroVis)).toFixed(3);
       if (heroVis < 0.98) drawFlow(flow);
     }
   };
   loop();
+}
+
+/** Arrête la boucle et libère l'observateur (appelé au démontage). */
+export function stopBackgroundEngine() {
+  if (typeof window === "undefined") return;
+  const cfg = window.__pfBgEngine;
+  if (!cfg) return;
+  if (cfg.raf !== undefined) cancelAnimationFrame(cfg.raf);
+  cfg.raf = undefined;
+  cfg.ro?.disconnect();
+  cfg.ro = undefined;
+  cfg.running = false;
 }
 
 /** Forces the next frame to re-sample theme colors (call on theme toggle). */

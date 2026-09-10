@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-/** Highlights the case-study index card matching the dossier currently in view. */
+/** Met en évidence la carte d'index correspondant au dossier actuellement à l'écran. */
 export function useDossierIndex() {
   useEffect(() => {
     const links = Array.from(document.querySelectorAll<HTMLElement>("[data-dossier-link]"));
@@ -10,6 +10,7 @@ export function useDossierIndex() {
     if (!links.length || !arts.length) return;
 
     const paint = () => {
+      raf = null;
       let cur: string | null = null;
       arts.forEach((el) => {
         const r = el.getBoundingClientRect();
@@ -20,17 +21,25 @@ export function useDossierIndex() {
         else l.removeAttribute("data-active");
       });
     };
+
+    // Un seul passage de mesure par frame, quel que soit le débit d'évènements.
+    let raf: number | null = null;
+    const schedule = () => {
+      if (raf === null) raf = requestAnimationFrame(paint);
+    };
+
     paint();
-    window.addEventListener("scroll", paint, { passive: true });
-    window.addEventListener("resize", paint);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
     return () => {
-      window.removeEventListener("scroll", paint);
-      window.removeEventListener("resize", paint);
+      if (raf !== null) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
     };
   }, []);
 }
 
-/** Smooth-scrolls any in-page anchor (`data-jump`) to its target, offset for the sticky header. */
+/** Défilement doux vers la cible d'une ancre interne (`data-jump`), décalé sous l'en-tête collant. */
 export function useSmoothJump() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {

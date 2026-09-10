@@ -1,25 +1,58 @@
-# CODING AGENTS: READ THIS FIRST
+# Portfolio — Houssam Nadir
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Portfolio personnel : page unique en français, Next.js (App Router) et
+TypeScript. Génie informatique, Polytechnique Montréal.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Stack
 
-## What you should do — IMPORTANT
+- **Next.js 16 / React 19**, rendu statique — une seule route (`/`).
+- **Aucun framework CSS.** Les tokens de design sont des propriétés CSS
+  personnalisées dans `src/app/globals.css` (thèmes clair et sombre en
+  `oklch()`), le reste est en styles inline au niveau des composants.
+- **Polices** via `next/font/google` : Space Grotesk (titres), IBM Plex Sans
+  (texte), JetBrains Mono (données et étiquettes).
+- **Fond animé** : deux canvas pilotés par une seule boucle `requestAnimationFrame`
+  (`src/lib/backgroundEngine.ts`) — rubans lumineux derrière le nom, champ
+  topographique pour le reste de la page.
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Structure
 
-**Read `project/Portfolio v4.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+```
+src/
+  app/          layout, page, styles globaux, robots.ts, sitemap.ts
+  components/   chrome (en-tête, palette, barre de progression) + sections/
+  data/         content.ts — tout le contenu rédactionnel, en un seul endroit
+  hooks/        thème, révélation au scroll, effet machine à écrire
+  lib/          moteur de fond, URL du site, capture d'écran
+```
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+Tout le contenu (études de cas, principes, compétences, parcours, contact) vit
+dans `src/data/content.ts` : c'est le seul fichier à modifier pour mettre le
+portfolio à jour.
 
-## About the design files
+## Développement
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+```bash
+npm install
+npm run dev        # serveur local
+npm run build      # build de production
+npm run lint       # eslint
+npm run typecheck  # tsc --noEmit
+```
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+## Configuration
 
-## Bundle contents
+| Variable | Rôle |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | URL publique du site, utilisée pour l'URL canonique, les métadonnées OpenGraph, `robots.txt` et `sitemap.xml`. À définir dans l'environnement de déploiement — sans elle, ces URLs pointent vers `http://localhost:3000`. |
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Portfolio étudiant Polytechnique` project files (HTML prototypes, assets, components)
+## Points connus
+
+- Les aperçus des études de cas sont capturés à la volée par un service tiers
+  (`image.thum.io`) sur carriv.com, app.studylumina.com et sanade.app. Si le
+  service est lent ou indisponible, la zone d'aperçu reste vide. Pour s'en
+  affranchir, remplacer `screenshotUrl()` dans `src/lib/screenshot.ts` par des
+  images statiques servies depuis `public/`.
+- Aucune image `og:image` n'est encore fournie : les cartes de partage
+  s'afficheront sans visuel tant qu'un fichier ne sera pas ajouté et référencé
+  dans `openGraph.images` (`src/app/layout.tsx`).
