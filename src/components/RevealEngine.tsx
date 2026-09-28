@@ -11,15 +11,8 @@ import { useEffect } from "react";
  */
 export default function RevealEngine() {
   useEffect(() => {
-    const fillBars = () =>
-      document.querySelectorAll<HTMLElement>("[data-bar]").forEach((bar) => {
-        bar.style.width = bar.getAttribute("data-bar") + "%";
-      });
-
-    const showAll = () => {
+    const showAll = () =>
       document.querySelectorAll("[data-reveal]").forEach((el) => el.setAttribute("data-shown", ""));
-      fillBars();
-    };
 
     if (
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
@@ -42,7 +35,6 @@ export default function RevealEngine() {
           if (!e.isIntersecting) return;
           e.target.setAttribute("data-reveal-armed", "");
           e.target.setAttribute("data-shown", "");
-          if (e.target.id === "capacites") fillBars();
           io.unobserve(e.target);
         });
       },
@@ -61,7 +53,6 @@ export default function RevealEngine() {
           io.unobserve(el);
         }
       });
-      if (!document.querySelector("[data-reveal]:not([data-shown])")) fillBars();
     };
 
     let raf: number | null = null;

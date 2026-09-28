@@ -12,7 +12,6 @@ import StatusBar from "@/components/StatusBar";
 import CaseStudies from "@/components/sections/CaseStudies";
 import Contact from "@/components/sections/Contact";
 import Hero from "@/components/sections/Hero";
-import Numbers from "@/components/sections/Numbers";
 import Skills from "@/components/sections/Skills";
 import Thesis from "@/components/sections/Thesis";
 import Timeline from "@/components/sections/Timeline";
@@ -21,7 +20,7 @@ import { ContentProvider } from "@/i18n/ContentProvider";
 import type { Locale } from "@/i18n/config";
 import { refreshBackgroundColors } from "@/lib/backgroundEngine";
 import { useScrollChrome } from "@/hooks/useScrollChrome";
-import { useSmoothJump } from "@/hooks/useDossierIndex";
+import { useSmoothJump } from "@/hooks/useSmoothJump";
 import { useTheme } from "@/hooks/useTheme";
 
 export default function HomeClient({ content, locale }: { content: Content; locale: Locale }) {
@@ -51,9 +50,8 @@ export default function HomeClient({ content, locale }: { content: Content; loca
 
           <main id="contenu">
             <Hero />
-            <Thesis />
             <CaseStudies />
-            <Numbers />
+            <Thesis />
             <Skills />
             <Timeline />
             <Contact />

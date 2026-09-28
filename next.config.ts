@@ -17,7 +17,7 @@ const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${devEval}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://image.thum.io",
+  "img-src 'self' data:",
   "font-src 'self'",
   "connect-src 'self'",
   "frame-ancestors 'none'",

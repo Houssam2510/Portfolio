@@ -2,255 +2,189 @@ import type { CaseStudy } from "./types";
 
 export const casesFr: CaseStudy[] = [
   {
-    id: "dossier-01",
+    id: "carriv",
     number: "01",
     name: "Carriv",
-    navLabel: "ADAPTATION DE CV · EN PRODUCTION",
+    kind: "product",
     status: "live",
-    domain: "carriv.com",
-    role: "Conception & développement, seul",
+    domainLabel: "CARRIÈRE · IA",
     period: "2026",
+    domain: "carriv.com",
     url: "https://carriv.com",
-    title: "Carriv : adapter un CV à une offre, sans jamais rien inventer",
-    description:
-      "Postuler correctement demande 30 à 45 minutes par candidature ; demander à un chatbot de « faire le CV » produit des expériences inventées qui s'effondrent en entretien. Carriv adapte un profil maître à une offre donnée sous une règle de zéro invention inscrite dans chaque prompt.",
     screenshotAlt: "Capture Carriv : CV adapté et score ATS",
-    changeTitle: "CE QUE ÇA CHANGE POUR LE CANDIDAT",
-    changes: [
-      "30 à 45 minutes de travail par candidature ramenées à une trentaine de secondes.",
-      "Rien d'inventé : tout ce qui est écrit sur le CV est défendable en entretien.",
-      "Le PDF passe les filtres ATS au lieu d'être rejeté par sa mise en page.",
-      "Le crédit est remboursé automatiquement si la génération échoue. Jamais payé pour rien.",
-    ],
-    problem:
-      "Le modèle peut réordonner, sélectionner, reformuler et omettre, mais jamais fabriquer une expérience, une date, un employeur, un diplôme ou un chiffre. La traduction est la seule transformation autorisée, avec fidélité stricte du niveau de diplôme.",
-    decision:
-      "Le score ATS n'est pas produit par le modèle. Un vrai ATS est un moteur de correspondance de mots-clés, pas un juge : le LLM extrait et classe les écarts, le score est une fonction déterministe. Re-scorer donne toujours le même nombre, et appliquer une reformulation ne peut qu'ajouter un mot-clé, donc jamais faire baisser le score.",
-    pipelineLabel: "POST /api/generate · LE PIPELINE",
-    pipelineCode: `resolveApiUser      session ou token personnel (extension)
-enforceRateLimit    30 générations / h / utilisateur
-getProfile          scopé userId : jamais d'accès croisé
-reserveCredit       findOneAndUpdate atomique { credits: { $gte: 1 } } → 402
-analyzeJob          Structured Outputs · modèle principal
-adaptCVAndLetter    Structured Outputs · modèle principal
-scoreATS            matching déterministe, pondéré must=2 / nice=1
-createApplication
-catch → refundCredit + alerte`,
+    pitch: "Adapte un CV à une offre en 30 secondes, sans jamais rien inventer.",
+    flow: ["offre", "analyse LLM", "CV adapté", "score ATS déterministe"],
     stats: [
-      { value: "~30 s", label: "GÉNÉRATION", accent: true },
-      { value: "10", label: "MODÈLES PDF" },
-      { value: "30/h", label: "PLAFOND" },
-      { value: "2", label: "DEVISES" },
+      { value: "~30 s", label: "PAR CANDIDATURE", accent: true },
+      { value: "10", label: "MODÈLES PDF ATS-SAFE" },
+      { value: "0", label: "EXPÉRIENCE INVENTÉE" },
     ],
-    details: [
-      {
-        title: "REMBOURSEMENT GARANTI",
-        body: "Client OpenAI plafonné à 90 s et une seule reprise, au lieu de 10 minutes et 2 retries. Sur Vercel, une requête pendue doit échouer pendant que la Lambda vit encore, sinon le catch qui rembourse ne s'exécute jamais et l'utilisateur paie une génération qu'il n'a pas reçue.",
-      },
-      {
-        title: "LE MUR ATS",
-        body: "L'application a une direction artistique affirmée ; les PDF restent strictement ATS-safe : une colonne, typographie seule, aucune couleur ni décor. C'est exactement là que la plupart des générateurs échouent.",
-      },
-      {
-        title: "SÉCURITÉ PAIEMENT",
-        body: "Le montant Stripe n'est jamais cru côté client : le nombre de crédits vient de la table serveur indexée par Price ID, webhook vérifié par signature. Tokens d'extension stockés en SHA-256 uniquement. Plafond explicite à 30 pages contre les bombes de décompression PDF.",
-      },
-    ],
-    tags: [
-      "SvelteKit 2",
-      "Svelte 5 runes",
-      "TypeScript strict",
-      "MongoDB",
-      "better-auth",
-      "OpenAI Structured Outputs",
-      "Stripe",
-      "puppeteer-core",
-      "Vercel",
-      "Vitest",
-    ],
+    tags: ["SvelteKit", "TypeScript", "MongoDB", "OpenAI Structured Outputs", "Stripe", "Vercel"],
+    problem:
+      "Demander à un chatbot de « faire le CV » produit des expériences inventées qui s'effondrent en entretien.",
+    decision:
+      "Le modèle reformule, réordonne, omet, mais ne fabrique jamais. Le score ATS sort d'une fonction déterministe : re-scorer donne toujours le même nombre.",
+    pipelineLabel: "POST /api/generate",
+    pipelineCode: `reserveCredit       findOneAndUpdate atomique { credits: { $gte: 1 } } → 402
+analyzeJob          Structured Outputs
+adaptCVAndLetter    Structured Outputs
+scoreATS            matching déterministe, must=2 / nice=1
+catch → refundCredit + alerte     jamais payé pour rien`,
   },
   {
-    id: "dossier-02",
+    id: "studylumina",
     number: "02",
     name: "StudyLumina",
-    navLabel: "PRÉPARATION AUX EXAMENS · EN PRODUCTION",
+    kind: "product",
     status: "live",
-    domain: "app.studylumina.com",
-    role: "Conception & développement, seul",
+    domainLabel: "ÉDUCATION · RAG",
     period: "2026",
+    domain: "app.studylumina.com",
     url: "https://app.studylumina.com",
-    title: "StudyLumina : mesurer la préparation réelle à un examen",
-    description:
-      "Les outils d'étude IA s'arrêtent à la génération de contenu. StudyLumina mesure la préparation réelle, chapitre par chapitre, et indique quoi faire aujourd'hui. Aucune note n'est jamais produite par un LLM.",
     screenshotAlt: "Capture StudyLumina : préparation par chapitre",
-    changeTitle: "CE QUE ÇA CHANGE POUR L'ÉTUDIANT",
-    changes: [
-      "Une réponse à la seule question utile : suis-je prêt, sur quel chapitre, et que faire aujourd'hui.",
-      "Chaque réponse est citée (document et page), donc vérifiable au lieu d'être crue.",
-      "Le score s'expose à la contradiction : l'erreur moyenne face aux vraies notes est affichée.",
-      "On dépose un PDF et on continue à travailler : résumé, flashcards et quiz arrivent en arrière-plan.",
-    ],
-    problem:
-      "Un résumé ne dit pas si l'étudiant est prêt. Sans rattachement d'un document à un chapitre, impossible d'attribuer une réponse de quiz à une matière, donc impossible de mesurer autre chose qu'une moyenne globale sans valeur.",
-    decision:
-      "Cours → Chapitre → Document est obligatoire : un document orphelin n'existe pas. C'est la condition de possibilité de tout le produit. L'Exam Readiness Score est une fonction pure de ~850 lignes, sans réseau ni LLM, et l'ajout du facteur de rétention est gaté : un chapitre sans flashcard révisée obtient un score strictement identique à avant, prouvé par test.",
-    pipelineLabel: "INGESTION ASYNCHRONE · 6 FILES BULLMQ",
-    pipelineCode: `upload → ingestion    extraction PDF, nettoyage pages
-       → embeddings   chunking, batch + rate-limit, pgvector
-       → course-map   rattachement chunks ↔ chapitres
-       → summary | flashcards | quiz        (en parallèle)
-
-RAG hybride : pgvector + BM25 (GIN) fusionnés, filtrés
-cours/chapitre, SQL paramétré. Sur un follow-up, la
-question est condensée en requête autonome avant
-récupération. Citations → document + page.`,
+    pitch: "Dit à un étudiant s'il est prêt pour son examen, chapitre par chapitre.",
+    flow: ["PDF du cours", "RAG hybride", "quiz & flashcards", "score de préparation"],
     stats: [
-      { value: "47 600", label: "LIGNES TS" },
+      { value: "62k", label: "LIGNES TS" },
       { value: "78", label: "ROUTES API" },
-      { value: "74", label: "FICHIERS DE TESTS", accent: true },
-      { value: "25", label: "MODÈLES PRISMA" },
+      { value: "75", label: "FICHIERS DE TESTS", accent: true },
     ],
-    details: [
-      {
-        title: "UN SCORE FALSIFIABLE",
-        body: "L'étudiant saisit sa vraie note après l'examen ; le produit affiche l'erreur moyenne entre score prédit et note obtenue. La note réelle n'est jamais réinjectée dans le calcul : le score se rend réfutable au lieu de se déclarer juste.",
-      },
-      {
-        title: "HONNÊTETÉ DU SCORE",
-        body: "La couverture agit en multiplicateur de confiance : trois bonnes réponses ne peuvent pas faire lire « Ready ». Le score global est lissé, donc un seul mauvais quiz ne fait pas tout s'effondrer.",
-      },
-      {
-        title: "MODÈLE DE DONNÉES",
-        body: "Modèle bridge DocumentChapterSpan avec plages de pages plutôt qu'une clé étrangère : un PDF couvre souvent plusieurs chapitres, un chapitre s'étale sur plusieurs PDF. Aucune métrique scalaire en JSON brut.",
-      },
-    ],
-    tags: [
-      "Next.js 15",
-      "React 18",
-      "PostgreSQL + pgvector",
-      "Prisma 6",
-      "BullMQ + Redis",
-      "Auth.js v5",
-      "Gemini / OpenAI / DeepSeek",
-      "Stripe",
-      "Pino + Prometheus",
-      "next-intl",
-    ],
+    tags: ["Next.js", "PostgreSQL + pgvector", "Prisma", "BullMQ + Redis", "Stripe", "next-intl"],
+    problem: "Un résumé ne dit pas si l'étudiant est prêt. Une moyenne globale non plus.",
+    decision:
+      "Le score est une fonction pure de ~850 lignes, sans LLM. Il se rend réfutable : l'écart avec les vraies notes est affiché.",
+    pipelineLabel: "INGESTION · 6 FILES BULLMQ",
+    pipelineCode: `upload → ingestion    extraction PDF
+       → embeddings   chunking, pgvector
+       → course-map   chunks ↔ chapitres
+       → summary | flashcards | quiz   (en parallèle)
+
+RAG : pgvector + BM25 fusionnés · citations → document + page`,
   },
   {
-    id: "dossier-03",
+    id: "sanade",
     number: "03",
     name: "Sanade",
-    navLabel: "ARBITRAGE D'HABITUDES · EN PRODUCTION",
+    kind: "product",
     status: "live",
-    domain: "sanade.app",
-    role: "Conception & développement, seul",
+    domainLabel: "PRODUCTIVITÉ · WEB + MOBILE",
     period: "2025-2026",
+    domain: "sanade.app",
     url: "https://sanade.app",
-    title: "Sanade : le suivi d'habitudes qui arbitre au lieu d'enregistrer",
-    description:
-      "Les trackers affichent fidèlement l'écart entre le prévu et le fait, pendant des mois, sans jamais rien en faire. Sanade calcule le temps réellement utilisable dans la journée, propose deux ou trois objectifs tenables et écarte le reste en disant pourquoi.",
     screenshotAlt: "Capture Sanade : arbitrage du jour",
-    changeTitle: "CE QUE ÇA CHANGE POUR L'UTILISATEUR",
-    changes: [
-      "Deux ou trois objectifs tenables pour aujourd'hui, au lieu d'une liste de douze qui culpabilise.",
-      "Chaque objectif écarté est motivé : l'utilisateur voit pourquoi, il ne subit pas un tri opaque.",
-      "On écrit sa note en français, en darija translittérée ou en arabe : le texte brut est conservé tel quel.",
-      "Web et mobile partagent le même cœur de domaine : aucune divergence de calcul entre les deux.",
-    ],
-    problem:
-      "Une capacité déclarée est une capacité fantasmée. Et avec six domaines et des décalages temporels, un cycle d'analyse teste des centaines de paires : un seuil individuel garantirait mécaniquement des faux liens à chaque passage.",
-    decision:
-      "Faits contre projections, visible dans les noms de tables : tout calcul stocké porte le préfixe proj_, donc clearProjections() est sûr à tout moment et une formule de score peut être corrigée sans laisser un historique incohérent. Aucune table de faits ne pointe vers une projection, et un test d'architecture le vérifie, parce que la règle a déjà été violée en silence une fois.",
-    pipelineLabel: "INGESTION · UNE EXTRACTION NE CRÉE JAMAIS DE DONNÉE",
-    pipelineCode: `texte brut (FR / darija translittérée / arabe)
-  → RawNote                stockée telle quelle, jamais réécrite
-  → prompt versionné + LLM côté serveur
-  → JSON validé par schéma Zod strict
-      ├─ échec  → une réparation, puis échec journalisé
-      └─ succès → Extraction { proposals, confidence }
-  → écran de revue          validation item par item
-  → Trackable (PLAN) ou LogEntry (CHECKIN)`,
+    pitch: "Transforme une journée dispersée en deux ou trois objectifs tenables.",
+    flow: ["note libre FR / darija", "extraction validée", "scores de cohérence", "priorité du jour"],
     stats: [
-      { value: "62 000", label: "LIGNES TS" },
-      { value: "941", label: "TESTS", accent: true },
-      { value: "13 700", label: "DOMAINE PUR" },
-      { value: "0", label: "SERVICE REQUIS" },
+      { value: "1 020", label: "TESTS", accent: true },
+      { value: "94 %", label: "COUVERTURE DU DOMAINE" },
+      { value: "2", label: "APPS, UN SEUL CŒUR" },
     ],
-    details: [
-      {
-        title: "LA BIENVEILLANCE EST DANS LA FORMULE",
-        body: "Une journée non renseignée sort du calcul au lieu de compter zéro : elle fait baisser la confiance affichée, jamais le score. Trois jours sans données affichent « score 74, confiance faible », pas « score 31 », sinon le produit punirait le fait de ne pas ouvrir l'application.",
-      },
-      {
-        title: "RIGUEUR STATISTIQUE",
-        body: "Ce qui est affiché est une fréquence conditionnelle empirique : deux nombres refaisables à la main. Les liens sont testés par cycle complet, le nombre de tests est compté, et la publication est filtrée sur le taux de fausses découvertes. Chaque motif fige son cycle.",
-      },
-      {
-        title: "CŒUR DE DOMAINE PUR",
-        body: "packages/core n'importe jamais db, api, ingestion ni React : 13 700 lignes testables sans base, sans réseau, sans clé d'API. La logique ne peut pas diverger entre web et mobile : c'est une propriété de la structure, pas une discipline.",
-      },
-    ],
-    tags: [
-      "TypeScript ESM",
-      "Next.js 16 / React 19",
-      "Expo · React Native",
-      "tRPC v11",
-      "Prisma + PostgreSQL",
-      "PGlite (WASM)",
-      "Zod",
-      "Vitest · Playwright",
-      "Turborepo · pnpm",
-      "Sentry",
-    ],
+    tags: ["Next.js 16", "Expo", "tRPC", "Prisma", "PostgreSQL", "Turborepo"],
+    problem:
+      "Les trackers affichent l'écart entre le prévu et le fait pendant des mois, sans jamais rien en faire.",
+    decision:
+      "Faits contre projections : tout calcul stocké est jetable et recalculable. Un test d'architecture interdit qu'un fait dépende d'une projection.",
+    pipelineLabel: "UNE EXTRACTION NE CRÉE JAMAIS DE DONNÉE",
+    pipelineCode: `texte brut (FR / darija / arabe)
+  → RawNote              stockée telle quelle
+  → LLM + schéma Zod strict
+  → écran de revue       validation item par item
+  → Trackable ou LogEntry`,
   },
   {
-    id: "dossier-04",
+    id: "job-radar",
     number: "04",
-    name: "CSPM-Lite",
-    navLabel: "POSTURE CLOUD · OUTIL CLI",
+    name: "Job Radar",
+    kind: "lab",
     status: "internal",
-    domain: "",
-    role: "Outil personnel",
-    period: "2025",
-    title: "CSPM-Lite : la sécurité cloud qui bloque le pipeline",
-    description:
-      "Un outil CLI qui analyse un compte AWS, détecte les mauvaises configurations, évalue la conformité et produit des rapports exploitables, puis refuse de laisser passer le déploiement.",
-    screenshotAlt: "",
-    changeTitle: "CE QUE ÇA CHANGE POUR L'ÉQUIPE",
-    changes: [
-      "Une faille critique arrête le déploiement : la sécurité devient une porte, plus un rapport.",
-      "Deux sorties : du JSON pour la machine, du HTML lisible pour la revue humaine.",
-      "Des contrôles alignés CIS sans licence d'outil commercial.",
+    domainLabel: "VEILLE · TEMPS RÉEL",
+    period: "2026",
+    pitch: "Voit une offre de stage quelques minutes après sa publication, pas quelques jours.",
+    flow: ["4 899 sites carrière", "diff des réquisitions", "score sans LLM", "notification"],
+    specs: [
+      { key: "registre", value: "4 899 sources validées" },
+      { key: "offres", value: "1 133 000+ couvertes" },
+      { key: "ATS", value: "Workday · Greenhouse · Lever · Oracle · +20" },
+      { key: "avance", value: "2 h à 72 h sur LinkedIn" },
     ],
+    stats: [
+      { value: "4 899", label: "SOURCES" },
+      { value: "1,1 M", label: "OFFRES COUVERTES" },
+      { value: "429", label: "TESTS", accent: true },
+    ],
+    tags: ["Node.js", "Extension navigateur", "Playwright", "Scoring déterministe"],
     problem:
-      "Une mauvaise configuration cloud ne se voit pas dans une revue de code : bucket S3 public, port SSH ouvert, utilisateur sans MFA. Elle se voit en production, ou dans une fuite.",
+      "Une offre met 2 à 72 h à arriver sur LinkedIn, alors que la majorité des embauches se joue dans les premiers jours.",
     decision:
-      "Le rapport ne suffit pas : personne ne lit un rapport. Le contrôle devient bloquant : une faille critique arrête le pipeline CI/CD, ce qui déplace la sécurité de l'audit vers la porte d'entrée.",
-    pipelineLabel: "CONTRÔLES ET SORTIES",
-    pipelineCode: `scan compte AWS
-  → détection      S3 public · SSH ouvert · absence de MFA
-  → conformité     contrôles alignés CIS Benchmark
-  → priorisation   criticité + recommandation de remédiation
-  → rapports       JSON (machine) + HTML (humain)
-  → gate CI/CD     faille critique → build bloqué`,
+      "Interroger l'endpoint que la page carrière appelle elle-même, et comparer les IDs de réquisition, jamais le contenu. Le registre a été miné depuis 37 000 URL réelles, puis chaque source validée en direct.",
+    pipelineLabel: "UN PASSAGE",
+    pipelineCode: `fetch           ~1 req/s par domaine
+pré-score       titre + lieu, déterministe
+diff            sur les IDs de réquisition
+enrichissement  seulement si le score peut passer le seuil
+notification    individuelle, ou digest`,
+  },
+  {
+    id: "ratchet",
+    number: "05",
+    name: "Ratchet",
+    kind: "lab",
+    status: "open",
+    domainLabel: "CRYPTOGRAPHIE · E2EE",
+    period: "2026",
+    repo: "https://github.com/Houssam2510/e2ee-messenger-protocol",
+    pitch: "Une messagerie chiffrée de bout en bout où même un serveur compromis ne lit rien.",
+    flow: ["X3DH", "Double Ratchet", "relais aveugle", "déchiffré sur l'appareil"],
+    specs: [
+      { key: "serveur", value: "ne voit que des octets opaques" },
+      { key: "clé", value: "un message, puis détruite" },
+      { key: "appels", value: "WebRTC, signalisation chiffrée" },
+      { key: "crypto", value: "WebCrypto auditée, zéro maison" },
+    ],
+    stats: [
+      { value: "91", label: "TESTS", accent: true },
+      { value: "6", label: "INVARIANTS DE SÉCURITÉ" },
+      { value: "0", label: "OCTET LISIBLE CÔTÉ SERVEUR" },
+    ],
+    tags: ["TypeScript strict", "React 19", "WebCrypto", "Supabase", "WebRTC", "PWA"],
+    problem:
+      "La plupart des « chats chiffrés » enveloppent le message dans AES et s'arrêtent là.",
+    decision:
+      "Implémenter le vrai protocole de Signal, avec des primitives auditées uniquement, et documenter ce qu'il ne protège pas (métadonnées, appareil compromis).",
+    pipelineLabel: "INVARIANTS VÉRIFIÉS PAR LES TESTS",
+    pipelineCode: `clé privée      ne quitte jamais l'appareil
+nonce GCM       jamais réutilisé avec la même clé
+en-tête         authentifié en AAD
+sauvegarde      l'état du ratchet est exclu par construction`,
+  },
+  {
+    id: "cspm-lite",
+    number: "06",
+    name: "CSPM-Lite",
+    kind: "lab",
+    status: "internal",
+    domainLabel: "SÉCURITÉ CLOUD · CLI",
+    period: "2025",
+    pitch: "Scanne un compte AWS et bloque le déploiement si une faille critique apparaît.",
+    flow: ["compte AWS", "contrôles CIS", "rapport JSON + HTML", "gate CI"],
+    specs: [
+      { key: "détecte", value: "S3 public · SSH ouvert · sans MFA" },
+      { key: "norme", value: "CIS Benchmark" },
+      { key: "sorties", value: "JSON (machine) + HTML (humain)" },
+      { key: "en CI", value: "faille critique → build bloqué" },
+    ],
     stats: [
       { value: "CIS", label: "RÉFÉRENTIEL" },
       { value: "2", label: "FORMATS DE RAPPORT" },
       { value: "CI", label: "BLOCAGE ACTIF", accent: true },
-      { value: "A", label: "COURS CYBERSÉCURITÉ" },
     ],
-    details: [
-      {
-        title: "POURQUOI CET OUTIL",
-        body: "Le cours de cybersécurité donne les concepts ; un compte AWS réel donne les mauvaises surprises. Cet outil est né du besoin de vérifier mes propres déploiements avant qu'un correcteur, ou un attaquant, ne le fasse.",
-      },
-      {
-        title: "LABORATOIRES ASSOCIÉS",
-        body: "Découverte réseau, énumération de services, sécurité web de base et dépannage en environnement Linux. Advent of Cyber (TryHackMe, déc. 2025) pour la démarche d'investigation structurée.",
-      },
-    ],
-    tags: ["Python", "AWS SDK (boto3)", "CIS Benchmark", "Linux", "GitHub Actions", "JSON / HTML"],
-    terminalCommand: "$ cspm-lite scan --account prod --gate",
+    tags: ["Python", "boto3", "CIS Benchmark", "GitHub Actions"],
+    problem:
+      "Une mauvaise configuration cloud ne se voit pas en revue de code. Elle se voit en production, ou dans une fuite.",
+    decision: "Personne ne lit un rapport : le contrôle devient une porte, qui arrête le pipeline.",
+    pipelineLabel: "$ cspm-lite scan --account prod --gate",
+    pipelineCode: `scan → détection → conformité CIS → priorisation
+     → rapports JSON + HTML
+     → faille critique → exit 1`,
   },
 ];

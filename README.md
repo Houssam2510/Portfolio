@@ -35,7 +35,7 @@ Un portfolio est un produit dont le contenu change bien plus souvent que le code
 
 | Décision | Ce que ça donne |
 | --- | --- |
-| 📝 **Le contenu est une donnée** | Études de cas, thèse, chiffres, compétences, parcours, contact : tout est dans [`src/data/`](src/data/), typé. Mettre le portfolio à jour = éditer `content.fr.ts` / `content.en.ts` (et `cases.*.ts`). Aucun texte en dur dans un composant. |
+| 📝 **Le contenu est une donnée** | Projets, principes, stack, parcours, contact : tout est dans [`src/data/`](src/data/), typé. Mettre le portfolio à jour = éditer `content.fr.ts` / `content.en.ts` (et `cases.*.ts`). Aucun texte en dur dans un composant. |
 | 🎨 **Aucun framework CSS** | Les tokens de design sont des propriétés CSS personnalisées dans [`src/app/globals.css`](src/app/globals.css), en `oklch()`, déclinées en thème clair **et** sombre. Le reste est en styles au niveau du composant. Rien à purger, rien à configurer. |
 | 🌗 **Palette Ambre CRT** | Ambre sur charbon chaud. Tous les couples texte/fond sont vérifiés au ratio de contraste **WCAG AA au minimum** — pas à l'œil. |
 | 🎞 **Un seul `requestAnimationFrame`** | Deux canvas — rubans lumineux derrière le nom, champ topographique pour le reste de la page — pilotés par **une seule** boucle d'animation ([`src/lib/backgroundEngine.ts`](src/lib/backgroundEngine.ts)). Deux boucles concurrentes, c'est deux fois le coût et un micro-décalage visible. |
@@ -44,7 +44,7 @@ Un portfolio est un produit dont le contenu change bien plus souvent que le code
 
 ## Les sections, dans l'ordre
 
-`Hero` → `Thesis` → `CaseStudies` → `Numbers` → `Skills` → `Timeline` → `Contact`
+`Hero` → `CaseStudies` → `Thesis` → `Skills` → `Timeline` → `Contact`
 
 Par-dessus : un en-tête qui se rétracte au scroll, une barre de progression de lecture, une **palette de commandes** (⌘K) pour sauter d'une section à l'autre, un bouton de thème, et une révélation au scroll.
 
@@ -84,14 +84,14 @@ src/
 │   ├── robots.ts          sitemap.ts
 ├── components/
 │   ├── …                  chrome : en-tête, palette de commandes, barre de progression
-│   └── sections/          Hero, Thesis, CaseStudies, Numbers, Skills, Timeline, Contact
+│   └── sections/          Hero, CaseStudies, Thesis, Skills, Timeline, Contact
 ├── data/
 │   ├── content.fr.ts      ← LE fichier à éditer (et son jumeau .en.ts)
-│   ├── cases.fr.ts        ← les études de cas (et cases.en.ts)
+│   ├── cases.fr.ts        ← les six projets (et cases.en.ts)
 │   └── types.ts
-├── hooks/                 thème, révélation au scroll, effet machine à écrire, index
+├── hooks/                 thème, révélation au scroll, effet machine à écrire, saut d'ancre
 ├── i18n/                  config des locales + ContentProvider
-├── lib/                   moteur de fond, URL du site, capture d'écran
+├── lib/                   moteur de fond, URL du site, captures des produits
 └── middleware.ts          négociation de langue, redirection de la racine
 ```
 
@@ -105,7 +105,7 @@ src/
 
 Deux compromis assumés, documentés plutôt que tus :
 
-- **Les aperçus des études de cas sont capturés par un service tiers** (`image.thum.io`) sur carriv.com, app.studylumina.com et sanade.app. `SiteScreenshot` affiche un état de chargement puis un repli vers le site réel si la capture échoue, mais la dépendance reste externe. Pour s'en affranchir : remplacer `screenshotUrl()` dans [`src/lib/screenshot.ts`](src/lib/screenshot.ts) par des images statiques servies depuis `public/`.
+- **Les captures des produits sont figées** dans [`src/assets/shots/`](src/assets/shots/) : elles ne suivent pas les sites en direct. Quand carriv.com, app.studylumina.com ou sanade.app changent d'apparence, il faut les reprendre (1440×900, JPEG).
 - **La CSP autorise `'unsafe-inline'`** pour les scripts et les styles, parce que le thème est appliqué par un script inline avant le premier paint et que la mise en forme repose sur des attributs `style`. Sortir les styles inline vers des CSS Modules permettrait de resserrer cette directive.
 
 </details>
@@ -121,7 +121,7 @@ A portfolio is a product whose content changes far more often than its code. So 
 
 | Decision | What it buys |
 | --- | --- |
-| 📝 **Content is data** | Case studies, thesis, numbers, skills, timeline, contact: all of it lives in [`src/data/`](src/data/), typed. Updating the portfolio = editing `content.fr.ts` / `content.en.ts` (and `cases.*.ts`). No copy is hard-coded in a component. |
+| 📝 **Content is data** | Projects, principles, stack, timeline, contact: all of it lives in [`src/data/`](src/data/), typed. Updating the portfolio = editing `content.fr.ts` / `content.en.ts` (and `cases.*.ts`). No copy is hard-coded in a component. |
 | 🎨 **No CSS framework** | Design tokens are custom CSS properties in [`src/app/globals.css`](src/app/globals.css), in `oklch()`, defined for light **and** dark. The rest is component-level styling. Nothing to purge, nothing to configure. |
 | 🌗 **Amber CRT palette** | Amber on warm charcoal. Every text/background pair is verified against **WCAG AA or better** contrast ratios — not eyeballed. |
 | 🎞 **One `requestAnimationFrame`** | Two canvases — light ribbons behind the name, a topographic field for the rest of the page — driven by **one** animation loop ([`src/lib/backgroundEngine.ts`](src/lib/backgroundEngine.ts)). Two competing loops means twice the cost and a visible micro-drift. |
@@ -130,7 +130,7 @@ A portfolio is a product whose content changes far more often than its code. So 
 
 ## The sections, in order
 
-`Hero` → `Thesis` → `CaseStudies` → `Numbers` → `Skills` → `Timeline` → `Contact`
+`Hero` → `CaseStudies` → `Thesis` → `Skills` → `Timeline` → `Contact`
 
 On top of them: a header that retracts on scroll, a reading-progress bar, a **command palette** (⌘K) to jump between sections, a theme toggle, and scroll-triggered reveals.
 
@@ -170,14 +170,14 @@ src/
 │   ├── robots.ts          sitemap.ts
 ├── components/
 │   ├── …                  chrome: header, command palette, progress bar
-│   └── sections/          Hero, Thesis, CaseStudies, Numbers, Skills, Timeline, Contact
+│   └── sections/          Hero, CaseStudies, Thesis, Skills, Timeline, Contact
 ├── data/
 │   ├── content.fr.ts      ← THE file to edit (and its .en.ts twin)
-│   ├── cases.fr.ts        ← the case studies (and cases.en.ts)
+│   ├── cases.fr.ts        ← the six projects (and cases.en.ts)
 │   └── types.ts
-├── hooks/                 theme, scroll reveal, typewriter, section index
+├── hooks/                 theme, scroll reveal, typewriter, anchor jump
 ├── i18n/                  locale config + ContentProvider
-├── lib/                   background engine, site URL, screenshots
+├── lib/                   background engine, site URL, product screenshots
 └── middleware.ts          language negotiation, root redirect
 ```
 
@@ -191,7 +191,7 @@ src/
 
 Two deliberate compromises, documented rather than hidden:
 
-- **Case-study previews are captured by a third-party service** (`image.thum.io`) for carriv.com, app.studylumina.com and sanade.app. `SiteScreenshot` shows a loading state and falls back to the real site if the capture fails, but the dependency stays external. To remove it: replace `screenshotUrl()` in [`src/lib/screenshot.ts`](src/lib/screenshot.ts) with static images served from `public/`.
+- **Product screenshots are frozen** in [`src/assets/shots/`](src/assets/shots/): they do not follow the live sites. When carriv.com, app.studylumina.com or sanade.app change their look, retake them (1440×900, JPEG).
 - **The CSP allows `'unsafe-inline'`** for scripts and styles, because the theme is applied by an inline script before first paint and the layout relies on `style` attributes. Moving inline styles to CSS Modules would let that directive be tightened.
 
 </details>

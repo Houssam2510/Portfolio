@@ -5,7 +5,7 @@ export const fr: Content = {
   meta: {
     title: "Houssam Nadir · Génie informatique, Polytechnique Montréal",
     description:
-      "Étudiant en génie informatique à Polytechnique Montréal. Cloud, cybersécurité et développement. Trois produits en production, seul : Carriv, StudyLumina, Sanade.",
+      "Étudiant en génie informatique à Polytechnique Montréal. Trois produits en production, seul (Carriv, StudyLumina, Sanade), plus Job Radar, une messagerie E2EE et un scanner de sécurité AWS.",
     ogAlt:
       "Houssam Nadir, génie informatique à Polytechnique Montréal. Trois produits en production.",
   },
@@ -21,22 +21,17 @@ export const fr: Content = {
     paletteFilter: "Filtrer les sections",
     paletteEscape: "ESC",
     switchLanguage: "Switch to English",
-    role: "RÔLE",
-    period: "PÉRIODE",
-    status: "STATUT",
     statusLive: "En production",
-    statusInternal: "Outil interne",
+    statusInternal: "Outil personnel",
+    statusOpen: "Open source",
     viewLive: "VOIR EN LIGNE ↗",
+    viewCode: "VOIR LE CODE ↗",
+    privateRepo: "DÉPÔT PRIVÉ · DÉMO SUR DEMANDE",
     live: "LIVE",
+    underTheHood: "Sous le capot",
     theProblem: "LE PROBLÈME",
-    theDecision: "LA DÉCISION CENTRALE",
-    caseLabel: "CAS",
-    screenshotCaption: "APERÇU AUTOMATIQUE DE {domain} · CAPTURÉ APRÈS STABILISATION",
-    screenshotLoading: "CAPTURE EN COURS",
-    screenshotFailed: "APERÇU INDISPONIBLE",
-    screenshotOpen: "OUVRIR {domain} ↗",
+    theDecision: "LA DÉCISION",
     timelineScrollHint: "Parcours, faire défiler horizontalement",
-    skillsFilterLabel: "Filtrer les compétences par domaine",
     footer: "© 2026 HOUSSAM NADIR · CONÇU ET CODÉ À MONTRÉAL",
     availability: "DISPONIBLE · STAGE 2027",
     location: "MONTRÉAL · UTC-5",
@@ -47,29 +42,24 @@ export const fr: Content = {
 
   sections: {
     thesis: {
-      eyebrow: "01 · ./PRINCIPES --APPLIQUÉS",
-      title: "Ma thèse d'ingénierie",
-      intro:
-        "Trois principes, tenus dans les trois produits. Ce ne sont pas des slogans : chacun est vérifié par du code.",
+      eyebrow: "02 · ./PRINCIPES --APPLIQUÉS",
+      title: "Trois règles, tenues partout",
+      intro: "Pas des slogans : chacune est vérifiée par du code.",
     },
-    cases: { eyebrow: "02 · QUATRE DOSSIERS, RIEN DE CACHÉ", title: "Études de cas" },
-    numbers: {
-      eyebrow: "03 · AGRÉGÉ SUR LES TROIS PLATEFORMES",
-      title: "Ce que ça représente",
-      footnote: [
-        "Les trois produits partagent la même colonne vertébrale : validation par schéma à toutes les frontières, jamais de ",
-        { strong: ".parse()" },
-        " qui explose, clients externes initialisés paresseusement pour qu'un build passe sans secret, et un échec bruyant préféré à une valeur fabriquée en silence.",
-      ],
+    cases: {
+      eyebrow: "01 · SIX PROJETS, CONSTRUITS SEUL",
+      title: "Ce que j'ai construit",
+      productsLabel: "EN PRODUCTION",
+      labLabel: "LABO · OUTILS ET PROTOCOLES",
     },
-    skills: { eyebrow: "04 · FILTRER PAR DOMAINE", title: "Capacités" },
-    timeline: { eyebrow: "05 · GLISSER →", title: "Parcours" },
+    skills: { eyebrow: "03 · CHAQUE OUTIL, SA PREUVE", title: "Stack" },
+    timeline: { eyebrow: "04 · GLISSER →", title: "Parcours" },
   },
 
   hero: {
     lede:
-      "Étudiant en génie informatique à Polytechnique Montréal. J’expédie des produits complets, seul : pipelines LLM à sorties structurées, scoring déterministe, comptabilité transactionnelle sans course, sécurité cloud. Trois plateformes en production, de la landing bilingue au webhook de paiement signé.",
-    ctaCases: "Voir les études de cas",
+      "J'expédie des produits complets, seul : de l'idée jusqu'au paiement en production.",
+    ctaCases: "Voir les projets",
     ctaLinkedin: "LinkedIn ↗",
     ctaContact: "Me contacter",
   },
@@ -77,8 +67,7 @@ export const fr: Content = {
   contactSection: {
     prompt: "ouvrir --canal stage-2027",
     title: "Donnez-moi la contrainte, je reviens avec l’architecture.",
-    body:
-      "Je cherche un stage où je touche à la production : pipeline, sécurité, données, pas seulement à la maquette. Réponse sous 24 h.",
+    body: "Un stage où je touche à la production : pipeline, sécurité, données. Réponse sous 24 h.",
     facts: ["MONTRÉAL, QC", "UTC-5", "FR / EN", "DISPONIBLE 2027"],
   },
 
@@ -87,24 +76,21 @@ export const fr: Content = {
       numeral: "I",
       label: "PRINCIPE I",
       title: "Le modèle extrait, le code décide",
-      body:
-        "Un LLM est excellent pour reformuler et classer, désastreux pour produire un nombre censé être reproductible. Chaque chiffre affiché à l'utilisateur sort d'une fonction pure.",
+      body: "Un LLM reformule et classe. Chaque chiffre affiché sort d'une fonction pure.",
       proofs: [
         { label: "Carriv", detail: "score ATS déterministe" },
-        { label: "StudyLumina", detail: "ERS, fonction pure de ~850 lignes" },
-        { label: "Sanade", detail: "zéro modèle entraîné" },
+        { label: "StudyLumina", detail: "score sans LLM" },
+        { label: "Job Radar", detail: "tri sans LLM" },
       ],
     },
     {
       numeral: "II",
       label: "PRINCIPE II",
       title: "Un invariant non testé n'existe pas",
-      body:
-        "Les règles produit descendent au niveau du test : elles échouent la CI au lieu de vivre dans un document que personne ne relit.",
+      body: "Une règle produit qui ne fait pas échouer la CI n'est qu'un vœu.",
       proofs: [
-        { label: "Cliquet", detail: "les any ne remontent jamais" },
-        { label: "Seuils", detail: "client ≡ serveur, vérifié" },
-        { label: "Architecture", detail: "faits ⇸ projections" },
+        { label: "Sanade", detail: "faits ⇸ projections, testé" },
+        { label: "Ratchet", detail: "aucune clé sur le réseau" },
         { label: "Couleurs", detail: "aucun littéral en dur" },
       ],
     },
@@ -112,63 +98,37 @@ export const fr: Content = {
       numeral: "III",
       label: "PRINCIPE III",
       title: "La contrainte d'exécution est une contrainte de conception",
-      body:
-        "Le serverless, le débit d'un fournisseur, la mort d'une Lambda : des paramètres d'architecture, pas des accidents à absorber en production.",
+      body: "Timeout, débit, mort d'une Lambda : des paramètres, pas des accidents.",
       proofs: [
-        { label: "Timeout", detail: "90 s < durée de vie Lambda" },
+        { label: "Carriv", detail: "90 s < durée de vie Lambda" },
         { label: "Crédit", detail: "réservé avant l'appel" },
-        { label: "Rate limit", detail: "en base, pas en mémoire" },
-      ],
-    },
-  ],
-
-  thesisNotes: [
-    {
-      title: "LE BUG QUI A CRÉÉ UNE RÈGLE",
-      body: [
-        "Huit copies d’une palette codaient les valeurs du thème clair en dur : le meilleur score possible s’affichait à ",
-        { strong: "1,59:1" },
-        " de contraste sur le thème sombre, invisible. Après passage aux tokens : ",
-        { strong: "9,95:1", accent: true },
-        ". Depuis, un test interdit les couleurs littérales dans les composants.",
-      ],
-    },
-    {
-      title: "CE QUE JE REFUSE D'EXPÉDIER",
-      body: [
-        "Une expérience inventée par un modèle, un score qui régresse sans raison explicable, un crédit débité pour une génération jamais reçue, un PDF joli mais illisible par un ATS. Ces quatre refus ont chacun produit une ligne d'architecture.",
+        { label: "Job Radar", detail: "~1 req/s par domaine" },
       ],
     },
   ],
 
   caseStudies: casesFr,
-  aggregateNumbers: [
-    { value: "~110 000", label: "LIGNES DE TYPESCRIPT" },
-    { value: "941 + 74", label: "CAS DE TEST · FICHIERS DE TESTS", accent: true },
-    { value: "78", label: "ROUTES API · STUDYLUMINA" },
-    { value: "3", label: "PRODUITS BILINGUES FR/EN" },
-    { value: "0", label: "MODÈLE ML ENTRAÎNÉ" },
-    { value: "2", label: "WEBHOOKS STRIPE EN PROD" },
-  ],
-
   skills: [
-    { category: "dev", name: "TypeScript strict", level: "expert", percent: 92 },
-    { category: "dev", name: "Next.js · SvelteKit · React", level: "avancé", percent: 88 },
-    { category: "dev", name: "Node.js · API typées (tRPC)", level: "avancé", percent: 85 },
-    { category: "dev", name: "Python", level: "avancé", percent: 86 },
-    { category: "dev", name: "C / C++ · systèmes", level: "solide", percent: 74 },
-    { category: "cloud", name: "PostgreSQL · Prisma · MongoDB", level: "avancé", percent: 86 },
-    { category: "cloud", name: "AWS · déploiement serverless", level: "solide", percent: 78 },
-    { category: "cloud", name: "Docker · Linux · WSL", level: "avancé", percent: 84 },
-    { category: "cloud", name: "Files de travaux (BullMQ · Redis)", level: "solide", percent: 76 },
-    { category: "cloud", name: "RAG · pgvector · embeddings", level: "solide", percent: 80 },
-    { category: "secu", name: "Sécurité applicative · authentification", level: "avancé", percent: 84 },
-    { category: "secu", name: "Posture cloud · CIS · IAM", level: "solide", percent: 78 },
-    { category: "secu", name: "Reconnaissance réseau · Linux", level: "solide", percent: 72 },
+    { category: "dev", name: "TypeScript strict", usedIn: "partout" },
+    { category: "dev", name: "Next.js · SvelteKit · React", usedIn: "Carriv · StudyLumina · Sanade" },
+    { category: "dev", name: "Node.js · tRPC", usedIn: "Sanade · Job Radar" },
+    { category: "dev", name: "Expo · React Native", usedIn: "Sanade" },
+    { category: "dev", name: "Python", usedIn: "CSPM-Lite" },
+    { category: "dev", name: "C / C++", usedIn: "Polytechnique" },
+    { category: "cloud", name: "PostgreSQL · Prisma", usedIn: "StudyLumina · Sanade" },
+    { category: "cloud", name: "pgvector · RAG hybride", usedIn: "StudyLumina" },
+    { category: "cloud", name: "MongoDB", usedIn: "Carriv" },
+    { category: "cloud", name: "BullMQ · Redis", usedIn: "StudyLumina" },
+    { category: "cloud", name: "AWS · Vercel · serverless", usedIn: "Carriv · CSPM-Lite" },
+    { category: "cloud", name: "Docker · Linux", usedIn: "partout" },
+    { category: "secu", name: "Cryptographie appliquée", usedIn: "Ratchet" },
+    { category: "secu", name: "Paiement · webhooks signés", usedIn: "Carriv · StudyLumina" },
+    { category: "secu", name: "Posture cloud · CIS · IAM", usedIn: "CSPM-Lite" },
+    { category: "secu", name: "Authentification · tokens hachés", usedIn: "Carriv" },
+    { category: "secu", name: "Reconnaissance réseau", usedIn: "TryHackMe" },
   ],
 
-  skillFilters: [
-    { id: "all", label: "TOUT" },
+  skillGroups: [
     { id: "dev", label: "PRODUIT & BACKEND" },
     { id: "cloud", label: "CLOUD & DONNÉES" },
     { id: "secu", label: "SÉCURITÉ" },
@@ -180,57 +140,53 @@ export const fr: Content = {
       dateAccent: true,
       title: "B.Ing. génie informatique",
       org: "Polytechnique Montréal",
-      body: "Parcours orienté systèmes sécurisés, cloud et environnements distribués.",
       lines: ["Cybersécurité : A", "Systèmes répartis & infonuagique : B+", "GPA : 3,65 (hiver 2026)"],
+    },
+    {
+      date: "2025-2026",
+      title: "Six projets, construits seul",
+      org: "3 en production · 3 en labo",
+      lines: ["Carriv · StudyLumina · Sanade", "Job Radar · Ratchet · CSPM-Lite"],
     },
     {
       date: "DEPUIS OCT. 2024",
       title: "Représentant de marque",
-      org: "Qualcomm / Snapdragon PC, Channel Partners",
-      body:
-        "Vulgarisation de solutions techniques auprès du public : adapter le discours à chaque interlocuteur, rendre une architecture compréhensible en deux minutes. C'est la compétence qui rend une décision d'ingénierie défendable.",
+      org: "Qualcomm / Snapdragon PC",
+      body: "Rendre une technologie claire en deux minutes, à n'importe qui.",
     },
     {
-      date: "2025-2026",
-      title: "Trois produits expédiés seul",
-      org: "Carriv · StudyLumina · Sanade",
-      body:
-        "Conception, développement, mise en production, paiement, e-mails transactionnels, SEO bilingue et observabilité, sans équipe.",
-    },
-    {
-      date: "CERTIFICATIONS & LANGUES",
-      title: "Repères",
+      date: "REPÈRES",
+      title: "Certifications & langues",
       org: "",
       lines: [
         "Advent of Cyber · TryHackMe · déc. 2025",
         "Français : natif",
         "Anglais : courant",
-        "Montréal, QC · ouvert au télétravail",
+        "Montréal · ouvert au télétravail",
       ],
     },
   ],
 
   navLinks: [
+    { id: "travaux", label: "Projets" },
     { id: "approche", label: "Approche" },
-    { id: "travaux", label: "Travaux" },
-    { id: "capacites", label: "Capacités" },
+    { id: "capacites", label: "Stack" },
     { id: "parcours", label: "Parcours" },
   ],
 
   paletteItems: [
     { id: "accueil", index: "00", label: "Accueil", hint: "hero" },
-    { id: "approche", index: "01", label: "Thèse d'ingénierie", hint: "principes" },
-    { id: "travaux", index: "02", label: "Études de cas", hint: "carriv · studylumina · sanade" },
-    { id: "chiffres", index: "03", label: "Chiffres", hint: "volume" },
-    { id: "capacites", index: "04", label: "Capacités", hint: "stack" },
-    { id: "parcours", index: "05", label: "Parcours", hint: "polytechnique" },
-    { id: "contact", index: "06", label: "Contact", hint: "email · linkedin" },
+    { id: "travaux", index: "01", label: "Projets", hint: "carriv · job radar · ratchet" },
+    { id: "approche", index: "02", label: "Approche", hint: "principes" },
+    { id: "capacites", index: "03", label: "Stack", hint: "outils et preuves" },
+    { id: "parcours", index: "04", label: "Parcours", hint: "polytechnique" },
+    { id: "contact", index: "05", label: "Contact", hint: "email · linkedin" },
   ],
 
   heroStats: [
     { value: "3", label: "PRODUITS EN PRODUCTION" },
-    { value: "110k+", label: "LIGNES DE TYPESCRIPT" },
-    { value: "941", label: "CAS DE TEST · SANADE" },
+    { value: "200k+", label: "LIGNES DE CODE" },
+    { value: "1 500+", label: "TESTS AUTOMATISÉS" },
     { value: "3,65", label: "GPA · HIVER 2026" },
   ],
 

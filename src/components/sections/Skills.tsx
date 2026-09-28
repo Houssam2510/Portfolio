@@ -1,69 +1,35 @@
 "use client";
 
-import { useState } from "react";
 import SectionHeading from "@/components/SectionHeading";
 import { useContent } from "@/i18n/ContentProvider";
 
+/**
+ * Pas de barres de pourcentage : un « 86 % en Python » ne se vérifie pas.
+ * Chaque outil est accompagné du projet où il a été mis en production.
+ */
 export default function Skills() {
   const { content } = useContent();
   const sk = content.sections.skills;
-  const [filter, setFilter] = useState<string>("all");
 
   return (
     <section id="capacites" data-band="1" data-reveal="1" style={{ marginBottom: 128 }}>
       <div className="band-inner">
         <SectionHeading eyebrow={sk.eyebrow} title={sk.title} />
 
-        <div
-          role="group"
-          aria-label={content.ui.skillsFilterLabel}
-          style={{ display: "flex", flexWrap: "wrap", gap: 9, marginBottom: 44, justifyContent: "center" }}
-        >
-          {content.skillFilters.map((f) => (
-            <button
-              key={f.id}
-              type="button"
-              data-filter={f.id}
-              data-active={filter === f.id ? "" : undefined}
-              aria-pressed={filter === f.id}
-              onClick={() => setFilter(f.id)}
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.07em",
-                padding: "9px 15px",
-                border: "1px solid var(--line2)",
-                borderRadius: 999,
-                background: "transparent",
-                color: "var(--muted)",
-                cursor: "pointer",
-              }}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(276px,1fr))", gap: "16px 44px" }}>
-          {content.skills.map((skill) => (
-            <div
-              key={skill.name}
-              data-skill={skill.category}
-              data-dim={filter !== "all" && filter !== skill.category ? "" : undefined}
-              style={{ transition: "opacity .3s ease" }}
-            >
-              <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 9 }}>
-                <span style={{ fontSize: 14.5, color: "var(--ink2)" }}>{skill.name}</span>
-                <span style={{ marginLeft: "auto", fontFamily: "var(--font-mono)", fontSize: 10.5, color: "var(--dim)" }}>
-                  {skill.level}
-                </span>
-              </div>
-              <div style={{ height: 3, background: "var(--soft)", borderRadius: 2, overflow: "hidden" }}>
-                <div
-                  data-bar={skill.percent}
-                  style={{ height: "100%", width: 0, background: "var(--acc)", transition: "width 1.1s cubic-bezier(.16,.8,.24,1)" }}
-                />
-              </div>
+        <div data-stagger="1" data-reveal="1" className="stack-grid">
+          {content.skillGroups.map((group) => (
+            <div key={group.id} className="stack-col">
+              <div className="stack-head">{group.label}</div>
+              <ul>
+                {content.skills
+                  .filter((s) => s.category === group.id)
+                  .map((s) => (
+                    <li key={s.name}>
+                      <span className="stack-name">{s.name}</span>
+                      <span className="stack-proof">{s.usedIn}</span>
+                    </li>
+                  ))}
+              </ul>
             </div>
           ))}
         </div>

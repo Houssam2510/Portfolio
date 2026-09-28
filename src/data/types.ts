@@ -1,11 +1,5 @@
 export type Stat = { value: string; label: string; accent?: boolean };
 
-/**
- * Fragment de texte enrichi. Remplace le HTML brut qui était injecté via
- * dangerouslySetInnerHTML : le contenu reste des données, pas du balisage.
- */
-export type RichPart = string | { strong: string; accent?: boolean };
-
 export type ThesisPrinciple = {
   numeral: string;
   label: string;
@@ -14,36 +8,44 @@ export type ThesisPrinciple = {
   proofs: { label: string; detail: string }[];
 };
 
+/**
+ * Un projet se lit en deux temps : ce qui se comprend en cinq secondes
+ * (pitch, flux, trois chiffres) reste visible ; le raisonnement d'ingénierie
+ * (problème, décision, pipeline) est replié sous « Sous le capot ».
+ */
 export type CaseStudy = {
   id: string;
   number: string;
   name: string;
-  navLabel: string;
-  status: "live" | "internal";
-  domain: string;
-  role: string;
+  /** product : en production, carte large avec capture. lab : carte compacte. */
+  kind: "product" | "lab";
+  status: "live" | "internal" | "open";
+  /** Mot-clé du domaine, affiché au-dessus du nom (ex. « CARRIÈRE »). */
+  domainLabel: string;
   period: string;
+  domain?: string;
   url?: string;
-  title: string;
-  description: string;
-  screenshotAlt: string;
-  changeTitle: string;
-  changes: string[];
+  repo?: string;
+  screenshotAlt?: string;
+  /** Une phrase. Si elle en demande deux, elle est trop longue. */
+  pitch: string;
+  /** Le produit en quatre étapes, rendu comme un schéma. */
+  flow: string[];
+  /** Fiche d'identité pour les projets sans capture d'écran. */
+  specs?: { key: string; value: string }[];
+  stats: Stat[];
+  tags: string[];
   problem: string;
   decision: string;
   pipelineLabel: string;
   pipelineCode: string;
-  stats: Stat[];
-  details: { title: string; body: string }[];
-  tags: string[];
-  terminalCommand?: string;
 };
 
 export type Skill = {
   category: "dev" | "cloud" | "secu";
   name: string;
-  level: string;
-  percent: number;
+  /** Où la compétence a été mise en œuvre : une preuve plutôt qu'un pourcentage. */
+  usedIn: string;
 };
 
 export type TimelineEntry = {
@@ -74,24 +76,17 @@ export type Content = {
     paletteFilter: string;
     paletteEscape: string;
     switchLanguage: string;
-    role: string;
-    period: string;
-    status: string;
     statusLive: string;
     statusInternal: string;
+    statusOpen: string;
     viewLive: string;
+    viewCode: string;
+    privateRepo: string;
     live: string;
+    underTheHood: string;
     theProblem: string;
     theDecision: string;
-    caseLabel: string;
-    /** Gabarit ; {domain} est remplacé à l'affichage. Une fonction ne peut pas
-     *  franchir la frontière Server -> Client Component. */
-    screenshotCaption: string;
-    screenshotLoading: string;
-    screenshotFailed: string;
-    screenshotOpen: string;
     timelineScrollHint: string;
-    skillsFilterLabel: string;
     footer: string;
     availability: string;
     location: string;
@@ -101,8 +96,7 @@ export type Content = {
   };
   sections: {
     thesis: { eyebrow: string; title: string; intro: string };
-    cases: { eyebrow: string; title: string };
-    numbers: { eyebrow: string; title: string; footnote: RichPart[] };
+    cases: { eyebrow: string; title: string; productsLabel: string; labLabel: string };
     skills: { eyebrow: string; title: string };
     timeline: { eyebrow: string; title: string };
   };
@@ -119,11 +113,9 @@ export type Content = {
     facts: string[];
   };
   thesisPrinciples: ThesisPrinciple[];
-  thesisNotes: { title: string; body: RichPart[] }[];
   caseStudies: CaseStudy[];
-  aggregateNumbers: Stat[];
   skills: Skill[];
-  skillFilters: { id: string; label: string }[];
+  skillGroups: { id: Skill["category"]; label: string }[];
   timeline: TimelineEntry[];
   navLinks: { id: string; label: string }[];
   paletteItems: { id: string; index: string; label: string; hint: string }[];

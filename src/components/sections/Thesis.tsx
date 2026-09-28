@@ -1,7 +1,6 @@
 "use client";
 
 import SectionHeading from "@/components/SectionHeading";
-import Rich from "@/components/Rich";
 import { useContent } from "@/i18n/ContentProvider";
 
 export default function Thesis() {
@@ -20,14 +19,13 @@ export default function Thesis() {
           lineHeight: 1.45,
           letterSpacing: "-0.02em",
           color: "var(--ink2)",
-          margin: "0 auto 52px",
+          margin: "-24px auto 44px",
           maxWidth: "46ch",
           textAlign: "center",
           textWrap: "balance",
         }}
       >
-        Trois principes, tenus dans les trois produits. Ce ne sont pas des slogans : chacun est vérifié par du
-        code.
+        {th.intro}
       </p>
 
       <div
@@ -98,7 +96,7 @@ export default function Thesis() {
             >
               {p.title}
             </h3>
-            <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--muted)", margin: "0 0 24px" }}>{p.body}</p>
+            <p style={{ fontSize: 15, lineHeight: 1.6, color: "var(--muted)", margin: "0 0 24px" }}>{p.body}</p>
             <div
               style={{
                 marginTop: "auto",
@@ -127,39 +125,6 @@ export default function Thesis() {
                 </span>
               ))}
             </div>
-          </div>
-        ))}
-      </div>
-
-      <div
-        data-stagger="1"
-        data-reveal="1"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-          gap: 16,
-          marginTop: 16,
-        }}
-      >
-        {content.thesisNotes.map((note) => (
-          <div
-            key={note.title}
-            style={{ padding: "28px 30px", border: "1px solid var(--line)", borderRadius: 18, background: "var(--bg2)" }}
-          >
-            <div
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 10,
-                letterSpacing: "0.12em",
-                color: "var(--dim)",
-                marginBottom: 14,
-              }}
-            >
-              {note.title}
-            </div>
-            <p style={{ fontSize: 14, lineHeight: 1.7, color: "var(--muted)", margin: 0 }}>
-              <Rich parts={note.body} />
-            </p>
           </div>
         ))}
       </div>
