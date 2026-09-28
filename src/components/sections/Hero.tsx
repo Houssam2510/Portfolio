@@ -146,10 +146,11 @@ export default function Hero() {
 
         <p
           style={{
-            fontSize: "clamp(15px,1.5vw,18px)",
-            lineHeight: 1.65,
-            color: "var(--muted)",
-            maxWidth: "60ch",
+            fontSize: "clamp(17px,1.8vw,21px)",
+            lineHeight: 1.5,
+            letterSpacing: "-0.01em",
+            color: "var(--ink2)",
+            maxWidth: "44ch",
             margin: "0 0 42px",
             textWrap: "pretty",
           }}

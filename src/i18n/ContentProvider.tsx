@@ -18,8 +18,3 @@ export function useContent(): Value {
   if (!v) throw new Error("useContent doit être utilisé à l'intérieur de <ContentProvider>");
   return v;
 }
-
-/** Remplit un gabarit du dictionnaire, ex. "OUVRIR {domain} ↗". */
-export function fill(template: string, values: Record<string, string>): string {
-  return template.replace(/\{(\w+)\}/g, (_, k) => values[k] ?? `{${k}}`);
-}

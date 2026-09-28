@@ -2,266 +2,188 @@ import type { CaseStudy } from "./types";
 
 export const casesEn: CaseStudy[] = [
   {
-    id: "dossier-01",
+    id: "carriv",
     number: "01",
     name: "Carriv",
-    navLabel: "RÉSUMÉ TAILORING · LIVE",
+    kind: "product",
     status: "live",
-    domain: "carriv.com",
-    role: "Design & engineering, solo",
+    domainLabel: "CAREERS · AI",
     period: "2026",
+    domain: "carriv.com",
     url: "https://carriv.com",
-    title: "Carriv: tailoring a résumé to a posting without inventing anything",
-    description:
-      "Applying properly costs 30 to 45 minutes per posting; asking a chatbot to \"write the résumé\" produces invented experience that collapses in the interview. Carriv adapts a master profile to a given posting under a zero-fabrication rule written into every prompt.",
     screenshotAlt: "Carriv screenshot: tailored résumé and ATS score",
-    changeTitle: "WHAT THIS CHANGES FOR THE CANDIDATE",
-    changes: [
-      "30 to 45 minutes of work per application, down to about thirty seconds.",
-      "Nothing invented: everything on the résumé holds up in an interview.",
-      "The PDF clears ATS filters instead of being rejected on layout.",
-      "The credit is refunded automatically if generation fails. Never paid for nothing.",
-    ],
-    problem:
-      "The model may reorder, select, rephrase and omit, but never fabricate an experience, a date, an employer, a diploma or a number. Translation is the only permitted transformation, with strict fidelity to the degree level.",
-    decision:
-      "The ATS score is not produced by the model. A real ATS is a keyword-matching engine, not a judge: the LLM extracts and ranks the gaps, the score is a deterministic function. Re-scoring always returns the same number, and applying a rewrite can only add a keyword, so it can never lower the score.",
-    pipelineLabel: "POST /api/generate · THE PIPELINE",
-    pipelineCode: `resolveApiUser      session or personal token (extension)
-enforceRateLimit    30 generations / h / user
-getProfile          scoped to userId: never a cross read
-reserveCredit       atomic findOneAndUpdate { credits: { $gte: 1 } } → 402
-analyzeJob          Structured Outputs · primary model
-adaptCVAndLetter    Structured Outputs · primary model
-scoreATS            deterministic matching, weighted must=2 / nice=1
-createApplication
-catch → refundCredit + alert`,
+    pitch: "Tailors a résumé to a job posting in 30 seconds, without ever inventing anything.",
+    flow: ["posting", "LLM analysis", "tailored résumé", "deterministic ATS score"],
     stats: [
-      { value: "~30 s", label: "GENERATION", accent: true },
-      { value: "10", label: "PDF TEMPLATES" },
-      { value: "30/h", label: "RATE CAP" },
-      { value: "2", label: "CURRENCIES" },
+      { value: "~30 s", label: "PER APPLICATION", accent: true },
+      { value: "10", label: "ATS-SAFE PDF TEMPLATES" },
+      { value: "0", label: "INVENTED EXPERIENCE" },
     ],
-    details: [
-      {
-        title: "GUARANTEED REFUND",
-        body:
-          "The OpenAI client is capped at 90 s with a single retry, instead of 10 minutes and 2 retries. On Vercel, a hung request has to fail while the Lambda is still alive, otherwise the catch block that issues the refund never runs and the user pays for a generation they never received.",
-      },
-      {
-        title: "THE ATS WALL",
-        body:
-          "The application has a deliberate visual identity; the PDFs stay strictly ATS-safe: one column, typography only, no colour and no ornament. That is exactly where most generators fail.",
-      },
-      {
-        title: "PAYMENT SECURITY",
-        body:
-          "The Stripe amount is never trusted from the client: the credit count comes from a server-side table indexed by Price ID, with a signature-verified webhook. Extension tokens are stored as SHA-256 only. An explicit 30-page cap guards against PDF decompression bombs.",
-      },
-    ],
-    tags: [
-      "SvelteKit 2",
-      "Svelte 5 runes",
-      "TypeScript strict",
-      "MongoDB",
-      "better-auth",
-      "OpenAI Structured Outputs",
-      "Stripe",
-      "puppeteer-core",
-      "Vercel",
-      "Vitest",
-    ],
+    tags: ["SvelteKit", "TypeScript", "MongoDB", "OpenAI Structured Outputs", "Stripe", "Vercel"],
+    problem:
+      "Asking a chatbot to \"write the résumé\" produces invented experience that collapses in the interview.",
+    decision:
+      "The model rephrases, reorders, omits, but never fabricates. The ATS score comes out of a deterministic function: re-scoring always yields the same number.",
+    pipelineLabel: "POST /api/generate",
+    pipelineCode: `reserveCredit       atomic findOneAndUpdate { credits: { $gte: 1 } } → 402
+analyzeJob          Structured Outputs
+adaptCVAndLetter    Structured Outputs
+scoreATS            deterministic matching, must=2 / nice=1
+catch → refundCredit + alert     never paid for nothing`,
   },
   {
-    id: "dossier-02",
+    id: "studylumina",
     number: "02",
     name: "StudyLumina",
-    navLabel: "EXAM READINESS · LIVE",
+    kind: "product",
     status: "live",
-    domain: "app.studylumina.com",
-    role: "Design & engineering, solo",
+    domainLabel: "EDUCATION · RAG",
     period: "2026",
+    domain: "app.studylumina.com",
     url: "https://app.studylumina.com",
-    title: "StudyLumina: measuring real readiness for an exam",
-    description:
-      "AI study tools stop at generating content. StudyLumina measures actual readiness, chapter by chapter, and says what to do today. No grade is ever produced by an LLM.",
-    screenshotAlt: "StudyLumina screenshot: readiness by chapter",
-    changeTitle: "WHAT THIS CHANGES FOR THE STUDENT",
-    changes: [
-      "An answer to the only question that matters: am I ready, on which chapter, and what should I do today.",
-      "Every answer is cited (document and page), so it can be checked rather than believed.",
-      "The score exposes itself to contradiction: the mean error against real grades is displayed.",
-      "Drop a PDF and keep working: summary, flashcards and quizzes arrive in the background.",
-    ],
-    problem:
-      "A summary does not tell a student whether they are ready. Without binding a document to a chapter, a quiz answer cannot be attributed to a subject, so nothing can be measured beyond a worthless global average.",
-    decision:
-      "Course → Chapter → Document is mandatory: an orphan document does not exist. It is the precondition for the entire product. The Exam Readiness Score is a pure function of about 850 lines, with no network and no LLM, and the retention factor is gated: a chapter with no reviewed flashcard scores strictly the same as before, proven by test.",
-    pipelineLabel: "ASYNCHRONOUS INGESTION · 6 BULLMQ QUEUES",
-    pipelineCode: `upload → ingestion    PDF extraction, page cleanup
-       → embeddings   chunking, batching + rate limit, pgvector
-       → course-map   binding chunks ↔ chapters
-       → summary | flashcards | quiz        (in parallel)
-
-Hybrid RAG: pgvector + BM25 (GIN) fused, filtered by
-course/chapter, parameterised SQL. On a follow-up, the
-question is condensed into a standalone query before
-retrieval. Citations → document + page.`,
+    screenshotAlt: "StudyLumina screenshot: readiness per chapter",
+    pitch: "Tells a student whether they are ready for their exam, chapter by chapter.",
+    flow: ["course PDF", "hybrid RAG", "quizzes & flashcards", "readiness score"],
     stats: [
-      { value: "47,600", label: "TS LINES" },
+      { value: "62k", label: "TS LINES" },
       { value: "78", label: "API ROUTES" },
-      { value: "74", label: "TEST FILES", accent: true },
-      { value: "25", label: "PRISMA MODELS" },
+      { value: "75", label: "TEST FILES", accent: true },
     ],
-    details: [
-      {
-        title: "A FALSIFIABLE SCORE",
-        body:
-          "The student enters their real grade after the exam; the product displays the mean error between predicted score and grade obtained. The real grade is never fed back into the calculation: the score makes itself refutable instead of declaring itself correct.",
-      },
-      {
-        title: "AN HONEST SCORE",
-        body:
-          "Coverage acts as a confidence multiplier: three correct answers cannot make it read \"Ready\". The overall score is smoothed, so one bad quiz does not collapse everything.",
-      },
-      {
-        title: "DATA MODEL",
-        body:
-          "A DocumentChapterSpan bridge model with page ranges rather than a foreign key: one PDF often spans several chapters, and one chapter is spread across several PDFs. No scalar metric is stored as raw JSON.",
-      },
-    ],
-    tags: [
-      "Next.js 15",
-      "React 18",
-      "PostgreSQL + pgvector",
-      "Prisma 6",
-      "BullMQ + Redis",
-      "Auth.js v5",
-      "Gemini / OpenAI / DeepSeek",
-      "Stripe",
-      "Pino + Prometheus",
-      "next-intl",
-    ],
+    tags: ["Next.js", "PostgreSQL + pgvector", "Prisma", "BullMQ + Redis", "Stripe", "next-intl"],
+    problem: "A summary does not tell a student whether they are ready. Neither does a global average.",
+    decision:
+      "The score is a pure function of ~850 lines, with no LLM. It makes itself refutable: the gap with real grades is shown.",
+    pipelineLabel: "INGESTION · 6 BULLMQ QUEUES",
+    pipelineCode: `upload → ingestion    PDF extraction
+       → embeddings   chunking, pgvector
+       → course-map   chunks ↔ chapters
+       → summary | flashcards | quiz   (in parallel)
+
+RAG: pgvector + BM25 fused · citations → document + page`,
   },
   {
-    id: "dossier-03",
+    id: "sanade",
     number: "03",
     name: "Sanade",
-    navLabel: "HABIT ARBITRATION · LIVE",
+    kind: "product",
     status: "live",
-    domain: "sanade.app",
-    role: "Design & engineering, solo",
+    domainLabel: "PRODUCTIVITY · WEB + MOBILE",
     period: "2025-2026",
+    domain: "sanade.app",
     url: "https://sanade.app",
-    title: "Sanade: the habit tracker that arbitrates instead of recording",
-    description:
-      "Trackers faithfully display the gap between planned and done, for months, without ever acting on it. Sanade computes the time actually available in a day, proposes two or three achievable goals and sets the rest aside, saying why.",
     screenshotAlt: "Sanade screenshot: today's arbitration",
-    changeTitle: "WHAT THIS CHANGES FOR THE USER",
-    changes: [
-      "Two or three achievable goals for today, instead of a guilt-inducing list of twelve.",
-      "Every goal set aside comes with a reason: the user sees why, rather than facing an opaque filter.",
-      "Notes can be written in French, transliterated Darija or Arabic: the raw text is kept exactly as entered.",
-      "Web and mobile share the same domain core: no divergence in calculation between the two.",
-    ],
-    problem:
-      "A declared capacity is an imagined capacity. And with six domains and time lags, one analysis cycle tests hundreds of pairs: an individual threshold would mechanically guarantee false links on every pass.",
-    decision:
-      "Facts against projections, visible in the table names: every stored calculation carries the proj_ prefix, so clearProjections() is safe at any moment and a scoring formula can be corrected without leaving an inconsistent history. No fact table points at a projection, and an architecture test verifies it, because the rule was silently broken once already.",
-    pipelineLabel: "INGESTION · AN EXTRACTION NEVER CREATES DATA",
-    pipelineCode: `raw text (FR / transliterated Darija / Arabic)
-  → RawNote                stored as-is, never rewritten
-  → versioned prompt + server-side LLM
-  → JSON validated by a strict Zod schema
-      ├─ failure → one repair, then a logged failure
-      └─ success → Extraction { proposals, confidence }
-  → review screen           item-by-item confirmation
-  → Trackable (PLAN) or LogEntry (CHECKIN)`,
+    pitch: "Turns a scattered day into two or three goals you can actually hold.",
+    flow: ["free note FR / darija", "validated extraction", "consistency scores", "today's priority"],
     stats: [
-      { value: "62,000", label: "TS LINES" },
-      { value: "941", label: "TESTS", accent: true },
-      { value: "13,700", label: "PURE DOMAIN" },
-      { value: "0", label: "SERVICES REQUIRED" },
+      { value: "1,020", label: "TESTS", accent: true },
+      { value: "94%", label: "DOMAIN COVERAGE" },
+      { value: "2", label: "APPS, ONE CORE" },
     ],
-    details: [
-      {
-        title: "THE KINDNESS IS IN THE FORMULA",
-        body:
-          "A day left blank drops out of the calculation instead of counting as zero: it lowers the displayed confidence, never the score. Three days without data show \"score 74, low confidence\", not \"score 31\", otherwise the product would punish not opening the app.",
-      },
-      {
-        title: "STATISTICAL RIGOUR",
-        body:
-          "What is displayed is an empirical conditional frequency: two numbers reproducible by hand. Links are tested per full cycle, the number of tests is counted, and publication is filtered on the false discovery rate. Every pattern freezes its cycle.",
-      },
-      {
-        title: "PURE DOMAIN CORE",
-        body:
-          "packages/core never imports db, api, ingestion or React: 13,700 lines testable with no database, no network, no API key. The logic cannot diverge between web and mobile: it is a property of the structure, not a discipline.",
-      },
-    ],
-    tags: [
-      "TypeScript ESM",
-      "Next.js 16 / React 19",
-      "Expo · React Native",
-      "tRPC v11",
-      "Prisma + PostgreSQL",
-      "PGlite (WASM)",
-      "Zod",
-      "Vitest · Playwright",
-      "Turborepo · pnpm",
-      "Sentry",
-    ],
+    tags: ["Next.js 16", "Expo", "tRPC", "Prisma", "PostgreSQL", "Turborepo"],
+    problem:
+      "Trackers show the gap between plan and reality for months, without ever doing anything about it.",
+    decision:
+      "Facts versus projections: every stored computation is disposable and recomputable. An architecture test forbids a fact from depending on a projection.",
+    pipelineLabel: "AN EXTRACTION NEVER CREATES DATA",
+    pipelineCode: `raw text (FR / darija / Arabic)
+  → RawNote              stored verbatim
+  → LLM + strict Zod schema
+  → review screen        item-by-item approval
+  → Trackable or LogEntry`,
   },
   {
-    id: "dossier-04",
+    id: "job-radar",
     number: "04",
-    name: "CSPM-Lite",
-    navLabel: "CLOUD POSTURE · CLI TOOL",
+    name: "Job Radar",
+    kind: "lab",
     status: "internal",
-    domain: "",
-    role: "Personal tool",
-    period: "2025",
-    title: "CSPM-Lite: cloud security that blocks the pipeline",
-    description:
-      "A CLI tool that scans an AWS account, detects misconfigurations, evaluates compliance and produces actionable reports, then refuses to let the deployment through.",
-    screenshotAlt: "",
-    changeTitle: "WHAT THIS CHANGES FOR THE TEAM",
-    changes: [
-      "A critical finding stops the deployment: security becomes a gate, not a report.",
-      "Two outputs: JSON for the machine, readable HTML for human review.",
-      "CIS-aligned checks without a commercial tool licence.",
+    domainLabel: "MONITORING · REAL TIME",
+    period: "2026",
+    pitch: "Sees an internship posting minutes after it goes up, not days.",
+    flow: ["4,899 career sites", "requisition diff", "LLM-free score", "notification"],
+    specs: [
+      { key: "registry", value: "4,899 validated sources" },
+      { key: "postings", value: "1,133,000+ covered" },
+      { key: "ATS", value: "Workday · Greenhouse · Lever · Oracle · +20" },
+      { key: "lead", value: "2 h to 72 h ahead of LinkedIn" },
     ],
+    stats: [
+      { value: "4,899", label: "SOURCES" },
+      { value: "1.1 M", label: "POSTINGS COVERED" },
+      { value: "429", label: "TESTS", accent: true },
+    ],
+    tags: ["Node.js", "Browser extension", "Playwright", "Deterministic scoring"],
     problem:
-      "A cloud misconfiguration is invisible in a code review: a public S3 bucket, an open SSH port, a user without MFA. It becomes visible in production, or in a breach.",
+      "A posting takes 2 to 72 hours to reach LinkedIn, while most hiring is decided in the first few days.",
     decision:
-      "A report is not enough: nobody reads a report. The check becomes blocking: a critical finding stops the CI/CD pipeline, which moves security from the audit to the front door.",
-    pipelineLabel: "CHECKS AND OUTPUTS",
-    pipelineCode: `scan AWS account
-  → detection      public S3 · open SSH · missing MFA
-  → compliance     checks aligned to CIS Benchmark
-  → prioritisation severity + remediation guidance
-  → reports        JSON (machine) + HTML (human)
-  → CI/CD gate     critical finding → build blocked`,
+      "Query the endpoint the career page itself calls, and diff on requisition IDs, never on content. The registry was mined from 37,000 real URLs, then every source validated live.",
+    pipelineLabel: "ONE PASS",
+    pipelineCode: `fetch           ~1 req/s per domain
+pre-score       title + location, deterministic
+diff            on requisition IDs
+enrichment      only if the score can clear the threshold
+notification    individual, or digest`,
+  },
+  {
+    id: "ratchet",
+    number: "05",
+    name: "Ratchet",
+    kind: "lab",
+    status: "open",
+    domainLabel: "CRYPTOGRAPHY · E2EE",
+    period: "2026",
+    repo: "https://github.com/Houssam2510/e2ee-messenger-protocol",
+    pitch: "An end-to-end encrypted messenger where even a compromised server reads nothing.",
+    flow: ["X3DH", "Double Ratchet", "blind relay", "decrypted on device"],
+    specs: [
+      { key: "server", value: "only ever sees opaque bytes" },
+      { key: "key", value: "one message, then destroyed" },
+      { key: "calls", value: "WebRTC, encrypted signaling" },
+      { key: "crypto", value: "audited WebCrypto, nothing home-made" },
+    ],
+    stats: [
+      { value: "91", label: "TESTS", accent: true },
+      { value: "6", label: "SECURITY INVARIANTS" },
+      { value: "0", label: "READABLE BYTES SERVER-SIDE" },
+    ],
+    tags: ["Strict TypeScript", "React 19", "WebCrypto", "Supabase", "WebRTC", "PWA"],
+    problem: "Most \"encrypted chats\" wrap the message in AES and stop there.",
+    decision:
+      "Implement Signal's actual protocol, with audited primitives only, and document what it does not protect (metadata, a compromised device).",
+    pipelineLabel: "INVARIANTS ENFORCED BY TESTS",
+    pipelineCode: `private key     never leaves the device
+GCM nonce       never reused with the same key
+header          authenticated as AAD
+backup          ratchet state excluded by construction`,
+  },
+  {
+    id: "cspm-lite",
+    number: "06",
+    name: "CSPM-Lite",
+    kind: "lab",
+    status: "internal",
+    domainLabel: "CLOUD SECURITY · CLI",
+    period: "2025",
+    pitch: "Scans an AWS account and blocks the deployment when a critical flaw shows up.",
+    flow: ["AWS account", "CIS checks", "JSON + HTML report", "CI gate"],
+    specs: [
+      { key: "detects", value: "public S3 · open SSH · no MFA" },
+      { key: "standard", value: "CIS Benchmark" },
+      { key: "outputs", value: "JSON (machine) + HTML (human)" },
+      { key: "in CI", value: "critical flaw → build blocked" },
+    ],
     stats: [
       { value: "CIS", label: "BENCHMARK" },
       { value: "2", label: "REPORT FORMATS" },
-      { value: "CI", label: "GATE ENFORCED", accent: true },
-      { value: "A", label: "CYBERSECURITY COURSE" },
+      { value: "CI", label: "ACTIVE BLOCKING", accent: true },
     ],
-    details: [
-      {
-        title: "WHY THIS TOOL",
-        body:
-          "A cybersecurity course gives you the concepts; a real AWS account gives you the unpleasant surprises. This tool came out of needing to check my own deployments before a grader, or an attacker, did it for me.",
-      },
-      {
-        title: "RELATED LAB WORK",
-        body:
-          "Network discovery, service enumeration, basic web security and troubleshooting in Linux environments. Advent of Cyber (TryHackMe, Dec. 2025) for structured investigative method.",
-      },
-    ],
-    tags: ["Python", "AWS SDK (boto3)", "CIS Benchmark", "Linux", "GitHub Actions", "JSON / HTML"],
-    terminalCommand: "$ cspm-lite scan --account prod --gate",
+    tags: ["Python", "boto3", "CIS Benchmark", "GitHub Actions"],
+    problem:
+      "A cloud misconfiguration does not show up in code review. It shows up in production, or in a leak.",
+    decision: "Nobody reads a report: the check becomes a gate that stops the pipeline.",
+    pipelineLabel: "$ cspm-lite scan --account prod --gate",
+    pipelineCode: `scan → detection → CIS compliance → prioritisation
+     → JSON + HTML reports
+     → critical flaw → exit 1`,
   },
 ];
