@@ -30,6 +30,7 @@ export default function ProjectCard({ cs, flip = false }: { cs: CaseStudy; flip?
         <Kicker cs={cs} />
         <h3 className="proj-name">{cs.name}</h3>
         <p className="proj-pitch">{cs.pitch}</p>
+        {cs.note && <p className="proj-note">↳ {cs.note}</p>}
         <Flow steps={cs.flow} />
         <Stats cs={cs} />
         <div className="proj-tags">

@@ -2,6 +2,7 @@
 
 import ProjectCard from "@/components/ProjectCard";
 import SectionHeading from "@/components/SectionHeading";
+import { contact } from "@/data";
 import { useContent } from "@/i18n/ContentProvider";
 
 export default function CaseStudies() {
@@ -28,6 +29,10 @@ export default function CaseStudies() {
             <ProjectCard key={cs.id} cs={cs} />
           ))}
         </div>
+
+        <a href={contact.github} target="_blank" rel="noopener" className="proj-more-link">
+          {s.more}
+        </a>
       </div>
     </section>
   );

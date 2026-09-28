@@ -29,6 +29,8 @@ export type CaseStudy = {
   screenshotAlt?: string;
   /** Une phrase. Si elle en demande deux, elle est trop longue. */
   pitch: string;
+  /** Une ligne discrète sous le pitch (réutilisation, suite du projet). */
+  note?: string;
   /** Le produit en quatre étapes, rendu comme un schéma. */
   flow: string[];
   /** Fiche d'identité pour les projets sans capture d'écran. */
@@ -96,7 +98,7 @@ export type Content = {
   };
   sections: {
     thesis: { eyebrow: string; title: string; intro: string };
-    cases: { eyebrow: string; title: string; productsLabel: string; labLabel: string };
+    cases: { eyebrow: string; title: string; productsLabel: string; labLabel: string; more: string };
     skills: { eyebrow: string; title: string };
     timeline: { eyebrow: string; title: string };
   };

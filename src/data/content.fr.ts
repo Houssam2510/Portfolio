@@ -47,10 +47,11 @@ export const fr: Content = {
       intro: "Pas des slogans : chacune est vérifiée par du code.",
     },
     cases: {
-      eyebrow: "01 · SIX PROJETS, CONSTRUITS SEUL",
+      eyebrow: "01 · UNE SÉLECTION, CONSTRUITE SEUL",
       title: "Ce que j'ai construit",
       productsLabel: "EN PRODUCTION",
       labLabel: "LABO · OUTILS ET PROTOCOLES",
+      more: "Une sélection de six. Les autres sont sur GitHub ↗",
     },
     skills: { eyebrow: "03 · CHAQUE OUTIL, SA PREUVE", title: "Stack" },
     timeline: { eyebrow: "04 · GLISSER →", title: "Parcours" },
@@ -58,7 +59,7 @@ export const fr: Content = {
 
   hero: {
     lede:
-      "J'expédie des produits complets, seul : de l'idée jusqu'au paiement en production.",
+      "Je construis des produits complets, seul, et je les mets en production : interface, backend, paiement, sécurité.",
     ctaCases: "Voir les projets",
     ctaLinkedin: "LinkedIn ↗",
     ctaContact: "Me contacter",
@@ -75,8 +76,8 @@ export const fr: Content = {
     {
       numeral: "I",
       label: "PRINCIPE I",
-      title: "Le modèle extrait, le code décide",
-      body: "Un LLM reformule et classe. Chaque chiffre affiché sort d'une fonction pure.",
+      title: "L'IA là où elle aide, le code là où il faut être sûr",
+      body: "Un LLM lit et reformule très bien. Un score, un crédit, une décision sortent d'une fonction testée.",
       proofs: [
         { label: "Carriv", detail: "score ATS déterministe" },
         { label: "StudyLumina", detail: "score sans LLM" },
@@ -144,8 +145,8 @@ export const fr: Content = {
     },
     {
       date: "2025-2026",
-      title: "Six projets, construits seul",
-      org: "3 en production · 3 en labo",
+      title: "Des projets construits seul",
+      org: "3 en production · d'autres en labo",
       lines: ["Carriv · StudyLumina · Sanade", "Job Radar · Ratchet · CSPM-Lite"],
     },
     {
@@ -185,15 +186,15 @@ export const fr: Content = {
 
   heroStats: [
     { value: "3", label: "PRODUITS EN PRODUCTION" },
-    { value: "200k+", label: "LIGNES DE CODE" },
+    { value: "1,1 M", label: "OFFRES SURVEILLÉES" },
     { value: "1 500+", label: "TESTS AUTOMATISÉS" },
-    { value: "3,65", label: "GPA · HIVER 2026" },
+    { value: "E2EE", label: "PROTOCOLE SIGNAL, RECODÉ" },
   ],
 
   typingLines: [
-    "le modèle génère, le code décide",
+    "l'IA là où elle aide, le code là où il faut être sûr",
     "trois produits en production, seul",
     "un invariant non testé n’existe pas",
-    "du prompt jusqu’au webhook de paiement",
+    "de la maquette au paiement en production",
   ],
 };
