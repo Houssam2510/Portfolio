@@ -45,14 +45,14 @@ catch → refundCredit + alert     never paid for nothing`,
     pitch: "Tells a student whether they are ready for their exam, chapter by chapter.",
     flow: ["course PDF", "hybrid RAG", "quizzes & flashcards", "readiness score"],
     stats: [
-      { value: "62k", label: "TS LINES" },
+      { value: "100%", label: "ANSWERS SOURCED" },
       { value: "78", label: "API ROUTES" },
       { value: "75", label: "TEST FILES", accent: true },
     ],
     tags: ["Next.js", "PostgreSQL + pgvector", "Prisma", "BullMQ + Redis", "Stripe", "next-intl"],
     problem: "A summary does not tell a student whether they are ready. Neither does a global average.",
     decision:
-      "The score is a pure function of ~850 lines, with no LLM. It makes itself refutable: the gap with real grades is shown.",
+      "The score is a pure function, with no LLM. It makes itself refutable: the gap with real grades is shown.",
     pipelineLabel: "INGESTION · 6 BULLMQ QUEUES",
     pipelineCode: `upload → ingestion    PDF extraction
        → embeddings   chunking, pgvector
@@ -134,6 +134,7 @@ notification    individual, or digest`,
     period: "2026",
     repo: "https://github.com/Houssam2510/e2ee-messenger-protocol",
     pitch: "An end-to-end encrypted messenger where even a compromised server reads nothing.",
+    note: "Reused in Yamor, a private messenger for couples.",
     flow: ["X3DH", "Double Ratchet", "blind relay", "decrypted on device"],
     specs: [
       { key: "server", value: "only ever sees opaque bytes" },

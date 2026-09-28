@@ -520,6 +520,32 @@ button {
   text-wrap: pretty;
 }
 
+.proj-note {
+  position: relative;
+  margin: -12px 0 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--dim);
+}
+
+.proj-more-link {
+  display: block;
+  width: fit-content;
+  margin: 36px auto 0;
+  padding: 12px 20px;
+  border: 1px dashed var(--line2);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.proj-more-link:hover {
+  border-color: var(--acc);
+  color: var(--ink);
+}
+
 /* Le flux : quatre étapes reliées, la dernière en accent. */
 .proj-flow {
   list-style: none;

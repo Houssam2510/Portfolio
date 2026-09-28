@@ -45,14 +45,14 @@ catch → refundCredit + alerte     jamais payé pour rien`,
     pitch: "Dit à un étudiant s'il est prêt pour son examen, chapitre par chapitre.",
     flow: ["PDF du cours", "RAG hybride", "quiz & flashcards", "score de préparation"],
     stats: [
-      { value: "62k", label: "LIGNES TS" },
+      { value: "100 %", label: "RÉPONSES SOURCÉES" },
       { value: "78", label: "ROUTES API" },
       { value: "75", label: "FICHIERS DE TESTS", accent: true },
     ],
     tags: ["Next.js", "PostgreSQL + pgvector", "Prisma", "BullMQ + Redis", "Stripe", "next-intl"],
     problem: "Un résumé ne dit pas si l'étudiant est prêt. Une moyenne globale non plus.",
     decision:
-      "Le score est une fonction pure de ~850 lignes, sans LLM. Il se rend réfutable : l'écart avec les vraies notes est affiché.",
+      "Le score est une fonction pure, sans LLM. Il se rend réfutable : l'écart avec les vraies notes est affiché.",
     pipelineLabel: "INGESTION · 6 FILES BULLMQ",
     pipelineCode: `upload → ingestion    extraction PDF
        → embeddings   chunking, pgvector
@@ -134,6 +134,7 @@ notification    individuelle, ou digest`,
     period: "2026",
     repo: "https://github.com/Houssam2510/e2ee-messenger-protocol",
     pitch: "Une messagerie chiffrée de bout en bout où même un serveur compromis ne lit rien.",
+    note: "Réutilisé dans Yamor, une messagerie privée pour couples.",
     flow: ["X3DH", "Double Ratchet", "relais aveugle", "déchiffré sur l'appareil"],
     specs: [
       { key: "serveur", value: "ne voit que des octets opaques" },

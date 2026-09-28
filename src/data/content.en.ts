@@ -47,17 +47,18 @@ export const en: Content = {
       intro: "Not slogans: each one is verified by code.",
     },
     cases: {
-      eyebrow: "01 · SIX PROJECTS, BUILT SOLO",
+      eyebrow: "01 · A SELECTION, BUILT SOLO",
       title: "What I have built",
       productsLabel: "IN PRODUCTION",
       labLabel: "LAB · TOOLS AND PROTOCOLS",
+      more: "A selection of six. The rest are on GitHub ↗",
     },
     skills: { eyebrow: "03 · EVERY TOOL, ITS PROOF", title: "Stack" },
     timeline: { eyebrow: "04 · SWIPE →", title: "Career path" },
   },
 
   hero: {
-    lede: "I ship complete products on my own: from the idea to payments in production.",
+    lede: "I build complete products on my own and ship them to production: interface, backend, payments, security.",
     ctaCases: "See the projects",
     ctaLinkedin: "LinkedIn ↗",
     ctaContact: "Get in touch",
@@ -74,8 +75,8 @@ export const en: Content = {
     {
       numeral: "I",
       label: "PRINCIPLE I",
-      title: "The model extracts, the code decides",
-      body: "An LLM rephrases and classifies. Every number shown comes out of a pure function.",
+      title: "AI where it helps, code where it has to be right",
+      body: "An LLM reads and rephrases very well. A score, a credit, a decision come out of a tested function.",
       proofs: [
         { label: "Carriv", detail: "deterministic ATS score" },
         { label: "StudyLumina", detail: "LLM-free score" },
@@ -144,8 +145,8 @@ export const en: Content = {
     },
     {
       date: "2025-2026",
-      title: "Six projects, built solo",
-      org: "3 in production · 3 in the lab",
+      title: "Projects built solo",
+      org: "3 in production · more in the lab",
       lines: ["Carriv · StudyLumina · Sanade", "Job Radar · Ratchet · CSPM-Lite"],
     },
     {
@@ -185,15 +186,15 @@ export const en: Content = {
 
   heroStats: [
     { value: "3", label: "PRODUCTS IN PRODUCTION" },
-    { value: "200k+", label: "LINES OF CODE" },
+    { value: "1.1 M", label: "POSTINGS WATCHED LIVE" },
     { value: "1,500+", label: "AUTOMATED TESTS" },
-    { value: "3.65", label: "GPA · WINTER 2026" },
+    { value: "E2EE", label: "SIGNAL PROTOCOL, REBUILT" },
   ],
 
   typingLines: [
-    "the model generates, the code decides",
+    "AI where it helps, code where it has to be right",
     "three products in production, solo",
     "an untested invariant does not exist",
-    "from the prompt to the payment webhook",
+    "from the mockup to payments in production",
   ],
 };
